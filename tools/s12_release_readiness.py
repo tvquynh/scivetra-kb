@@ -189,7 +189,11 @@ def scan_source(src: Path) -> dict:
 def g5_security(work: Path):
     scan = scan_source(ROOT / "src")
     out = work / "static_checks.json"
-    proc = subprocess.run([sys.executable, "-I", "-B", str(ROOT / "tools" / "static_checks.py"), str(ROOT), "--out", str(out)], capture_output=True, text=True)
+    tree = ROOT
+    if any((ROOT / d).exists() for d in (".git", ".venv", "dist", "build")):   # a git clone or a working copy: scan the tracked content only
+        tree = work / "static_tree" / ROOT.name
+        shutil.copytree(ROOT, tree, ignore=shutil.ignore_patterns(".git", ".venv", "dist", "build", "__pycache__", "*.egg-info", "evidence"))
+    proc = subprocess.run([sys.executable, "-I", "-B", str(ROOT / "tools" / "static_checks.py"), str(tree), "--out", str(out)], capture_output=True, text=True)
     static = json.loads(out.read_text(encoding="utf-8")) if out.exists() else {}
     return gate("G5_SECURITY_SCAN", not scan["findings"] and proc.returncode == 0, ast_findings=scan["findings"], allowlisted=scan["allowlisted"],
                 static_checks_ok=proc.returncode == 0, static_secret_hits=static.get("secret_hits"), static_forbidden_files=static.get("forbidden_files"))

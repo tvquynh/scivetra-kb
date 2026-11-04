@@ -1,97 +1,101 @@
-# SciVetra KB 1.0.0rc1 (local release candidate, S02–S11 + S12 release tooling)
+# SciVetra KB
 
-Start with `docs/SCIVETRA_USER_MANUAL.md` (install, pipeline, safety rules) and `docs/OPERATOR_RUNBOOK.md` (backup, upgrade, rollback,
-incidents). Every command: `docs/COMMAND_REFERENCE.md`. Exact capability states: `docs/CAPABILITY_MATRIX.md`. Release gates:
-`python -I tools/s12_release_readiness.py --work DIR --out FILE.json` (`docs/ADR_S12.md`). Security: `docs/SECURITY_REVIEW_S12.md`.
+**Kho tri thức nghiên cứu chạy ngay trên máy tính của bạn**, dành cho người làm tổng quan tài liệu khoa học. Dữ liệu không rời khỏi máy, quyền sử dụng tài liệu được tôn trọng, và **con người luôn là người quyết định**.
 
-Not published; not for publication until the owner approves a release (OAG-10). The cumulative history follows.
+> 🇬🇧 **English user guide (Windows, macOS, Linux): [guide/00-START-HERE.md](guide/00-START-HERE.md)** — English summary at the bottom of this page.
 
-**License:** Apache License 2.0 (`LICENSE`); copyright 2026 tvquynh (`NOTICE`). The optional pypdf parser is BSD-3-Clause.
+## SciVetra giúp bạn làm gì?
 
-# SciVetra KB: S02 metadata + S03 Global Research Library + S04 Download Bridge + S04J Journal DOI Harvesting + S05 Full-text Eligibility candidate workflow + S06 local PDF parsing + S07 AI screening proposals + S08 evidence extraction (local development candidate)
+- **Quản lý thư viện bài báo:** DOI, phiên bản, bài bị rút hay đính chính; không bao giờ tự gộp nhầm hai bài.
+- **Nhận file PDF** tải bằng PaperBatchDownloader, kiểm tra từng file trước khi lưu.
+- **Ghi quyền sử dụng** của từng tài liệu (được lưu, được trích, được chia sẻ…). Mặc định là *không*.
+- **Đọc PDF trong hộp cách ly**, lưu nội dung kèm số trang và vị trí.
+- **Ghi lại bằng chứng khoa học** (số liệu, kết quả, hạn chế) để người duyệt kiểm tra và chấp nhận.
+- **Tìm kiếm** trong các bài bạn có quyền.
+- **Lập bản nháp tổng hợp:** mỗi nhận định đều có trích dẫn, hoặc được đánh dấu rõ `[UNVERIFIED]` (chưa kiểm chứng).
 
-Status: **local-only S03 candidate** (built on the accepted S02 v03). Not published and not for publication. The identifiers are provisional (OAG-10 pending):
+## Bắt đầu trong 4 bước (không cần biết lập trình)
 
-- import namespace `scivetra_kb`
-- development distribution `scivetra-kb-dev` (classifier `Private :: Do Not Upload`)
-- CLI `rkb`
+| | Việc | Hướng dẫn |
+|---|---|---|
+| 1 | Cài Python | [huong-dan/01-cai-dat-python.md](huong-dan/01-cai-dat-python.md) |
+| 2 | Tải SciVetra, giải nén vào `C:\SciVetra\scivetra-kb` | [huong-dan/03-tai-va-cai-dat-scivetra.md](huong-dan/03-tai-va-cai-dat-scivetra.md) |
+| 3 | Bấm đúp **`1-INSTALL.cmd`** (cài đặt) | tự động, khoảng 2 phút |
+| 4 | Bấm đúp **`2-TRY-DEMO.cmd`** (chạy thử) để xem SciVetra chạy trên dữ liệu mẫu | [huong-dan/05-chay-thu.md](huong-dan/05-chay-thu.md) |
 
-This is a companion knowledge-base component of the SciVetra framework. Reprovane (system of record for human screening and SEALED corpora) and PaperBatchDownloader are separate products and are not modified.
+Sau đó, mỗi lần làm việc chỉ cần bấm đúp **`3-OPEN-WORK-WINDOW.cmd`** (mở cửa sổ làm việc).
 
-## What it does
+Dùng macOS hoặc Linux? Xem [hướng dẫn tiếng Anh](guide/00-START-HERE.md): chạy `bash 1-install.sh`, `bash 2-try-demo.sh`, `bash 3-work-shell.sh`.
 
-- Explicit KB creation (`rkb init`): SQLite + content-addressed store + writer lock. Read commands never create files or migrate.
-- DOI parsing per S01 v03 `04` §2: three input contexts and `source_trust`. Trailing suffix spaces are significant, nothing is trimmed silently, and keys use ASCII-only case equivalence.
-- DOI Registration Agency routing (doiRA, batches ≤ 20), then Crossref `/works/{doi}` and DataCite `/dois/{doi}` adapters behind an injected transport.
-- Immutable provider snapshots (raw bytes in CAS) and source-typed claims. Metadata change events. Idempotent re-import.
-- Publication-integrity model per S01 v03 `03` §5.3:
-  - affirmative events;
-  - coverage, including omission in a later snapshot;
-  - human-only, anchored counter-evidence;
-  - reviews, and derived views/alerts with no "not retracted" state.
-- Read-only import of a Reprovane RV-Stage11 portable corpus export (synthetic fixtures in tests).
-- S03: global library with link-policy/1 (no automatic merges; OpenAlex is a signal only), workspace references, identity conflicts and a human review queue.
-- S03: DocumentVersions, explicit synthetic PDF intake (sandboxed structural check, CAS, title-page identity check), rights-policy/1 classification and default-deny permission gates.
-- S04 (0.4.0.dev1, revised in 0.4.0.dev2): Download Bridge v1 - Reprovane Stage-11B/11 portable export -> PaperBatchDownloader CSV; PBD result CSV + files -> S03 PDF intake, reconciliation, idempotency (`docs/BRIDGE_USER_GUIDE.md`).
-- S04J (0.4.1.dev1, revised in 0.4.1.dev2: every verified Crossref ISSN is queried, S04J-F01): Journal DOI Harvesting. A Crossref-first, OpenAlex-enriched, provenance-preserving journal inventory by ISSN:
-  resumable cursor crawls, DOI-union reconciliation, conflicts and review tasks, versioned coverage (COMPLETE only relative to
-  the recorded queries), and deterministic CSV/JSONL export. It is discovery evidence only, never SLR/screening state.
-  Offline simulated providers only (`docs/JOURNAL_HARVESTING_GUIDE.md`, `docs/ADR_S04J.md`).
-- S05 (0.5.0.dev2): Full-text Eligibility CANDIDATE workflow (`rkb fte …`, migration 0005). KB-side and **NON_AUTHORITATIVE**: one
-  verified, SEALED Reprovane Stage-11 TA release is frozen as the candidate set; human-only reviewers, adjudication, evidence gating
-  (HUMAN_CONFIRMED identity, protocol version, rights), acquisition-attempt queue, exact provisional accounting, lock and
-  deterministic verifiable export. Never an RV-FTE run, a sealed corpus or official PRISMA counts; journal inventories are
-  refused as sources (`docs/FTE_USER_GUIDE.md`, `docs/ADR_S05.md`).
-- S06 (0.6.0.dev2): local, rights-gated PDF parsing (`rkb parse …`, migration 0006). Optional pinned parser `pypdf==6.12.1`
-  (BSD-3-Clause); a sandboxed child with OS limits; modern xref/object-stream validation (`rkb-pdf-structure/2`, C17);
-  immutable, versioned, page-anchored `parse-artifact/1`; current-rights checks on read/export; metadata-only exports by default.
-  No OCR, no AI, no network (`docs/PARSE_USER_GUIDE.md`, `docs/ADR_S06.md`).
-- S07 (0.7.0.dev2): NON_AUTHORITATIVE AI-assisted screening proposals (`rkb screen …`, migration 0007): explicit processing scopes,
-  deterministic rights-checked input packs, a tool-less deterministic mock (no real model, no network), strict response
-  validation, anchor verification against S06 text, derived staleness, blind-first human review and advisory approvals
-  (`docs/SCREENING_USER_GUIDE.md`, `docs/ADR_S07.md`).
-- S11 (0.11.0.dev3; v03 fixes S11-F05 export release race; v02 fixes S11-F01..F04: A5 on statements, COUNT ascertainment, visible-statement checks, signed numbers): scientific synthesis DRAFTS and claim-to-citation audit (`rkb synth …`, migration 0011): pinned synthesis scopes over
-  human-accepted S08 evidence, typed claims and comparison keys, deterministic support verdicts with visible [UNVERIFIED] / [CONFLICTED]
-  markers, contradiction records, numbered references, append-only human review and LOCAL_REVIEW_ONLY exports; always
-  DRAFT_NON_AUTHORITATIVE / PUBLICATION_NOT_AUTHORIZED; external sharing (OAG-7) denied (`docs/ADR_S11.md`, `docs/S11_SYNTHESIS_GUIDE.md`).
-- S10 (0.10.0.dev2; v02 fixes S10-F01: A8 / A7 for every content class incl. metadata and anchors): read-only, rights-gated AI integration gateway (`rkb ai …`, migration 0010): default deny; per-request
-  A2 / A5 / A7 / A8 and owner gate OAG-6 approvals; a standard-library stdio MCP server for Claude Desktop (NOT_TESTED in the app;
-  official SDK interop BLOCKED) and a ChatGPT-compatible file exchange with re-validation before any manual upload; remote MCP,
-  tunnels and AI APIs disabled (`docs/ADR_S10.md`, `docs/S10_*_GUIDE.md`, `docs/S10_CAPABILITY_MATRIX.md`).
-- S09 (0.9.0.dev2; v02: per-call authorization and CAS re-verification, scope-first candidates): local FTS5 / hybrid search with per-hit rights checks and cited, tool-less RAG context (`rkb index`, `rkb search`,
-  `rkb rag`; migration 0009; LOCAL_CLI only; see docs/RETRIEVAL_USER_GUIDE.md).
-- S08 (0.8.0.dev3; v02: rights-aware text fields, audited export lifecycle; v03: human-typed excerpts under A4 / A5): typed, provenance-preserving EvidenceDraft records (`rkb evidence …`, migration 0008): versioned
-  research-domain profiles, scopes bound to S05 FT_INCLUDE candidates and their exact S06 artifacts, rights-checked input packs,
-  a deterministic tool-less mock, strict response validation, structural (not semantic) verification of anchors, numbers, units
-  and conditions, derived STALE/BLOCKED states, audited reveal, independent human review, correction and adjudication, and
-  metadata-only exports. NON_AUTHORITATIVE (`docs/EVIDENCE_USER_GUIDE.md`, `docs/ADR_S08.md`).
-- S03 v02 (0.3.0.dev2): complete Creative Commons URI validation (S03-F01) and CAS referential completeness for backup / verify-backup / restore (S03-F02).
-- S03: explicit backup-first `rkb upgrade`, `rkb backup` / `verify-backup` / `restore`, `doctor --full`, read-only `reconcile`. See `docs/CLI_GUIDE.md`.
+👉 **Toàn bộ hướng dẫn, từng bước có lệnh để sao chép:** [huong-dan/00-BAT-DAU-TU-DAY.md](huong-dan/00-BAT-DAU-TU-DAY.md)
 
-**No live network.** There is no live transport: `--live` returns `LIVE_ACCESS_NOT_AUTHORIZED`. Offline commands need `--transport-fixtures DIR`.
+## Mục lục hướng dẫn
 
-## Layout
+1. [Cài Python](huong-dan/01-cai-dat-python.md)
+2. [PowerShell và cài đặt bảo mật](huong-dan/02-powershell-va-bao-mat.md)
+3. [Tải và cài đặt SciVetra](huong-dan/03-tai-va-cai-dat-scivetra.md)
+4. [Lần đầu sử dụng](huong-dan/04-lan-dau-su-dung.md)
+5. [Chạy thử với dữ liệu mẫu](huong-dan/05-chay-thu.md)
+6. [Sử dụng hằng ngày](huong-dan/06-su-dung-hang-ngay.md)
+7. [Sao lưu, khôi phục, nâng cấp](huong-dan/07-sao-luu-khoi-phuc-nang-cap.md)
+8. [Xử lý lỗi](huong-dan/08-xu-ly-loi.md)
+9. [Từ điển thuật ngữ](huong-dan/09-tu-dien-thuat-ngu.md)
+10. [Giới hạn và an toàn](huong-dan/10-gioi-han-va-an-toan.md)
 
-```
-src/scivetra_kb/core/       db, migrations (0001, 0002, 0003), CAS, lock, ids, canonical JSON, paths, doctor, manifest, backup, upgrade
-src/scivetra_kb/metadata/   doi, divergence, ra, crossref, datacite, cn, transport, store, integrity, service, rv_import
-src/scivetra_kb/library/    link-policy/1, library service, review queue, search, reconcile
-src/scivetra_kb/assets/     DocumentVersion, intake, sandboxed G1 validator, G3 identity
-src/scivetra_kb/rights/     rights-policy/1 and action gates
-src/scivetra_kb/bridge/     S04 Download Bridge (PBD profile, export/import/status/close)
-src/scivetra_kb/eligibility/ S05 full-text eligibility staging (protocol, service, handoff/export/verify)
-src/scivetra_kb/cli.py      rkb command line
-tests/                      offline unittest suite (network guard), synthetic fixtures
-tools/                      run_offline_tests.py, static_checks.py, build_conformance.py, required_ids.json, rv_native/, s02_upgrade_rehearsal.py, pypdf_crosscheck.py, pbd_contract_audit.py, s04_pilot.py, s04_upgrade_rehearsal.py, s04_cli_smoke.py
-docs/                       ADR_S03.md, ADR_S04.md, BRIDGE_USER_GUIDE.md, CLI_GUIDE.md, S02_TEST_ADAPTATIONS.md, S04_TEST_ADAPTATIONS.md, DEFERRED_FIELDS.md, OPEN_ISSUES.md, CHANGELOG.md
-```
+## Trạng thái
 
-## Run the tests
+- **Phiên bản 1.0.0rc1**, bản ứng viên phát hành.
+- **Đã kiểm tra:** 641 bài kiểm tra tự động trên Python 3.11 và 3.14, cùng 8 cổng kiểm tra phát hành.
+- **Chưa bật AI thật hay truy cập mạng:** các phần "AI" đang dùng máy giả lập.
+- **Dữ liệu và PDF thật** cần chủ dự án cho phép. Xem [Giới hạn và an toàn](huong-dan/10-gioi-han-va-an-toan.md).
+- **Giấy phép:** [Apache 2.0](LICENSE).
 
-```
-python -I tools/run_offline_tests.py
-```
+## Cấu trúc thư mục
 
-The runner fails on any failure, error or skip. It writes `evidence/test_results.json` and `evidence/test_run.log`.
+| Thư mục / file | Dành cho |
+|---|---|
+| `1-INSTALL.cmd`, `2-TRY-DEMO.cmd`, `3-OPEN-WORK-WINDOW.cmd` | Người dùng Windows: bấm đúp |
+| `1-install.sh`, `2-try-demo.sh`, `3-work-shell.sh` | Người dùng macOS / Linux: `bash <tên-file>` |
+| `guide/` | Người dùng: hướng dẫn tiếng Anh (Windows, macOS, Linux) |
+| `huong-dan/` | Người dùng: hướng dẫn tiếng Việt |
+| `scripts/` | Các script mà file bấm đúp gọi tới |
+| `docs/` | Tài liệu kỹ thuật (tiếng Anh): kiến trúc, quyết định thiết kế, hướng dẫn chi tiết từng giai đoạn |
+| `src/` | Mã nguồn |
+| `tests/`, `tools/` | Bộ kiểm tra tự động và công cụ phát hành |
 
-See the delivery package's `05_LOCAL_INSTALL_AND_SMOKE_GUIDE.md` for PowerShell 7 steps.
+---
+
+## English summary
+
+**SciVetra KB** is an offline, local research knowledge base for systematic reviews. It covers:
+- metadata and publication-integrity tracking;
+- a research library;
+- a PaperBatchDownloader bridge;
+- rights-gated, sandboxed PDF parsing;
+- AI-assisted *proposals* (a deterministic mock; no real model);
+- human-accepted evidence records;
+- rights-checked search;
+- synthesis drafts in which every claim is cited or visibly flagged.
+
+Humans make every decision. The runtime uses the Python standard library only, plus the optional pinned `pypdf` parser.
+
+**📘 User guide (non-specialists, step by step, Windows / macOS / Linux): [guide/00-START-HERE.md](guide/00-START-HERE.md)**
+
+| | 🪟 Windows | 🍎 macOS / 🐧 Linux |
+|---|---|---|
+| Put the code in | `C:\SciVetra\scivetra-kb` | `~/SciVetra/scivetra-kb` |
+| Install | double-click `1-INSTALL.cmd` | `bash 1-install.sh` |
+| Demo on sample data | double-click `2-TRY-DEMO.cmd` | `bash 2-try-demo.sh` |
+| Work window | double-click `3-OPEN-WORK-WINDOW.cmd` | `bash 3-work-shell.sh` |
+
+All need Python 3.11 or newer ([guide/01-install-python.md](guide/01-install-python.md)).
+
+| If you want to | Read |
+|---|---|
+| Understand what it does and use it well | [guide/11-how-scivetra-works.md](guide/11-how-scivetra-works.md) |
+| See every command | `docs/COMMAND_REFERENCE.md` |
+| Develop or review | `docs/TECHNICAL_OVERVIEW.md`, `docs/ADR_S*.md`, `docs/SECURITY_REVIEW_S12.md` |
+| Run the tests | `python -I tools/run_offline_tests.py` |
+| Run the release gates | `python -I tools/s12_release_readiness.py --work DIR --out FILE.json` |
+
+Licensed under the [Apache License 2.0](LICENSE). Release candidate `1.0.0rc1`; not on PyPI.
