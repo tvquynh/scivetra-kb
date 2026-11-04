@@ -1,0 +1,4 @@
+corpus_item_id,publication_entity_id,title,publication_year,doi,openalex_id,venue,work_type,screening_resolution_basis
+cri_4350d120351760f3a7cb16f059f9310c89f70fbd,pub_0c4631458e79fbb9551e6f4df2716fa5,"[""Synthetic retracted study""]",[2024],"[""10.99999/s03.retracted""]","[""https://openalex.org/W9003""]","[""Synthetic Journal""]","[""article""]",AUTO_CONSENSUS
+cri_a1831222bfb5ddee501f3e95fefee60a314ce17a,pub_513f677c64b83cb7d4fdc51204abdc1a,"[""Synthetic alpha study""]",[2024],"[""10.99999/s03.alpha""]","[""https://openalex.org/W9001""]","[""Synthetic Journal""]","[""article""]",AUTO_CONSENSUS
+cri_d69258121608d38c28ae8a2fcd6fd9e561898c33,pub_67f5fa1000d7383da11f1f5652c8a711,"[""Synthetic study without DOI""]",[2024],[],"[""https://openalex.org/W9002""]","[""Synthetic Journal""]","[""article""]",AUTO_CONSENSUS

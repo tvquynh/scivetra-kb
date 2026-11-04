@@ -1,0 +1,106 @@
+{
+ "gaps": [
+  {
+   "id": "S03-MERGE-SPLIT",
+   "kind": "NOT_IMPLEMENTED_PENDING",
+   "contract": "S01 03 GP-1 reversible merge/split; S03 prompt S03-B item 3",
+   "where": "04_RISK_AND_OPEN_ISSUES.md C1; SAME_MANIFESTATION decisions are recorded only"
+  },
+  {
+   "id": "S03-NATIVE-MULTI-DOI-FIXTURE",
+   "kind": "NOT_IMPLEMENTED_PENDING",
+   "contract": "S03 prompt S03-B item 5 (native export for every case)",
+   "where": "04 C3: multi-DOI/shared-OpenAlex cases use KB-built synthetic exports; Reprovane 2.0.1 left the conflicting W9004 records unresolved"
+  },
+  {
+   "id": "S03-ASSET-QUARANTINE-STATE",
+   "kind": "NOT_IMPLEMENTED_PENDING",
+   "contract": "S01 03 4.2 PdfAsset.quarantine_state",
+   "where": "04 D-table: quarantine is expressed per import (QUARANTINED) and per link (AMBIGUOUS)"
+  },
+  {
+   "id": "S03-FULLTEXT-CASE-LIFECYCLE",
+   "kind": "DEFERRED_STAGE",
+   "contract": "S01 05 s1 FullTextCase / G5 parse-ready",
+   "where": "S05 scope (S04 never converts 'download acquired' into 'full-text eligible')"
+  },
+  {
+   "id": "S03-RIGHTS-SAFE-EXPORT",
+   "kind": "DEFERRED_STAGE",
+   "contract": "S01 05 s4.4 rkb export --rights-safe",
+   "where": "S03 prompt S03-D item 4 (gates only in S03)"
+  },
+  {
+   "id": "S04-LINUX-RUN",
+   "kind": "NOT_RUN",
+   "contract": "S04 prompt 2G item 10 (Linux if available)",
+   "where": "02_TEST_REPORT.md section 1: no Linux/WSL/Docker host; the architect ran S03 v02 247/247 on Linux, S04 code needs its own rerun"
+  },
+  {
+   "id": "S04-PBD-DOTNET-RUN",
+   "kind": "NOT_RUN",
+   "contract": "S04 prompt 2G item 2 (.NET harness if an SDK is installed)",
+   "where": "no .NET SDK on the host; replaced by a static source audit of the pinned PBD (evidence/pbd_source_contract_audit.json) and a Python port of ReadJobs/WriteResults"
+  },
+  {
+   "id": "S04-PBD-END-TO-END",
+   "kind": "NOT_RUN",
+   "contract": "S04 prompt 1 (no end-to-end PBD execution claim)",
+   "where": "the Windows PBD application was not run; result CSVs are byte-faithful emulations of CsvUtils.WriteResults"
+  },
+  {
+   "id": "S04-PYPDF-PRIMARY-G1",
+   "kind": "NOT_IMPLEMENTED_PENDING",
+   "contract": "S04 prompt 2D / risk log C4 (pypdf primary path for real PDFs)",
+   "where": "04 section 2: the stdlib G1 stays primary and fails closed on xref/object streams; the isolated pypdf stage remains an optional second check (--pypdf-site); real-PDF intake is a production blocker until the architect decides"
+  },
+  {
+   "id": "S04-LEGACY-MANUAL-DOWNLOAD-ADAPTER",
+   "kind": "NOT_IMPLEMENTED_PENDING",
+   "contract": "S01 06 section 2 legacy v4 manual_download.csv (optional adapter)",
+   "where": "not implemented (optional); only verified Reprovane Stage-11B / Stage-11 portable sources are accepted"
+  },
+  {
+   "id": "S06-LINUX-RUN",
+   "kind": "NOT_RUN",
+   "contract": "S06 prompt 7 (Python 3.11+ and Windows; Linux by the architect)",
+   "where": "02_TEST_REPORT: Windows 11 only (Python 3.11.9 / 3.14.4); Linux NOT_RUN for S06 v01"
+  },
+  {
+   "id": "S06-LINUX-NETNS-ISOLATION",
+   "kind": "NOT_RUN",
+   "contract": "S06 prompt 3 / A08 (actual OS network restriction where claimed)",
+   "where": "ADR_S06 PZ-D5: unshare(CLONE_NEWUSER|CLONE_NEWNET) is implemented and reported, but NOT_TESTED on this Windows machine; gate R22"
+  },
+  {
+   "id": "S06-WINDOWS-OS-NETWORK-ISOLATION",
+   "kind": "NOT_IMPLEMENTED_PENDING",
+   "contract": "S06 decisions R22 (genuine Windows OS-level no-network)",
+   "where": "Windows: language-level audit hook only; parse refuses OS_NETWORK_ISOLATION_UNAVAILABLE unless the operator accepts it; real-data gate stays closed"
+  },
+  {
+   "id": "S06-OCR",
+   "kind": "DEFERRED_STAGE",
+   "contract": "S06 prompt 3 (OCR not mandatory; future adapter contract only)",
+   "where": "docs/OCR_ADAPTER_CONTRACT.md; SCANNED_NO_TEXT / NO_TEXT_LAYER detection implemented"
+  },
+  {
+   "id": "S06-BBOX",
+   "kind": "NOT_IMPLEMENTED_PENDING",
+   "contract": "S06 prompt 4 (optional bounding box if a capability exists)",
+   "where": "ADR_S06 PZ-D6: only text origin points (origin_cpt) are recorded; BBOX_NOT_AVAILABLE flag"
+  },
+  {
+   "id": "S06-MANUAL-INBOX",
+   "kind": "DEFERRED_STAGE",
+   "contract": "04_MANUAL_FULLTEXT_FOLLOWUP (owner-gated acquisition addendum)",
+   "where": "docs/MANUAL_INBOX_CONTRACT.md; reuses rkb-pdf-structure/2 and the parser child"
+  },
+  {
+   "id": "S06-LINUX-ROOT-CONFINEMENT",
+   "kind": "NOT_RUN",
+   "contract": "S06 v02 prompt (Linux root RLIMIT_NPROC caveat, R-S06-06)",
+   "where": "root is refused PARSER_PRIVILEGED_ACCOUNT_REFUSED unless explicitly accepted; the child label NOT_ENFORCED_PRIVILEGED_ACCOUNT is not exercised on Linux here"
+  }
+ ]
+}

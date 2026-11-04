@@ -1,0 +1,24 @@
+{
+ "data": {
+  "id": "10.99999/smoke.2",
+  "type": "dois",
+  "attributes": {
+   "doi": "10.99999/smoke.2",
+   "titles": [
+    {
+     "title": "Synthetic smoke-test dataset"
+    }
+   ],
+   "publisher": "Synthetic Repository",
+   "publicationYear": 2024,
+   "types": {
+    "resourceTypeGeneral": "Dataset",
+    "resourceType": "dataset"
+   },
+   "state": "findable",
+   "metadataVersion": 1,
+   "updated": "2025-01-01T00:00:00.000Z"
+  },
+  "relationships": {}
+ }
+}

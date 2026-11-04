@@ -1,0 +1,62 @@
+[
+ {
+  "url": "https://doi.org/doiRA/10.99999/smoke.1",
+  "responses": [
+   {
+    "status": 200,
+    "headers": {
+     "content-type": "application/json"
+    },
+    "body_file": "ra_smoke1.json"
+   }
+  ]
+ },
+ {
+  "url": "https://doi.org/doiRA/10.99999/smoke.2",
+  "responses": [
+   {
+    "status": 200,
+    "headers": {
+     "content-type": "application/json"
+    },
+    "body_file": "ra_smoke2.json"
+   }
+  ]
+ },
+ {
+  "url": "https://doi.org/doiRA/10.99999/smoke.1,10.99999/smoke.2",
+  "responses": [
+   {
+    "status": 200,
+    "headers": {
+     "content-type": "application/json"
+    },
+    "body_file": "ra_smoke12.json"
+   }
+  ]
+ },
+ {
+  "url": "https://api.crossref.org/works/10.99999/smoke.1",
+  "responses": [
+   {
+    "status": 200,
+    "headers": {
+     "content-type": "application/json"
+    },
+    "body_file": "crossref_smoke1.json"
+   }
+  ]
+ },
+ {
+  "url": "https://api.datacite.org/dois/10.99999/smoke.2?affiliation=true&publisher=true",
+  "responses": [
+   {
+    "status": 200,
+    "headers": {
+     "content-type": "application/json"
+    },
+    "body_file": "datacite_smoke2.json"
+   }
+  ]
+ }
+]

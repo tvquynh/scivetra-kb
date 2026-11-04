@@ -1,0 +1,8 @@
+{
+  "_scivetra_template": "S10 v01. Placeholders only: these consumers are NOT available. Migration 0010 cannot store them and the CLI refuses them.",
+  "CHATGPT_REMOTE_MCP": {"state": "REMOTE_NOT_APPROVED", "enabled": false, "listener": "none"},
+  "SECURE_MCP_TUNNEL": {"state": "REMOTE_NOT_APPROVED", "enabled": false, "listener": "none"},
+  "EXTERNAL_AI_API": {"state": "EXTERNAL_API_DISABLED", "enabled": false, "credentials": "none; would live only in the OS credential store, never in files or ZIPs"},
+  "CHATGPT_DESKTOP_LOCAL_PLUGIN": {"state": "PARTNER_GATED_NOT_AVAILABLE", "enabled": false},
+  "activation": "requires a later stage, explicit owner and provider approval, a deployment record and a new migration (see docs/ADR_S10.md AI-D09)"
+}

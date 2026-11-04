@@ -1,0 +1,2 @@
+Synthetic notice for tests.
+The retraction notice 10.99999/smoke.notice was issued in error; the article 10.99999/smoke.1 is reinstated.

@@ -1,0 +1,7 @@
+corpus_item_id,publication_entity_id,title,publication_year,doi,openalex_id,venue,work_type,screening_resolution_basis
+cri_bfaa1b4e930de83a90479eeaa1c449b6a9f45560,pub_00fa52c1157aa340d31681b6379e5ed4,"[""Synthetic Work 5""]",[2024],"[""10.1234/test5""]","[""https://openalex.org/W5""]","[""Synthetic Journal""]","[""article""]",AUTO_CONSENSUS
+cri_fb060078c351d63114af1e87974797ee774092a4,pub_251e3a462191e5698c3ca673cfa9c092,"[""Synthetic Work 6""]",[2024],"[""10.1234/test6""]","[""https://openalex.org/W6""]","[""Synthetic Journal""]","[""article""]",AUTO_CONSENSUS
+cri_6dec6ae25beaf94185dc8d5985e37bef24d4343f,pub_8355d330acc47291e1bb32b05f5a26d6,"[""Synthetic Work 2""]",[2024],"[""10.1234/test2""]","[""https://openalex.org/W2""]","[""Synthetic Journal""]","[""article""]",AUTO_CONSENSUS
+cri_041b5b33623952cc64db9c5658cb743632a290cb,pub_aba7e3f33fa49cfde5a86e6e44c71690,"[""Synthetic Work 4""]",[2024],"[""10.1234/test4""]","[""https://openalex.org/W4""]","[""Synthetic Journal""]","[""article""]",AUTO_CONSENSUS
+cri_454c59135c861d2425930ba1f1d872d6907a6940,pub_dff53535b550e927d9da73d5e8b80721,"[""Synthetic Work 1""]",[2024],"[""10.1234/test1""]","[""https://openalex.org/W1""]","[""Synthetic Journal""]","[""article""]",AUTO_CONSENSUS
+cri_53971a35b31b265fc1939b4959ec510c82dec06e,pub_f3ee2642d981ce2eafc32e82ab3f315f,"[""Synthetic Work 3""]",[2024],"[""10.1234/test3""]","[""https://openalex.org/W3""]","[""Synthetic Journal""]","[""article""]",AUTO_CONSENSUS

@@ -1,0 +1,77 @@
+{
+ "pinned_commit": "6c4793cda915481a831a96f925f2646d80de6cc3",
+ "python": "3.11.9",
+ "releases": [
+  {
+   "file_sha256": {
+    "SHA256SUMS.txt": "c84d48cdcc7f066188ed804f427a37296fcbac7b766c7813a6896f4d11da1535",
+    "corpus.csv": "ecba0eb6446ccbc694555b9311695af7d10555c5ab639d2fb033c428e0526549",
+    "corpus.jsonl": "8d7097eccc86592ece62d28c66cba2d3286c966f9dedea409b8b6b38f4229e7e",
+    "manifest.json": "3f0dcc431ffb7b4097b55d6cb9b01106c68dd834e2c3b54619f54dc7bae901bd"
+   },
+   "label": "s03-r1",
+   "native_cli_exit_code": 0,
+   "native_cli_output": {
+    "corpus_item_count": 3,
+    "file_count": 4,
+    "release_id": "crl_d3b92bc5b488426c923520bcf64aa763",
+    "release_manifest_sha256": "0bedfa01e33781c1b6308e1253c921e4262603c64afc9ee5ee731e1a8d43944a",
+    "scope": "Portable self-consistency only; DB verification establishes upstream provenance. Use a trusted expected manifest hash for external identity binding.",
+    "screen_exclude_count": 1,
+    "screen_include_count": 3,
+    "valid": true
+   },
+   "release_id": "crl_d3b92bc5b488426c923520bcf64aa763",
+   "verify_export": {
+    "corpus_item_count": 3,
+    "file_count": 4,
+    "release_id": "crl_d3b92bc5b488426c923520bcf64aa763",
+    "release_manifest_sha256": "0bedfa01e33781c1b6308e1253c921e4262603c64afc9ee5ee731e1a8d43944a",
+    "scope": "Portable self-consistency only; DB verification establishes upstream provenance. Use a trusted expected manifest hash for external identity binding.",
+    "screen_exclude_count": 1,
+    "screen_include_count": 3,
+    "valid": true
+   }
+  },
+  {
+   "file_sha256": {
+    "SHA256SUMS.txt": "660c5597d85ccb809f7be1ece916891d7d99555300db0f90939fe75f9f357fde",
+    "corpus.csv": "7c31e300a8046e321bd7668d5f64cf89f93c9e0f83951ed621ca39a80c009dda",
+    "corpus.jsonl": "561a3062a8998b4c05dd106a80eee160983c43c151e2b5582643506de525a41a",
+    "manifest.json": "7c4693923435aef8c77144ada3a537e9ac949616c357bc726144dfdb641b0e50"
+   },
+   "label": "s03-r2",
+   "native_cli_exit_code": 0,
+   "native_cli_output": {
+    "corpus_item_count": 3,
+    "file_count": 4,
+    "release_id": "crl_0d8afe9c979d494b8db9eb09a3922577",
+    "release_manifest_sha256": "6de2df35469a455735ef6b844898096a992c6943756d0f46449b397cde2be2e8",
+    "scope": "Portable self-consistency only; DB verification establishes upstream provenance. Use a trusted expected manifest hash for external identity binding.",
+    "screen_exclude_count": 1,
+    "screen_include_count": 3,
+    "valid": true
+   },
+   "release_id": "crl_0d8afe9c979d494b8db9eb09a3922577",
+   "verify_export": {
+    "corpus_item_count": 3,
+    "file_count": 4,
+    "release_id": "crl_0d8afe9c979d494b8db9eb09a3922577",
+    "release_manifest_sha256": "6de2df35469a455735ef6b844898096a992c6943756d0f46449b397cde2be2e8",
+    "scope": "Portable self-consistency only; DB verification establishes upstream provenance. Use a trusted expected manifest hash for external identity binding.",
+    "screen_exclude_count": 1,
+    "screen_include_count": 3,
+    "valid": true
+   }
+  }
+ ],
+ "reprovane_version": "2.0.1",
+ "schema": "rkb-rv-native-fixture-report/1",
+ "screening_candidates": 4,
+ "screening_decisions": [
+  "EXCLUDE",
+  "INCLUDE",
+  "INCLUDE",
+  "INCLUDE"
+ ]
+}

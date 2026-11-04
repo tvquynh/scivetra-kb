@@ -1,0 +1,1 @@
+[{"issns":["0000-0019","0000-0027"],"label":"Synthetic Alpha Journal of Systems (mock publisher Alpha)"},{"issns":["0000-006X"],"label":"Synthetic Beta Letters (mock publisher Beta)"},{"issns":["0000-0043"],"label":"Synthetic Gamma Review (mock publisher Gamma)"},{"issns":["1234-5678"],"label":"Entry with an invalid ISSN (isolation check)"}]

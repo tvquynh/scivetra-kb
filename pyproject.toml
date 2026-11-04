@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+# Provisional, development-only identity (S01 v03 acceptance, OAG-10 pending). NOT a public package name.
+name = "scivetra-kb-dev"
+dynamic = ["version"]
+description = "SciVetra companion Research KB S02-S11: metadata, research library, download bridge, journal harvesting, full-text eligibility staging, local PDF parsing, AI screening proposals, evidence records, local retrieval, gated AI gateway and scientific synthesis drafts (local release candidate, not for publication)"
+requires-python = ">=3.11"
+dependencies = []
+
+classifiers = ["Private :: Do Not Upload"]
+
+[project.optional-dependencies]
+# S06 parser (BSD-3-Clause, pure Python, no dependencies on Python >= 3.11). Exact pin; rkb verifies the installed copy against
+# its dist-info RECORD before every parse. Without it the baseline (S02-S05) runs unchanged and rkb parse refuses PARSER_NOT_INSTALLED.
+pdf = ["pypdf==6.12.1"]
+
+[project.scripts]
+rkb = "scivetra_kb.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["scivetra_kb*"]
+
+[tool.setuptools.package-data]
+"scivetra_kb.core" = ["migrations/*.sql"]
+
+[tool.setuptools.dynamic]
+version = {attr = "scivetra_kb.__version__"}

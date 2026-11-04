@@ -1,0 +1,25 @@
+{
+  "provenance": "Outputs of reprovane.resolution.normalization.normalize_doi at tvquynh/reprovane 6c4793cda915481a831a96f925f2646d80de6cc3, executed locally as a pure function (read-only import) during S01 v02 and v03. Recorded as data; S02 never imports or modifies Reprovane.",
+  "cases": [
+    {"input": "10.99999/ÄBC", "rv": "10.99999/äbc", "kind": "UNICODE_LOWERCASE"},
+    {"input": "https://doi.org/10.99999/a%2Cb", "rv": "10.99999/a%2cb", "kind": "PERCENT_ENCODING"},
+    {"input": "10.123/x", "rv": null, "kind": "REGISTRANT_DIGITS"},
+    {"input": "10.1000.10/x", "rv": null, "kind": "DOTTED_REGISTRANT"},
+    {"input": "urn:doi:10.99999/x", "rv": null, "kind": "URN_LABEL"},
+    {"input": "10.99999/a b", "rv": null, "kind": "SUFFIX_WHITESPACE"},
+    {"input": "doi:10.99999/a%20b", "rv": "10.99999/a%20b", "kind": "DOI_LABEL_PERCENT"},
+    {"input": "10.99999/a; 10.99998/b", "rv": null, "kind": "MULTI_DOI"},
+    {"input": "10.99999/ABC", "rv": "10.99999/abc", "kind": null},
+    {"input": "https://dx.doi.org/10.99999/X", "rv": "10.99999/x", "kind": null},
+    {"input": "10.99999/abc/", "rv": "10.99999/abc/", "kind": null},
+    {"input": "10.99999/abc).", "rv": "10.99999/abc).", "kind": null},
+    {"input": "10.99999/a,b;c", "rv": "10.99999/a,b;c", "kind": null},
+    {"input": "10.99999/x ", "rv": "10.99999/x", "kind": "TRAILING_SPACE_STRIPPED"},
+    {"input": "10.99999/x  ", "rv": "10.99999/x", "kind": "TRAILING_SPACE_STRIPPED"},
+    {"input": "https://doi.org/10.99999/x%20", "rv": "10.99999/x%20", "kind": "PERCENT_ENCODING"},
+    {"input": " 10.99999/x", "rv": "10.99999/x", "kind": null},
+    {"input": "10.99999/x\r\n", "rv": "10.99999/x", "kind": null},
+    {"input": "https://doi.org/10.99999/x ", "rv": "10.99999/x", "kind": null},
+    {"input": "10.99999/x \r\n", "rv": "10.99999/x", "kind": "TRAILING_SPACE_STRIPPED"}
+  ]
+}

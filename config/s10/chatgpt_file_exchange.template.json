@@ -1,0 +1,13 @@
+{
+  "_scivetra_template": "S10 v01. ChatGPT-compatible FILE exchange (offline). SciVetra never uploads. Uploading a bundle is external AI processing (A8) and redistribution (A7).",
+  "consumer": "CHATGPT_FILE_EXCHANGE",
+  "transport": "FILE_EXCHANGE",
+  "destination_class": "CHATGPT_MANUAL_UPLOAD",
+  "model_location": "EXTERNAL_UNVERIFIED",
+  "profile_id": "<aip_PROFILE_ID>",
+  "scope_id": "<rts_SCOPE_ID>",
+  "export_command": "rkb ai exchange-export --data-root <PRACTICE_DATA_ROOT> --profile-id <aip_PROFILE_ID> --scope-id <rts_SCOPE_ID> --query \"<words>\" --out-dir <NEW_EMPTY_FOLDER> --operator <your.label>",
+  "verify_before_upload_command": "rkb ai exchange-verify --data-root <PRACTICE_DATA_ROOT> --bundle-dir <BUNDLE_FOLDER> --purge-if-invalid",
+  "valid_hours_default": 1,
+  "automatic_upload": false
+}

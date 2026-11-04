@@ -1,0 +1,9 @@
+{
+  "_scivetra_template": "S10 v01. NOT_TESTED in Claude Desktop. Replace every <...> placeholder; never point --data-root at E:/ResearchKB or a real research corpus before the owner deployment record (handoff 04). Content stays denied until an OAG-6 owner approval exists.",
+  "mcpServers": {
+    "scivetra-kb": {
+      "command": "<FULL_PATH_TO_python.exe_OF_THE_VENV_WHERE_scivetra-kb-dev_IS_INSTALLED>",
+      "args": ["-I", "-m", "scivetra_kb", "ai", "mcp-serve", "--data-root", "<PRACTICE_DATA_ROOT>", "--profile-id", "<aip_PROFILE_ID_FROM_rkb_ai_profile-create>"]
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+ "0001_metadata_foundation.sql": "2c07dd3461458695465693a53faaebeded0b7ed850dd275c4e4b93698b71f38b",
+ "0002_global_research_library.sql": "fdfd11f4ac69a43cf25eae6e08c0407362aee578005b87a7ef96fc0cf8d7b9fe",
+ "0003_download_bridge.sql": "094dc7595a1ee97e08a853eda55fa5c2fe2e9c490061e37fc17b5b3158c86a57",
+ "0004_journal_harvesting.sql": "57b6cc3d936618c471585e45b93e0662667c6c82087f237b6a14ba81dbe81b68",
+ "0005_fulltext_eligibility_staging.sql": "7f952efd83e4a036c0f2bd414b7e2cf70955c4416af17430e37402f2049e37f7"
+}
