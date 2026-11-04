@@ -6,6 +6,8 @@ incidents). Every command: `docs/COMMAND_REFERENCE.md`. Exact capability states:
 
 Not published; not for publication until the owner approves a release (OAG-10). The cumulative history follows.
 
+**License:** Apache License 2.0 (`LICENSE`); copyright 2026 tvquynh (`NOTICE`). The optional pypdf parser is BSD-3-Clause.
+
 # SciVetra KB: S02 metadata + S03 Global Research Library + S04 Download Bridge + S04J Journal DOI Harvesting + S05 Full-text Eligibility candidate workflow + S06 local PDF parsing + S07 AI screening proposals + S08 evidence extraction (local development candidate)
 
 Status: **local-only S03 candidate** (built on the accepted S02 v03). Not published and not for publication. The identifiers are provisional (OAG-10 pending):

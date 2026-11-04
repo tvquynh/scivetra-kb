@@ -1,0 +1,9 @@
+SciVetra KB
+Copyright 2026 tvquynh
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Third-party software (not included in this repository's source):
+- pypdf 6.12.1 (optional PDF parser), BSD-3-Clause, Copyright (c) Mathieu Fenniak
+  and contributors. The official wheel and its LICENSE are shipped only in the
+  release evidence archive (reference/dependencies/).
