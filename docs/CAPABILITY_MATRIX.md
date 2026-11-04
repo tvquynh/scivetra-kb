@@ -24,5 +24,6 @@ The states below are exact. **IMPLEMENTED_OFFLINE_TESTED** means the capability 
 | S10 | AI gateway, stdio MCP server, ChatGPT file exchange | IMPLEMENTED_OFFLINE_TESTED | Claude Desktop / ChatGPT apps NOT_TESTED; remote MCP / APIs DISABLED; official MCP SDK interop BLOCKED |
 | S11 | Synthesis drafts, citation audit, contradictions, human review, LOCAL_REVIEW_ONLY export | IMPLEMENTED_OFFLINE_TESTED | External sharing DENIED (OAG-7); LLM narrative NOT_IMPLEMENTED |
 | S12 | Release readiness gates, command reference, user manual, runbook, security review, offline wheel / sdist | IMPLEMENTED_OFFLINE_TESTED | Public release NOT_PUBLISHED (owner approval, OAG-10) |
+| LLM (L1) | Provider config, rights-aware rotation, limits, breaker, consensus, simulator (`rkb llm`) | IMPLEMENTED_OFFLINE_TESTED (fake transport) | Real provider calls NOT_IMPLEMENTED (L2/L3, ADR_LLM) |
 | — | Linux run by the developer | NOT_RUN | The architect ran Linux for S11 v01 and v02 |
 | — | Encryption at rest | NOT_IMPLEMENTED | R-S12-01 |

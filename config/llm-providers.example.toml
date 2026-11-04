@@ -1,0 +1,65 @@
+# SciVetra LLM providers (scivetra-llm-providers/1) - EXAMPLE. Copy it OUTSIDE this folder, e.g.
+#   Windows:       copy config\llm-providers.example.toml C:\SciVetra\llm-providers.toml
+#   macOS / Linux: cp config/llm-providers.example.toml ~/SciVetra/llm-providers.toml
+# Then check it:   rkb llm check-config --config <that file>
+#
+# NEVER write an API key in this file. Each provider names the ENVIRONMENT VARIABLE that holds its key (key_env).
+# data_policy is YOUR reading of the provider's current terms (check them; free tiers change often):
+#   LOCAL        runs on this computer (Ollama, LM Studio); loopback address only
+#   NO_TRAINING  the provider states it does not train on your prompts
+#   MAY_TRAIN    the provider may use prompts to improve its models (common on free tiers)
+#   UNKNOWN      treated like MAY_TRAIN
+# Which providers may receive what (data class of the material in the prompt):
+#   LOCAL_ONLY           -> LOCAL                       (full text you may only process locally)
+#   EXTERNAL_NO_TRAINING -> LOCAL, NO_TRAINING          (external AI allowed, but not for training)
+#   EXTERNAL_ANY         -> all                         (synthetic, metadata-only or openly licensed material)
+# Stage L1: SciVetra does not call any provider yet; "rkb llm simulate" shows how rotation will work.
+schema = "scivetra-llm-providers/1"
+
+[[provider]]
+name = "local-ollama"
+base_url = "http://127.0.0.1:11434/v1"
+model = "qwen3:14b"
+data_policy = "LOCAL"
+priority = 1
+family = "local"
+
+[[provider]]
+name = "groq"
+base_url = "https://api.groq.com/openai/v1"
+model = "llama-3.3-70b-versatile"
+key_env = "GROQ_API_KEY"
+data_policy = "UNKNOWN"
+priority = 2
+family = "groq"
+limits = { rpm = 30, rpd = 1000 }
+
+[[provider]]
+name = "cerebras"
+base_url = "https://api.cerebras.ai/v1"
+model = "llama-3.3-70b"
+key_env = "CEREBRAS_API_KEY"
+data_policy = "UNKNOWN"
+priority = 3
+family = "cerebras"
+limits = { rpm = 30 }
+
+[[provider]]
+name = "gemini-free"
+base_url = "https://generativelanguage.googleapis.com/v1beta/openai"
+model = "gemini-2.5-flash"
+key_env = "GEMINI_API_KEY"
+data_policy = "MAY_TRAIN"
+priority = 4
+family = "google"
+limits = { rpm = 10 }
+
+[[provider]]
+name = "openrouter-free"
+base_url = "https://openrouter.ai/api/v1"
+model = "meta-llama/llama-3.3-70b-instruct:free"
+key_env = "OPENROUTER_API_KEY"
+data_policy = "UNKNOWN"
+priority = 5
+family = "openrouter"
+limits = { rpm = 20 }

@@ -14,7 +14,8 @@ GROUPS = {"init": "KB lifecycle", "doctor": "KB lifecycle", "backup": "KB lifecy
           "index": "S02 / S09 indexes", "import-reprovane": "S02 Reprovane import", "library": "S03 global library", "asset": "S03 assets",
           "rights": "S03 rights", "bridge": "S04 download bridge", "journal": "S04J journal harvesting", "fte": "S05 full-text eligibility",
           "parse": "S06 PDF parsing", "screen": "S07 AI screening proposals", "evidence": "S08 evidence extraction", "retrieval": "S09 retrieval",
-          "search": "S09 retrieval", "rag": "S09 retrieval", "passage": "S09 retrieval", "ai": "S10 AI integration gateway", "synth": "S11 synthesis and citation audit"}
+          "search": "S09 retrieval", "rag": "S09 retrieval", "passage": "S09 retrieval", "ai": "S10 AI integration gateway", "synth": "S11 synthesis and citation audit",
+          "llm": "LLM provider routing (ADR_LLM, stage L1; offline)"}
 
 
 def leaves(parser, prefix):

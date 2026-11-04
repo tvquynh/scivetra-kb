@@ -230,6 +230,13 @@ Decisions and field-level deviations are in `docs/ADR_S03.md` (ADR-S03-01…09, 
 - **R-S10-12.** Vendor client features (Claude Desktop local MCP, ChatGPT custom MCP and plugins) change over time; v01 records dated
   references (`S10_VENDOR_REFERENCES.md`) and exact NOT_TESTED / BLOCKED / disabled states. Re-check before any activation.
 
+## LLM integration (ADR_LLM) — open decisions
+
+- **R-LLM-01.** Free tiers change models, limits and data terms often; `data_policy` is the owner's reading and must be re-checked.
+- **R-LLM-02.** No real provider has been called (L1 is offline); model quality is unmeasured until L2/L3 evaluation.
+- **R-LLM-03.** The call log is a file outside the KB in L1; a KB table needs migration 0012 (L2).
+- **R-LLM-04.** Several accounts at one provider are not supported by design (terms of service).
+
 ## S12 (1.0.0rc1): Release candidate — open decisions
 
 - **R-S12-01.** No encryption at rest; protect the data root and backups with OS permissions or disk encryption.

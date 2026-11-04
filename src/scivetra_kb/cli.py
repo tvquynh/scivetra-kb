@@ -44,6 +44,7 @@ def _parser() -> argparse.ArgumentParser:
     _s09_parsers(sub)
     _s10_parsers(sub)
     _s11_parsers(sub)
+    _llm_parsers(sub)
     meta = sub.add_parser("metadata").add_subparsers(dest="action", required=True)
     for name in ("route", "fetch"):
         sp = meta.add_parser(name)
@@ -895,6 +896,33 @@ def _run_synth(args, kw):
         return 0, svc.share(scope_id=args.scope_id, destination_class=args.destination_class, operator=args.operator)
 
 
+def _llm_parsers(sub) -> None:
+    """ADR_LLM L1: rkb llm ... (provider config check, routing plan, offline simulation; no network, no key is ever printed)."""
+    ll = sub.add_parser("llm").add_subparsers(dest="action", required=True)
+    sp = ll.add_parser("check-config")
+    sp.add_argument("--config", required=True)
+    sp = ll.add_parser("plan")
+    sp.add_argument("--config", required=True)
+    sp.add_argument("--data-class", required=True, choices=("LOCAL_ONLY", "EXTERNAL_NO_TRAINING", "EXTERNAL_ANY"))
+    sp = ll.add_parser("simulate")
+    sp.add_argument("--config", required=True)
+    sp.add_argument("--scenario", choices=("rotation", "breaker", "consensus"), default="rotation")
+    sp.add_argument("--data-class", choices=("LOCAL_ONLY", "EXTERNAL_NO_TRAINING", "EXTERNAL_ANY"), default="EXTERNAL_ANY")
+
+
+def _run_llm(args):
+    import os
+    from .llm import simulate as sim
+    from .llm.config import load_config
+    from .llm.router import FakeTransport, Router
+    config = load_config(args.config)
+    if args.action == "check-config":
+        return 0, sim.check(config, os.environ)
+    if args.action == "plan":
+        return 0, {"data_class": args.data_class, "plan": Router(config, FakeTransport({})).plan(args.data_class)}
+    return 0, sim.simulate(config, args.scenario, args.data_class)
+
+
 def _run_ai(args, kw):
     from .ai import exchange
     from .ai.records import OwnerRecords
@@ -1094,6 +1122,8 @@ def run(argv=None, *, clock=None, ids=None, sleeper=None, jitter=None) -> tuple[
         return _run_ai(args, kw)
     if args.command == "synth":
         return _run_synth(args, kw)
+    if args.command == "llm":
+        return _run_llm(args)
     if args.command in ("backup", "verify-backup", "restore", "upgrade", "reconcile", "library", "asset", "rights"):
         return _run_s03(args, kw)
     if args.command == "metadata":

@@ -1,5 +1,15 @@
 # Change log — SciVetra KB candidate
 
+## Unreleased — ADR_LLM stage L1: free-provider LLM routing (offline)
+
+| File | Change | Proof |
+|---|---|---|
+| `src/scivetra_kb/llm/` (new: `config.py`, `router.py`, `simulate.py`) | Provider config `scivetra-llm-providers/1` (keys only by environment variable name), data classes from rights, rotation with Retry-After, rpm / rpd / tpm limits, circuit breaker, two-family consensus, content-free call log; scripted FakeTransport only (no network code) | `tests/test_llm_router.py` (LLM-L1-*) |
+| `src/scivetra_kb/cli.py` | `rkb llm check-config / plan / simulate` | LLM-L1-CLI |
+| `config/llm-providers.example.toml` (new) | Example provider list (local Ollama + free remote tiers; policies to be verified by the owner) | LLM-L1-EXAMPLE-CONFIG |
+| `docs/ADR_LLM.md`, `guide/12-free-llm-providers.md`, `huong-dan/12-llm-mien-phi.md` (new) | Design LL-D01..D12; user guides | — |
+| `tools/required_ids.json`, `tools/s12_command_reference.py`, `docs/COMMAND_REFERENCE.md` | 21 LLM-L1 ids; 3 new commands | G6 |
+
 ## 1.0.0rc1 — S12: local release candidate (2026-11-05)
 
 Baseline: S11 v03 (`67e84e3b…1eab`). No schema or behaviour change: migrations 0001–0011 byte-identical; `src/` changes only the version.

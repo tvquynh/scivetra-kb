@@ -41,6 +41,7 @@ Dùng macOS hoặc Linux? Xem [hướng dẫn tiếng Anh](guide/00-START-HERE.m
 8. [Xử lý lỗi](huong-dan/08-xu-ly-loi.md)
 9. [Từ điển thuật ngữ](huong-dan/09-tu-dien-thuat-ngu.md)
 10. [Giới hạn và an toàn](huong-dan/10-gioi-han-va-an-toan.md)
+11. [Dùng LLM miễn phí (đang phát triển, giai đoạn L1)](huong-dan/12-llm-mien-phi.md)
 
 ## Trạng thái
 
