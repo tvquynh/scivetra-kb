@@ -8,6 +8,7 @@ Independent review (2026-11-05) of tag `v1.0.0` (`7a19cc7`), reproduced on a cle
 |---|---|---|
 | `src/scivetra_kb/evidence/` (now tracked) | Restored, byte-identical to the accepted S12 release-candidate ZIP | REL-SOURCE-TRACKED |
 | `.gitignore` | `/evidence/`, `/build/`, `/dist/` anchored at the root | REL-GITIGNORE-ROOT-ONLY |
+| `.gitattributes` | `* -text`: no line-ending conversion except the `.cmd` / `.ps1` / `.sh` launchers. Found while verifying 1.0.1: a Windows clone with `core.autocrlf=true` turned SHA-256-pinned LF files (migrations, fixtures, baselines) into CRLF and 62 tests failed | REL-EXACT-BYTES |
 | `tools/s12_release_readiness.py` | `copy_tree` (root-only excludes) for G5 / G7; G7 requires every source package file in wheel and sdist, every internal import resolved, a wheel rebuilt from the sdist with the same files, all modules importable from both installs, and the S08 / S09 / S11 / LLM-L2 tests passing against the installed wheel from outside the checkout | REL-*, G7 |
 | `tools/s06_install_test.py` | Same root-only exclude | — |
 | `tests/test_release_integrity.py` (new) | 7 ids incl. negative cases (package removed → detected) | REL-* |
