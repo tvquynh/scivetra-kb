@@ -76,8 +76,11 @@ def run_child(path: Path, site: str, *, mode: str = "extract", limits: dict | No
     except UnsafeJson:
         payload = None
     if not isinstance(payload, dict):
-        # Killed by the OS limit (Windows job CPU/memory, POSIX SIGXCPU/SIGKILL) or crashed before printing.
-        code = "RESOURCE_LIMIT_EXCEEDED" if proc.returncode not in (0, 1, 4) else "PARSER_CHILD_FAILED"
+        # Killed by the OS limit (Windows job CPU/memory, POSIX SIGXCPU/SIGKILL) or crashed before printing. An interpreter
+        # that runs out of memory outside the child's own handler (seen with Python 3.14.10 on Windows under the job memory
+        # cap) exits 1 with a MemoryError traceback: that is the memory limit too. stderr is only inspected, never stored.
+        out_of_memory = proc.returncode == 1 and proc.stderr.rstrip().endswith(b"MemoryError")
+        code = "RESOURCE_LIMIT_EXCEEDED" if proc.returncode not in (0, 1, 4) or out_of_memory else "PARSER_CHILD_FAILED"
         return {"status": "FAILED", "code": code, "sandbox": meta}
     meta["child"] = payload.get("sandbox")
     if proc.returncode == 4 or "sandbox_error" in payload:
