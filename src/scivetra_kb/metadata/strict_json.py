@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 
 UNPARSEABLE_RESPONSE = "UNPARSEABLE_RESPONSE"
 NONSTANDARD_JSON_CONSTANT = "NONSTANDARD_JSON_CONSTANT"
@@ -100,11 +101,38 @@ def _walk(root) -> None:
             stack.extend(reversed(children))
 
 
+DECODER_DEPTH = 512     # raw nesting refused BEFORE the C decoder runs (1.0.1): its own limit differs between Python builds
+_TOKENS = re.compile(r'"(?:[^"\\]|\\.)*"|[\[\]{}]|"', re.S)
+
+
+def _too_deep_for_decoder(text: str) -> bool:
+    """True when brackets outside strings nest deeper than DECODER_DEPTH. Python 3.14 on Linux / macOS decodes 50 000 levels
+    without RecursionError where 3.11 and Windows raised it, so the refusal reason and path must not depend on the decoder."""
+    depth = 0
+    for m in _TOKENS.finditer(text):
+        tok = m.group()
+        if tok in "[{":
+            depth += 1
+            if depth > DECODER_DEPTH:
+                return True
+        elif tok in "]}":
+            depth -= 1
+        elif tok == '"':            # unterminated string: the decoder reports it as unparseable
+            return False
+    return False
+
+
 def decode(body: bytes):
     """Decode an untrusted provider body or raise ``UnsafeJson``."""
     try:
-        value = json.loads(body.decode("utf-8"), parse_constant=_constant, parse_float=_float, parse_int=_int)
-    except (UnicodeDecodeError, ValueError):
+        text = body.decode("utf-8")
+    except UnicodeDecodeError:
+        raise UnsafeJson(UNPARSEABLE_RESPONSE) from None
+    if _too_deep_for_decoder(text):
+        raise UnsafeJson(NESTING_TOO_DEEP) from None
+    try:
+        value = json.loads(text, parse_constant=_constant, parse_float=_float, parse_int=_int)
+    except ValueError:
         raise UnsafeJson(UNPARSEABLE_RESPONSE) from None
     except RecursionError:          # the C decoder's own nesting limit, reached before MAX_DEPTH can be checked
         raise UnsafeJson(NESTING_TOO_DEEP) from None

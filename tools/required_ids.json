@@ -6504,6 +6504,11 @@
    "id": "REL-EXACT-BYTES",
    "stage": "REL-1.0.1",
    "contract": "1.0.1 release integrity (independent review 2026-11-05, P0-01..P0-03): shipped source cannot silently lose a package"
+  },
+  {
+   "id": "REL-JSON-DEPTH-PORTABLE",
+   "stage": "REL-1.0.1",
+   "contract": "1.0.1 CI portability: JSON nesting refusal independent of the Python build's decoder stack"
   }
  ]
 }

@@ -244,6 +244,7 @@ Decisions and field-level deviations are in `docs/ADR_S03.md` (ADR-S03-01…09, 
 - **R-101-02.** CI (`.github/workflows/ci.yml`) has not run yet; Linux / macOS remain NOT_RUN until it does.
 - **R-101-03.** AI evaluation is 3 synthetic papers; a versioned benchmark with independent gold labels is not built (P1-04). REAL_CORPUS_NOT_EVALUATED.
 - **R-101-04.** `--consensus` requires whole-answer agreement; record-level agreement with escalation to a human is a proposal, not implemented (P1-04).
+- **R-101-06.** macOS: a data root below a symlink (e.g. `/tmp`, `/var/...`) is refused with `REPARSE_POINT` by design; use a folder in your home directory (`~/SciVetra`).
 - **R-101-05.** Retrieval quality (recall@k, nDCG) on a truth set is not measured; the default embedder is a hashing stand-in (P1-05).
 
 ## S12 (1.0.0rc1 → 1.0.0): Release — open decisions

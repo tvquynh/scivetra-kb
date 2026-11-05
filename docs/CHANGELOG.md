@@ -1,5 +1,14 @@
 # Change log — SciVetra KB candidate
 
+## Unreleased — portability fixes from the first CI run (2026-11-05)
+
+First CI run of 1.0.1: Windows 3.11 / 3.14 and Ubuntu 3.11 passed; Ubuntu 3.14 failed 3 tests, macOS 3.11 / 3.14 failed most KB tests.
+
+| File | Change | Proof |
+|---|---|---|
+| `src/scivetra_kb/metadata/strict_json.py` | Raw nesting deeper than 512 is refused (`NESTING_TOO_DEEP`, no path) **before** `json.loads`: Python 3.14 on Linux / macOS decodes 50 000 levels without `RecursionError`, so the reason / path depended on the Python build. Still refused in every case; now deterministic | REL-JSON-DEPTH-PORTABLE, S02-UNSAFE-DEPTH |
+| `.github/workflows/ci.yml` | macOS: `TMPDIR` set to a resolved folder; `$TMPDIR` under `/var` → `/private/var` is a symlink and SciVetra refuses data roots below symlinks (`REPARSE_POINT`, by design) | CI |
+
 ## 1.0.1 — packaging fix: the S08 evidence package was missing (2026-11-05)
 
 Independent review (2026-11-05) of tag `v1.0.0` (`7a19cc7`), reproduced on a clean clone and the published wheel / sdist: `src/scivetra_kb/evidence/` was not in Git, the wheel or the sdist, so S08, S09, S11 and `rkb llm extract-evidence` failed with `No module named 'scivetra_kb.evidence'`. The developer tree had the files, so the 654 tests and gates G1–G8 passed there.

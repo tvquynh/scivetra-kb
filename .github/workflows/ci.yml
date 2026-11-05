@@ -34,6 +34,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+      - name: Temporary folder without symlinks
+        if: runner.os == 'macOS'
+        # SciVetra refuses data roots below a symlink (REPARSE_POINT). macOS puts $TMPDIR under /var -> /private/var, so the
+        # tests' temporary KBs would be refused; use a resolved folder instead (security check unchanged).
+        run: |
+          mkdir -p "$RUNNER_TEMP/tmp"
+          echo "TMPDIR=$(cd "$RUNNER_TEMP/tmp" && pwd -P)" >> "$GITHUB_ENV"
       - name: Untracked files must not be needed (clean checkout)
         run: git status --short --ignored && test -f src/scivetra_kb/evidence/service.py
       - name: Pinned PDF parser (official wheel, SHA-256 checked)
