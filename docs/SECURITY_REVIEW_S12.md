@@ -1,4 +1,4 @@
-# S12 security review (1.0.0rc1)
+# S12 security review (1.0.0rc1; addendum for 1.0.1 in section 5)
 
 **Scope.** The cumulative `scivetra_kb` package (S02–S11), its CLI, packaging and dependency chain. The reviewer is the developer; this is not an independent audit.
 
@@ -51,3 +51,9 @@ These are restricted to allowlisted modules: `socket`, `http`, `ssl`, `asyncio`,
 - **R-S12-02. Self-declared identities.** Owner and reviewer labels are not authenticated. Owner signing or two-person rules remain an owner decision.
 - **R-S12-03. Developer-run checks.** The security scan is pattern-based and run by the developer. An independent review and a dependency vulnerability check against a current advisory database (network needed) are required before any public release.
 - **R-S12-04. Release-candidate status.** The package name is provisional (OAG-10). The classifier `Private :: Do Not Upload` makes index uploads fail by design.
+
+## 5. Addendum 1.0.1 (2026-11-05)
+
+- **Packaging integrity (P0).** 1.0.0 shipped without `src/scivetra_kb/evidence` (unanchored `evidence/` in `.gitignore`; `ignore_patterns("evidence")` in the G5 / G7 copies). Consequence: the G5 secret / forbidden-file scan of a git checkout also skipped that package. Fixed: root-anchored ignores, `copy_tree` excludes generated output at the root only, and G7 fails on any source package file missing from the wheel or sdist, on any unresolved internal import, or on a failing installed-package E2E run.
+- **No security control was weakened.** Rights gates, default deny, append-only tables, the network guard and the AST allowlist are unchanged; the S08 files are byte-identical to the S12 release-candidate ZIP.
+- **Still not done:** independent security review, online dependency-advisory check, encryption at rest, verified identities (R-S12-01..03). The project is not independently security certified.

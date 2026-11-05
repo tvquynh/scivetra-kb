@@ -1,6 +1,20 @@
 # Change log — SciVetra KB candidate
 
-## 1.0.0 — first release on GitHub (2026-11-05)
+## 1.0.1 — packaging fix: the S08 evidence package was missing (2026-11-05)
+
+Independent review (2026-11-05) of tag `v1.0.0` (`7a19cc7`), reproduced on a clean clone and the published wheel / sdist: `src/scivetra_kb/evidence/` was not in Git, the wheel or the sdist, so S08, S09, S11 and `rkb llm extract-evidence` failed with `No module named 'scivetra_kb.evidence'`. The developer tree had the files, so the 654 tests and gates G1–G8 passed there.
+
+| File | Change | Proof |
+|---|---|---|
+| `src/scivetra_kb/evidence/` (now tracked) | Restored, byte-identical to the accepted S12 release-candidate ZIP | REL-SOURCE-TRACKED |
+| `.gitignore` | `/evidence/`, `/build/`, `/dist/` anchored at the root | REL-GITIGNORE-ROOT-ONLY |
+| `tools/s12_release_readiness.py` | `copy_tree` (root-only excludes) for G5 / G7; G7 requires every source package file in wheel and sdist, every internal import resolved, a wheel rebuilt from the sdist with the same files, all modules importable from both installs, and the S08 / S09 / S11 / LLM-L2 tests passing against the installed wheel from outside the checkout | REL-*, G7 |
+| `tools/s06_install_test.py` | Same root-only exclude | — |
+| `tests/test_release_integrity.py` (new) | 7 ids incl. negative cases (package removed → detected) | REL-* |
+| `.github/workflows/ci.yml` (new) | CI on Windows / Linux / macOS, Python 3.11 and 3.14: clean checkout, suite, build, clean install | not yet run |
+| `docs/CAPABILITY_MATRIX.md` and status docs, `src/scivetra_kb/cli.py` help text | One capability vocabulary; stale "release candidate" / "simulator only" statements corrected | — |
+
+## 1.0.0 — first release on GitHub (2026-11-05) — **broken: S08 package missing, use 1.0.1**
 
 Owner decision (ADR_S12 RL-D06). Contains 1.0.0rc1 plus ADR_LLM stages L1 and L2 below. Schema 11 and migrations 0001–0011 unchanged.
 

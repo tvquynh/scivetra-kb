@@ -5,5 +5,5 @@ Provisional, non-public identifiers: import namespace ``scivetra_kb``,
 development distribution ``scivetra-kb-dev``, CLI ``rkb`` (OAG-10 pending).
 """
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 COMPONENT = "rkb"

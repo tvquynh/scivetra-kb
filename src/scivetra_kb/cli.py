@@ -1,4 +1,4 @@
-"""``rkb`` command line (local-only S03 candidate).
+"""``rkb`` command line (SciVetra KB 1.0.1; stages S02-S11 and ADR_LLM L1-L2).
 
 stdout carries exactly one JSON document; stderr carries short human diagnostics.
 There is no implicit network: ``--live`` is refused (LIVE_ACCESS_NOT_AUTHORIZED),
@@ -26,7 +26,7 @@ from .metadata.transport import FixtureTransport, LiveTransportNotAuthorized
 
 
 def _parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="rkb", description="SciVetra KB (local development candidate, S03)")
+    p = argparse.ArgumentParser(prog="rkb", description="SciVetra KB: local, offline research knowledge base (S02-S11; local LLM proposals). See docs/CAPABILITY_MATRIX.md")
     p.add_argument("--version", action="version", version=__version__)
     sub = p.add_subparsers(dest="command", required=True)
     for name in ("init", "doctor"):

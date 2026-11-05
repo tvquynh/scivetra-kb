@@ -38,8 +38,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT / "src"), str(ROOT)]
 
-RELEASE_VERSION = "1.0.0"
-REQUIRED_DOCS = ("ADR_S12.md", "SCIVETRA_USER_MANUAL.md", "OPERATOR_RUNBOOK.md", "SECURITY_REVIEW_S12.md", "RELEASE_NOTES_1.0.0.md",
+RELEASE_VERSION = "1.0.1"
+REQUIRED_DOCS = ("ADR_S12.md", "SCIVETRA_USER_MANUAL.md", "OPERATOR_RUNBOOK.md", "SECURITY_REVIEW_S12.md", "RELEASE_NOTES_1.0.1.md",
                  "CAPABILITY_MATRIX.md", "COMMAND_REFERENCE.md", "CLI_GUIDE.md", "CHANGELOG.md", "OPEN_ISSUES.md")
 FORBIDDEN_CALLS = {"eval", "exec", "os.system", "os.popen", "tempfile.mktemp", "pickle.load", "pickle.loads", "marshal.load", "marshal.loads",
                    "yaml.load", "__import__"}
@@ -194,7 +194,7 @@ def g5_security(work: Path):
     tree = ROOT
     if any((ROOT / d).exists() for d in (".git", ".venv", "dist", "build")):   # a git clone or a working copy: scan the tracked content only
         tree = work / "static_tree" / ROOT.name
-        shutil.copytree(ROOT, tree, ignore=shutil.ignore_patterns(".git", ".venv", "dist", "build", "__pycache__", "*.egg-info", "evidence"))
+        copy_tree(tree)
     proc = subprocess.run([sys.executable, "-I", "-B", str(ROOT / "tools" / "static_checks.py"), str(tree), "--out", str(out)], capture_output=True, text=True)
     static = json.loads(out.read_text(encoding="utf-8")) if out.exists() else {}
     return gate("G5_SECURITY_SCAN", not scan["findings"] and proc.returncode == 0, ast_findings=scan["findings"], allowlisted=scan["allowlisted"],
@@ -232,45 +232,178 @@ def run(cmd, **kw):
     return {"cmd": [Path(str(c)).name if os.path.isabs(str(c)) else str(c) for c in cmd], "exit": proc.returncode, "tail": (proc.stdout + proc.stderr)[-800:]}
 
 
+ROOT_ONLY_EXCLUDES = {".git", ".venv", "dist", "build", "evidence"}   # generated output at the repository ROOT only
+EVERYWHERE_EXCLUDES = ("__pycache__", "*.egg-info", "*.pyc")
+
+
+def copy_tree(dst: Path, root: Path = ROOT):
+    """Copy the checkout without generated output. ``evidence`` etc. are excluded at the ROOT only (1.0.1, P0-03): the source
+    package ``src/scivetra_kb/evidence`` has the same basename and was silently dropped by ``ignore_patterns("evidence")``."""
+    everywhere = shutil.ignore_patterns(*EVERYWHERE_EXCLUDES)
+
+    def ignore(directory, names):
+        out = set(everywhere(directory, names))
+        if Path(directory).resolve() == root.resolve():
+            out |= ROOT_ONLY_EXCLUDES & set(names)
+        return out
+    shutil.copytree(root, dst, ignore=ignore)
+
+
+PACKAGES = ("scivetra_kb", "scivetra_llm_transport")
+
+
+def source_package_files(src: Path = ROOT / "src") -> list:
+    """Every file of the shipped packages in the source tree (relative to src/, '/'-separated): modules AND package data."""
+    return sorted(p.relative_to(src).as_posix() for pkg in PACKAGES for p in (src / pkg).rglob("*")
+                  if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc")
+
+
+def missing_members(expected: list, members, prefix: str = "") -> list:
+    """Expected package files that an archive does not contain (``prefix``: e.g. 'scivetra_kb_dev-1.0.1/src/' for an sdist)."""
+    have = set(members)
+    return [f for f in expected if prefix + f not in have]
+
+
+def unresolved_internal_imports(src: Path = ROOT / "src") -> list:
+    """Every import of an internal module (absolute ``scivetra_kb...`` / ``scivetra_llm_transport...`` or relative, including lazy
+    imports inside functions) that does not resolve to a module or package in the source tree."""
+    def exists(mod: str) -> bool:
+        base = src.joinpath(*mod.split("."))
+        # a package may be a namespace package without __init__.py (S07 ``screening``), but must hold at least one module
+        return base.with_suffix(".py").is_file() or (base.is_dir() and any(base.glob("*.py")))
+
+    out = []
+    for path in sorted(p for pkg in PACKAGES for p in (src / pkg).rglob("*.py")):
+        rel = path.relative_to(src)
+        pkg_parts = list(rel.parent.parts)
+        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(rel))
+        for node in ast.walk(tree):
+            targets = []
+            if isinstance(node, ast.Import):
+                targets = [a.name for a in node.names if a.name.split(".")[0] in PACKAGES]
+            elif isinstance(node, ast.ImportFrom):
+                if node.level:
+                    base = pkg_parts[:len(pkg_parts) - (node.level - 1)] if node.level > 1 else pkg_parts
+                    mod = ".".join(base + (node.module.split(".") if node.module else []))
+                elif node.module and node.module.split(".")[0] in PACKAGES:
+                    mod = node.module
+                else:
+                    continue
+                targets = [mod]
+            for mod in targets:
+                if not exists(mod):
+                    out.append({"file": rel.as_posix(), "line": node.lineno, "module": mod})
+    return out
+
+
+IMPORT_ALL = ("import importlib, pkgutil, sys\n"
+              "bad = []\n"
+              "for top in ('scivetra_kb', 'scivetra_llm_transport'):\n"
+              "    pkg = importlib.import_module(top)\n"
+              "    for m in pkgutil.walk_packages(pkg.__path__, top + '.'):\n"
+              "        if m.name.endswith('__main__'):\n"
+              "            continue\n"
+              "        try:\n"
+              "            importlib.import_module(m.name)\n"
+              "        except Exception as exc:\n"
+              "            bad.append(m.name + ': ' + repr(exc))\n"
+              "import scivetra_kb\n"
+              "print('FROM', scivetra_kb.__file__)\n"
+              "print('IMPORT_FAILURES', bad)\n"
+              "sys.exit(1 if bad else 0)\n")
+# S08 -> S09 -> S10 -> S11 and LLM L2 flows (synthetic PDFs, real pinned parser) run against the INSTALLED package
+E2E_TESTS = ("tests.test_s08_operational", "tests.test_s09_operational", "tests.test_s11_operational", "tests.test_llm_local")
+
+
+def venv_python(venv: Path) -> Path:
+    return venv / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+
+
 def g7_packaging(work: Path, dist: Path, use_dist: bool = False):
     """Build (or, with ``use_dist``, take the already built pure-Python wheel / sdist from ``dist``, e.g. on an interpreter without
-    setuptools) and install the wheel into a clean venv."""
+    setuptools); every source package file must be in the wheel AND the sdist, every internal import must resolve, and the wheel
+    and a wheel rebuilt from the sdist are each installed into a clean venv where every module imports and (wheel) the S08-S11 and
+    LLM end-to-end tests run against the INSTALLED package from a directory outside the checkout."""
     dist.mkdir(parents=True, exist_ok=True)
     steps = []
     if not use_dist:
         src = work / "src_copy"
-        shutil.copytree(ROOT, src, ignore=shutil.ignore_patterns("evidence", "__pycache__", "*.egg-info", "build", "dist"))
+        copy_tree(src)
         steps.append(run([sys.executable, "-m", "pip", "wheel", "--no-deps", "--no-build-isolation", "--no-index", "-w", dist, src]))
         steps.append(run([sys.executable, "-c", f"import os; os.chdir({str(src)!r}); from setuptools import build_meta as b; print(b.build_sdist({str(dist)!r}))"]))
     wheel = next(dist.glob(f"scivetra_kb_dev-{RELEASE_VERSION}-*.whl"))
     sdist = next(dist.glob(f"scivetra_kb_dev-{RELEASE_VERSION}.tar.gz"))
+    expected = source_package_files()
+    unresolved = unresolved_internal_imports()
     names = zipfile.ZipFile(wheel).namelist()
+    with tarfile.open(sdist) as t:
+        sdist_names = t.getnames()
+    wheel_missing = missing_members(expected, names)
+    sdist_missing = missing_members(expected, sdist_names, f"scivetra_kb_dev-{RELEASE_VERSION}/src/")
+    from_sdist = work / "wheel_from_sdist"
+    from_sdist.mkdir(parents=True, exist_ok=True)
+    steps.append(run([sys.executable, "-m", "pip", "wheel", "--no-deps", "--no-build-isolation", "--no-index", "-w", from_sdist, sdist]))
+    wheel2 = next(from_sdist.glob("scivetra_kb_dev-*.whl"), None)
+    same_as_sdist_wheel = wheel2 is not None and sorted(zipfile.ZipFile(wheel2).namelist()) == sorted(names)
     meta = zipfile.ZipFile(wheel).read(next(n for n in names if n.endswith(".dist-info/METADATA"))).decode()
     migrations = sorted(n.rsplit("/", 1)[1] for n in names if n.startswith("scivetra_kb/core/migrations/") and n.endswith(".sql"))
     bad = [n for n in names if n.startswith("tests/") or n.endswith((".pdf", ".sqlite", ".db", ".whl", ".pyc"))]
-    with tarfile.open(sdist) as t:
-        sdist_bad = [n for n in t.getnames() if n.endswith((".pdf", ".sqlite", ".db", ".whl", ".pyc", ".zip"))]
+    sdist_bad = [n for n in sdist_names if n.endswith((".pdf", ".sqlite", ".db", ".whl", ".pyc", ".zip"))]
+    outside = work / "outside_checkout"           # cwd for every installed-package check: no checkout, no PYTHONPATH, -I
+    outside.mkdir(parents=True, exist_ok=True)
+    env = {k: v for k, v in os.environ.items() if k not in ("PYTHONPATH", "PYTHONHOME")}
     venv = work / "venv"
     steps.append(run([sys.executable, "-m", "venv", venv]))
-    py = venv / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+    py = venv_python(venv)
     rkb = venv / ("Scripts/rkb.exe" if os.name == "nt" else "bin/rkb")
-    steps.append(run([py, "-m", "pip", "install", "--no-index", "--no-deps", wheel]))
-    version = run([rkb, "--version"])
+    steps.append(run([py, "-m", "pip", "install", "--no-index", "--no-deps", wheel], env=env))
+    version = run([rkb, "--version"], env=env, cwd=outside)
     steps.append(version)
     kb = work / "venv_kb"
-    steps.append(run([rkb, "init", "--data-root", kb]))
-    doctor = run([rkb, "doctor", "--data-root", kb])
+    steps.append(run([rkb, "init", "--data-root", kb], env=env, cwd=outside))
+    doctor = run([rkb, "doctor", "--data-root", kb], env=env, cwd=outside)
     steps.append(doctor)
-    where = run([py, "-I", "-c", "import scivetra_kb; print(scivetra_kb.__file__)"])
+    where = run([py, "-I", "-c", "import scivetra_kb; print(scivetra_kb.__file__)"], env=env, cwd=outside)
     steps.append(where)
+    imports = run([py, "-I", "-c", IMPORT_ALL], env=env, cwd=outside)
+    steps.append(imports)
+    e2e = {"status": "NOT_RUN", "reason": "SCIVETRA_PYPDF_WHEEL (official pypdf 6.12.1 wheel) not set"}
+    parser_wheel = os.environ.get("SCIVETRA_PYPDF_WHEEL")
+    if parser_wheel and Path(parser_wheel).is_file():
+        from scivetra_kb.parse.approved_parsers import APPROVED, PINNED
+        req = work / "requirements-pdf.txt"
+        req.write_text(f"pypdf==6.12.1 --hash=sha256:{APPROVED[PINNED]['official_wheel_sha256']}\n", encoding="utf-8")
+        steps.append(run([py, "-m", "pip", "install", "--no-index", "--find-links", Path(parser_wheel).parent, "--require-hashes", "-r", req], env=env))
+        site = subprocess.run([str(py), "-I", "-c", "import importlib.util, pathlib; "
+                               "print(pathlib.Path(importlib.util.find_spec('pypdf').origin).resolve().parent.parent)"],
+                              capture_output=True, text=True, cwd=str(outside), env=env).stdout.strip()
+        tests_only = work / "tests_only"
+        shutil.copytree(ROOT / "tests", tests_only / "tests", ignore=shutil.ignore_patterns("__pycache__"))
+        e2e_run = run([py, "-B", "-m", "unittest", *E2E_TESTS], cwd=tests_only,
+                      env=dict(env, SCIVETRA_PYPDF_SITE=site, SCIVETRA_PYPDF_WHEEL=parser_wheel))
+        steps.append(e2e_run)
+        e2e = {"status": "PASS" if e2e_run["exit"] == 0 else "FAIL", "modules": list(E2E_TESTS), "tail": e2e_run["tail"][-300:]}
+    venv2 = work / "venv_sdist"
+    sdist_imports = {"exit": 1}
+    if wheel2 is not None:
+        steps.append(run([sys.executable, "-m", "venv", venv2]))
+        steps.append(run([venv_python(venv2), "-m", "pip", "install", "--no-index", "--no-deps", wheel2], env=env))
+        sdist_imports = run([venv_python(venv2), "-I", "-c", IMPORT_ALL], env=env, cwd=outside)
+        steps.append(sdist_imports)
     ok = (all(s["exit"] == 0 for s in steps) and len(migrations) == 11 and not bad and not sdist_bad and "Private :: Do Not Upload" in meta
           and "Requires-Dist: pypdf==6.12.1; extra == \"pdf\"" in meta and not [l for l in meta.splitlines() if l.startswith("Requires-Dist") and "extra ==" not in l]
-          and RELEASE_VERSION in version["tail"] and "site-packages" in where["tail"])
+          and RELEASE_VERSION in version["tail"] and "site-packages" in where["tail"] and not wheel_missing and not sdist_missing
+          and not unresolved and same_as_sdist_wheel and e2e["status"] == "PASS")
     return gate("G7_PACKAGING", ok, built_here=not use_dist, wheel={"name": wheel.name, "sha256": hashlib.sha256(wheel.read_bytes()).hexdigest(), "files": len(names),
-                                           "migrations": migrations, "forbidden_members": bad},
-                sdist={"name": sdist.name, "sha256": hashlib.sha256(sdist.read_bytes()).hexdigest(), "forbidden_members": sdist_bad},
+                                           "migrations": migrations, "forbidden_members": bad, "missing_source_files": wheel_missing},
+                sdist={"name": sdist.name, "sha256": hashlib.sha256(sdist.read_bytes()).hexdigest(), "members": len(sdist_names),
+                       "forbidden_members": sdist_bad, "missing_source_files": sdist_missing,
+                       "wheel_rebuilt_from_sdist_same_files": same_as_sdist_wheel},
+                source_package_files=len(expected), unresolved_internal_imports=unresolved,
                 private_classifier="Private :: Do Not Upload" in meta, steps=[{k: s[k] for k in ("cmd", "exit")} for s in steps],
-                installed_version=version["tail"].strip(), installed_from_site_packages="site-packages" in where["tail"])
+                installed_version=version["tail"].strip(), installed_from_site_packages="site-packages" in where["tail"],
+                installed_import_all={"wheel": imports["tail"][-400:], "wheel_from_sdist": sdist_imports.get("tail", "")[-400:]},
+                installed_e2e=e2e)
 
 
 def g8_dependencies():

@@ -238,6 +238,14 @@ Decisions and field-level deviations are in `docs/ADR_S03.md` (ADR-S03-01…09, 
 - **R-LLM-05.** Real local models were run on SYNTHETIC papers only (`tools/llm_local_model_check.py`, ADR_LLM LL-D16): qwen2.5:7b-instruct on CPU reached precision 0.8 / recall 0.5 on the malware paper and proposed nothing usable on the other two; the injected value was never proposed. Quality on real papers is unmeasured (needs OAG-1/2).
 - **R-LLM-04.** Several accounts at one provider are not supported by design (terms of service).
 
+## 1.0.1 — review follow-ups (2026-11-05)
+
+- **R-101-01.** 1.0.0 on GitHub is broken (S08 package missing). Its release text must point users to 1.0.1; the tag is not rewritten.
+- **R-101-02.** CI (`.github/workflows/ci.yml`) has not run yet; Linux / macOS remain NOT_RUN until it does.
+- **R-101-03.** AI evaluation is 3 synthetic papers; a versioned benchmark with independent gold labels is not built (P1-04). REAL_CORPUS_NOT_EVALUATED.
+- **R-101-04.** `--consensus` requires whole-answer agreement; record-level agreement with escalation to a human is a proposal, not implemented (P1-04).
+- **R-101-05.** Retrieval quality (recall@k, nDCG) on a truth set is not measured; the default embedder is a hashing stand-in (P1-05).
+
 ## S12 (1.0.0rc1 → 1.0.0): Release — open decisions
 
 - **R-S12-01.** No encryption at rest; protect the data root and backups with OS permissions or disk encryption.

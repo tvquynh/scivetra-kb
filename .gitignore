@@ -1,7 +1,8 @@
 __pycache__/
 *.pyc
 *.egg-info/
-build/
-dist/
-evidence/
+# generated output at the repository root only; src/scivetra_kb/evidence/ is source (1.0.1, P0-02)
+/build/
+/dist/
+/evidence/
 .venv/

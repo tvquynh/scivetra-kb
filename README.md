@@ -45,8 +45,8 @@ Dùng macOS hoặc Linux? Xem [hướng dẫn tiếng Anh](guide/00-START-HERE.m
 
 ## Trạng thái
 
-- **Phiên bản 1.0.0**, phát hành trên GitHub (không có trên PyPI).
-- **Đã kiểm tra:** 654 bài kiểm tra tự động trên Python 3.11 và 3.14, cùng 8 cổng kiểm tra phát hành.
+- **Phiên bản 1.0.1**, phát hành trên GitHub (không có trên PyPI). **Bản 1.0.0 bị thiếu gói S08 (bằng chứng), đừng dùng.**
+- **Đã kiểm tra:** bộ kiểm thử tự động và 8 cổng phát hành; gói đã cài được chạy thử từ thư mục ngoài mã nguồn. Chi tiết từng chức năng: [`docs/CAPABILITY_MATRIX.md`](docs/CAPABILITY_MATRIX.md).
 - **AI:** dùng được mô hình chạy trên máy bạn (Ollama / LM Studio) để *đề xuất* bằng chứng; chưa gọi dịch vụ AI trực tuyến.
 - **Dữ liệu và PDF thật** cần chủ dự án cho phép. Xem [Giới hạn và an toàn](huong-dan/10-gioi-han-va-an-toan.md).
 - **Giấy phép:** [Apache 2.0](LICENSE).
@@ -99,4 +99,4 @@ All need Python 3.11 or newer ([guide/01-install-python.md](guide/01-install-pyt
 | Run the tests | `python -I tools/run_offline_tests.py` |
 | Run the release gates | `python -I tools/s12_release_readiness.py --work DIR --out FILE.json` |
 
-Licensed under the [Apache License 2.0](LICENSE). Version `1.0.0`, released on GitHub; not on PyPI.
+Licensed under the [Apache License 2.0](LICENSE). Version `1.0.1`, released on GitHub; not on PyPI (1.0.0 lacked the S08 package: do not use it). What works: `docs/CAPABILITY_MATRIX.md`.

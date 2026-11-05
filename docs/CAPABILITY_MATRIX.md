@@ -1,30 +1,45 @@
-# SciVetra KB capability matrix (1.0.0)
+# SciVetra KB capability matrix (1.0.1)
 
-The states below are exact. **IMPLEMENTED_OFFLINE_TESTED** means the capability is built and proven by the offline suite with synthetic data. Anything else was not tried with real accounts, real services or real research PDFs. The detailed AI-client states are in `S10_CAPABILITY_MATRIX.md`.
+This file is the **single source of truth** for what works. README, user guides, release notes and the security review point here and must not claim more.
 
-**Acceptance status of the stages:**
-- S02–S10 v02: accepted by the independent architect.
-- S11: submitted as v03; the independent decision on it is pending.
-- S12: this local release candidate.
+## States
 
-| Stage | Capability | State | Notes |
-|---|---|---|---|
-| Core | KB init, doctor (`--full`), backup / verify / restore, explicit upgrade 1…10 → 11, rollback file | IMPLEMENTED_OFFLINE_TESTED | Release gate G3 rehearses every upgrade path |
-| S02 | DOI parsing, RA routing, Crossref / DataCite snapshot adapters, publication-integrity events | IMPLEMENTED_OFFLINE_TESTED | Offline fixtures only |
-| S02 | Live metadata APIs | DISABLED (`LIVE_ACCESS_NOT_AUTHORIZED`) | Needs OAG-3 and a transport implementation |
-| S02 / S03 | Reprovane portable export import (read-only) | IMPLEMENTED_OFFLINE_TESTED | Synthetic exports; Reprovane is never modified |
-| S03 | Global library, link review, identity conflicts, document versions, PDF intake (sandboxed checks), rights-policy/1 gates | IMPLEMENTED_OFFLINE_TESTED | — |
-| S04 | PBD download bridge (CSV export, result import, reconciliation) | IMPLEMENTED_OFFLINE_TESTED | PBD is never modified (OAG-4) |
-| S04J | Journal DOI harvesting (Crossref-first, OpenAlex enrichment) | IMPLEMENTED_OFFLINE_TESTED with simulated providers | Live crawling DISABLED |
-| S05 | Full-text eligibility candidate workflow (NON_AUTHORITATIVE staging) | IMPLEMENTED_OFFLINE_TESTED | Authoritative RV-FTE needs a Reprovane change (OAG-5) |
-| S06 | Local, sandboxed, rights-gated PDF parsing (pinned pypdf 6.12.1) | IMPLEMENTED_OFFLINE_TESTED on synthetic PDFs | Windows sandbox not equal to Linux: real untrusted PDFs on Windows NOT_APPROVED; no OCR |
-| S07 | AI screening proposals with a deterministic mock; blind-first human review | IMPLEMENTED_OFFLINE_TESTED | Real models NOT_IMPLEMENTED / OAG-6 |
-| S08 | Evidence drafts, structural verification, human acceptance, audited exports | IMPLEMENTED_OFFLINE_TESTED | Real models NOT_IMPLEMENTED |
-| S09 | FTS5 / hybrid search, per-hit rights, cited RAG context | IMPLEMENTED_OFFLINE_TESTED | Semantic embeddings NOT_CONFIGURED (`HYBRID_MOCK`) |
-| S10 | AI gateway, stdio MCP server, ChatGPT file exchange | IMPLEMENTED_OFFLINE_TESTED | Claude Desktop / ChatGPT apps NOT_TESTED; remote MCP / APIs DISABLED; official MCP SDK interop BLOCKED |
-| S11 | Synthesis drafts, citation audit, contradictions, human review, LOCAL_REVIEW_ONLY export | IMPLEMENTED_OFFLINE_TESTED | External sharing DENIED (OAG-7); LLM narrative NOT_IMPLEMENTED |
-| S12 | Release readiness gates, command reference, user manual, runbook, security review, offline wheel / sdist | IMPLEMENTED_OFFLINE_TESTED | Public release NOT_PUBLISHED (owner approval, OAG-10) |
-| LLM (L1) | Provider config, rights-aware rotation, limits, breaker, consensus, simulator (`rkb llm`) | IMPLEMENTED_OFFLINE_TESTED (fake transport) | — |
-| LLM (L2) | Loopback-only local model transport, `rkb llm ping`, S08 extraction through the router (`rkb llm extract-evidence`, optional consensus) | IMPLEMENTED, TESTED against a scripted local server and RUN with real local models (Ollama, synthetic papers; `tools/llm_local_model_check.py`) | Quality on real papers unmeasured (OAG-1/2); remote providers NOT_IMPLEMENTED (L3) |
-| — | Linux run by the developer | NOT_RUN | The architect ran Linux for S11 v01 and v02 |
-| — | Encryption at rest | NOT_IMPLEMENTED | R-S12-01 |
+| State | Meaning |
+|---|---|
+| `IMPLEMENTED_AND_CLEAN_INSTALL_TESTED` | Built; its tests pass in the offline suite **and** again against the wheel installed in a clean venv, run from outside the checkout (release gate G7) |
+| `IMPLEMENTED_SYNTHETIC_TESTED` | Built; proven by the offline suite with synthetic data and fixtures only |
+| `IMPLEMENTED_REAL_LOCAL_MODEL_SYNTHETIC_DATA` | Run with a real local model (Ollama) on synthetic papers only |
+| `IMPLEMENTED_BUT_NOT_TESTED_IN_REAL_APP` | Built and tested with a test client, never with the real third-party app |
+| `NOT_IMPLEMENTED` | Not built |
+| `DISABLED_BY_POLICY` | Built or stubbed, refused by design until a policy changes |
+| `BLOCKED_OWNER_APPROVAL` | Needs an owner decision (OAG-*) before it may be built or used |
+
+None of these states means **production-ready**, **scientifically validated on real papers** or **independently security certified**. "Verified" in SciVetra always means **structural** verification (schema, anchor, number and unit found in the quote), never that a claim is semantically true: see `ADR_S08.md` and `ADR_S11.md`.
+
+**Acceptance of the stages:** S02–S10 v02 accepted by the independent architect; S11 v03 decision pending; 1.0.0 (2026-11-05) shipped without the S08 package — fixed in 1.0.1 (`RELEASE_NOTES_1.0.1.md`).
+
+## Capabilities
+
+| Stage | Capability | Entry point | State | Evidence | Limits / condition to enable |
+|---|---|---|---|---|---|
+| Core | KB init, doctor (`--full`), backup / verify / restore, upgrade 1…10 → 11, rollback file | `rkb init / doctor / backup / restore / upgrade` | IMPLEMENTED_AND_CLEAN_INSTALL_TESTED (init, doctor); IMPLEMENTED_SYNTHETIC_TESTED (rest) | G3, G4, G7 | — |
+| S02 | DOI parsing, RA routing, Crossref / DataCite snapshot adapters, integrity events | `rkb metadata …`, `rkb integrity …` | IMPLEMENTED_SYNTHETIC_TESTED | offline suite | Offline fixtures only |
+| S02 | Live metadata APIs | `metadata/transport.py` | DISABLED_BY_POLICY (`LIVE_ACCESS_NOT_AUTHORIZED`); live transport NOT_IMPLEMENTED | S02 tests | BLOCKED_OWNER_APPROVAL (OAG-3) |
+| S02 / S03 | Reprovane portable export import (read-only) | `rkb library import-reprovane` | IMPLEMENTED_SYNTHETIC_TESTED | offline suite | Reprovane is never modified |
+| S03 | Global library, link review, identity conflicts, versions, PDF intake, rights-policy/1 | `rkb library / asset / rights …` | IMPLEMENTED_SYNTHETIC_TESTED | offline suite | Default deny |
+| S04 | PBD download bridge | `rkb bridge …` | IMPLEMENTED_SYNTHETIC_TESTED | offline suite | PBD never modified (OAG-4) |
+| S04J | Journal DOI harvesting | `rkb journal …` | IMPLEMENTED_SYNTHETIC_TESTED (simulated Crossref / OpenAlex) | offline suite | Live crawling DISABLED_BY_POLICY; BLOCKED_OWNER_APPROVAL (OAG-3) |
+| S05 | Full-text eligibility staging (NON_AUTHORITATIVE, not PRISMA) | `rkb fte …` | IMPLEMENTED_SYNTHETIC_TESTED | offline suite | Authoritative RV-FTE needs Reprovane (OAG-5) |
+| S06 | Sandboxed, rights-gated PDF parsing (pinned pypdf 6.12.1) | `rkb parse …` | IMPLEMENTED_SYNTHETIC_TESTED (synthetic PDFs) | offline suite, `tools/s06_install_test.py` | Windows sandbox weaker than Linux; no OCR |
+| S07 | AI screening proposals (deterministic mock), blind-first human review | `rkb screen …` | IMPLEMENTED_SYNTHETIC_TESTED (mock only) | offline suite | Real models NOT_IMPLEMENTED for S07 |
+| S08 | Evidence drafts, structural verification, human acceptance, audited export | `rkb evidence …` | IMPLEMENTED_AND_CLEAN_INSTALL_TESTED | `tests.test_s08_operational` in G7 | Structural, not semantic, verification |
+| S09 | FTS5 / hybrid search, per-hit rights, cited RAG context | `rkb search …`, `rkb rag …` | IMPLEMENTED_AND_CLEAN_INSTALL_TESTED | `tests.test_s09_operational` in G7 | Embeddings are `HYBRID_MOCK` (hashing, **not semantic**) unless a local model folder is provisioned; no generated answer |
+| S10 | AI gateway, stdio MCP server, ChatGPT file exchange | `rkb ai …` | IMPLEMENTED_BUT_NOT_TESTED_IN_REAL_APP | offline suite with a test MCP client | Claude Desktop / ChatGPT apps not tested; remote MCP DISABLED_BY_POLICY; default deny (OAG-6) |
+| S11 | Synthesis drafts, citation audit, contradictions, human review, LOCAL_REVIEW_ONLY export | `rkb synth …` | IMPLEMENTED_AND_CLEAN_INSTALL_TESTED | `tests.test_s11_operational` in G7 | External sharing DISABLED_BY_POLICY (OAG-7); no LLM narrative |
+| S12 | Release gates, command reference, manuals, offline wheel / sdist | `tools/s12_release_readiness.py` | IMPLEMENTED_SYNTHETIC_TESTED | G1–G8 | No PyPI (private classifier) |
+| LLM L1 | Provider config, rights-aware rotation, limits, breaker, consensus, simulator | `rkb llm check-config / plan / simulate` | IMPLEMENTED_SYNTHETIC_TESTED (fake transport) | `tests.test_llm_router` | Says nothing about model quality |
+| LLM L2 | Loopback-only transport, `rkb llm ping`, S08 extraction (optional consensus) | `rkb llm ping / extract-evidence` | IMPLEMENTED_AND_CLEAN_INSTALL_TESTED (scripted server); IMPLEMENTED_REAL_LOCAL_MODEL_SYNTHETIC_DATA (Ollama qwen2.5:7b-instruct) | `tests.test_llm_local` in G7; `tools/llm_local_model_check.py` | 3 synthetic papers only; REAL_CORPUS_NOT_EVALUATED (OAG-1/2) |
+| LLM L3 | Remote (online) providers | — | NOT_IMPLEMENTED | — | BLOCKED_OWNER_APPROVAL (OAG-6, A8, provider terms) |
+| — | Linux / macOS runs by the developer | — | NOT_RUN locally; GitHub Actions CI workflow added in 1.0.1 (`.github/workflows/ci.yml`), result recorded only once it has run | — | — |
+| — | Encryption at rest | — | NOT_IMPLEMENTED | — | Use full-disk encryption (R-S12-01) |
+| — | Verified identities | — | NOT_IMPLEMENTED (self-declared labels) | — | R-S12-02 |

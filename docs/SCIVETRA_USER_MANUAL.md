@@ -1,8 +1,8 @@
-# SciVetra KB user manual (1.0.0, local release candidate)
+# SciVetra KB user manual (1.0.1)
 
 This manual walks a beginner through the whole SciVetra companion Research Knowledge Base (KB), from an empty folder to an audited research synthesis draft. Every stage has a detailed guide; this manual shows how the stages connect and which safety rules apply everywhere.
 
-**Status.** This is a **local release candidate**. It is not published, and it is not meant for public distribution until the owner approves a release (ADR_S12). Use synthetic or owner-approved data only. Real research PDFs, live AI services, remote integrations and public sharing are **not enabled**.
+**Status.** Version 1.0.1, published on GitHub (not on PyPI). What works and how it was tested is in `CAPABILITY_MATRIX.md`, the single source of truth. Use synthetic or owner-approved data only. Live metadata APIs, online AI services, remote integrations and public sharing are **not enabled**; local models on loopback can only *propose* evidence (ADR_LLM).
 
 ## 1. What SciVetra KB is (and is not)
 
@@ -43,7 +43,7 @@ You need Python 3.11 or newer.
 
    ```powershell
    py -3.11 -m venv $HOME\scivetra-venv
-   & $HOME\scivetra-venv\Scripts\python.exe -m pip install --no-index --no-deps .\scivetra_kb_dev-1.0.0-py3-none-any.whl
+   & $HOME\scivetra-venv\Scripts\python.exe -m pip install --no-index --no-deps .\scivetra_kb_dev-1.0.1-py3-none-any.whl
    & $HOME\scivetra-venv\Scripts\rkb.exe --version
    ```
 

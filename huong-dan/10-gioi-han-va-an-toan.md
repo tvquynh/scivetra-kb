@@ -11,7 +11,8 @@
 
 | Chưa có | Lý do / cần gì |
 |---|---|
-| AI thật (ChatGPT, Claude, mô hình cục bộ) | Mọi phần "AI" đang dùng **máy giả lập**. Bật AI thật cần chủ dự án duyệt (OAG-6). |
+| AI trực tuyến (ChatGPT, Claude, Groq, Gemini…) | SciVetra không gọi. Phần sàng lọc (S07) dùng **máy giả lập**. Chỉ **mô hình chạy trên máy bạn** (Ollama / LM Studio) được *đề xuất* bằng chứng ([hướng dẫn 12](12-llm-mien-phi.md)). AI trực tuyến cần chủ dự án duyệt (OAG-6). |
+| Tìm kiếm "hiểu nghĩa" | Tìm theo từ; phần "embedding" có sẵn chỉ là bản thay thế đơn giản, **không** phải AI hiểu nghĩa |
 | Tra cứu DOI trực tuyến (Crossref, DataCite) | Chưa bật mạng; cần chủ dự án duyệt (OAG-3) |
 | Đọc PDF scan (OCR) | Chưa hỗ trợ |
 | Chia sẻ bản nháp hoặc bằng chứng ra ngoài | Luôn bị từ chối; cần chính sách chia sẻ (OAG-7) |
@@ -30,7 +31,8 @@ Thư mục `E:\ResearchKB` được dành riêng cho dữ liệu thật và **b�
 
 ## Trạng thái phiên bản
 
-- **1.0.0 là bản phát hành đầu tiên**, đã qua toàn bộ kiểm tra tự động: 654 bài kiểm tra trên Python 3.11 và 3.14, cùng 8 cổng kiểm tra phát hành.
+- **Hãy dùng bản 1.0.1 trở lên.** Bản 1.0.0 bị thiếu một phần chương trình (bằng chứng, S08) nên khi tải mới thì các chức năng bằng chứng, tìm kiếm, tổng hợp và AI trích xuất bị lỗi. Bản 1.0.1 sửa lỗi này và kiểm tra chính gói đã cài.
+- **Chức năng nào chạy được và đã thử thế nào:** xem `docs/CAPABILITY_MATRIX.md`. Chữ "verified" ở đó nghĩa là *tìm thấy con số và câu trích trong bài*, không có nghĩa kết luận khoa học là đúng.
 - Phần tổng hợp (S11) **đang chờ kiến trúc sư độc lập duyệt**. Nếu có sửa đổi, sẽ có bản cập nhật 1.0.x.
 - **Mô hình AI trên máy chỉ *đề xuất* bằng chứng.** Trên máy thử nghiệm, mô hình 7B tìm được khoảng một nửa số bản ghi mong đợi và có sai sót; mọi sai sót đều bị SciVetra chặn ở bước kiểm tra hoặc để lại cho người duyệt.
 - Chi tiết kỹ thuật (tiếng Anh): `docs/CAPABILITY_MATRIX.md` và `docs/SECURITY_REVIEW_S12.md`.

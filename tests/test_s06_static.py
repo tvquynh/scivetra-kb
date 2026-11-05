@@ -46,7 +46,7 @@ class StaticTests(unittest.TestCase):
         for path in sorted(list((ROOT / "src").rglob("*.py")) + list((ROOT / "tests").rglob("*.py")) + list((ROOT / "tools").rglob("*.py"))):
             ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
         from scivetra_kb import __version__
-        self.assertEqual(__version__, "1.0.0")  # S07: docs/S07_TEST_ADAPTATIONS.md #18 (after S06); S08: docs/S08_TEST_ADAPTATIONS.md #18 (after S07, S06); S09: docs/S09_TEST_ADAPTATIONS.md #17 (after S08, S07, S06); S10: docs/S10_TEST_ADAPTATIONS.md #17 (after S09, S08, S07, S06); S11: docs/S11_TEST_ADAPTATIONS.md #17 (after S10, S09, S08, S07, S06)
+        self.assertEqual(__version__, "1.0.1")  # S07: docs/S07_TEST_ADAPTATIONS.md #18 (after S06); S08: docs/S08_TEST_ADAPTATIONS.md #18 (after S07, S06); S09: docs/S09_TEST_ADAPTATIONS.md #17 (after S08, S07, S06); S10: docs/S10_TEST_ADAPTATIONS.md #17 (after S09, S08, S07, S06); S11: docs/S11_TEST_ADAPTATIONS.md #17 (after S10, S09, S08, S07, S06)
         pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         self.assertIn('pdf = ["pypdf==6.12.1"]', pyproject)
         self.assertIn("dependencies = []", pyproject)

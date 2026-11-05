@@ -1,0 +1,61 @@
+# Clean-checkout CI (1.0.1, review P1-08): the offline suite, then the release gates, which build the wheel and sdist and
+# test the INSTALLED package in clean venvs from outside the checkout (G7). The only download is the pinned pypdf wheel,
+# checked against its official SHA-256 before use. Nothing is published.
+name: ci
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ["3.11", "3.14"]
+    defaults:
+      run:
+        shell: bash
+    env:
+      PYTHONIOENCODING: utf-8
+      PYPDF_SHA256: 8fa2a2321cf16247ed848bd7c97f193a60c08670d04abed5b0138327e51c43b0
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Untracked files must not be needed (clean checkout)
+        run: git status --short --ignored && test -f src/scivetra_kb/evidence/service.py
+      - name: Pinned PDF parser (official wheel, SHA-256 checked)
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          mkdir -p "$RUNNER_TEMP/pypdf"
+          python -m pip download "pypdf==6.12.1" --no-deps --only-binary=:all: -d "$RUNNER_TEMP/pypdf"
+          WHL="$RUNNER_TEMP/pypdf/pypdf-6.12.1-py3-none-any.whl"
+          python -c "import hashlib,sys; h=hashlib.sha256(open(sys.argv[1],'rb').read()).hexdigest(); sys.exit(h != sys.argv[2])" "$WHL" "$PYPDF_SHA256"
+          echo "SCIVETRA_PYPDF_WHEEL=$WHL" >> "$GITHUB_ENV"
+          echo "SCIVETRA_PYPDF_SITE=$WHL" >> "$GITHUB_ENV"
+      - name: Offline test suite
+        run: python -I tools/run_offline_tests.py
+      - name: Release gates G1-G8 (build, clean wheel and sdist installs, installed E2E)
+        run: python -I tools/s12_release_readiness.py --work "$RUNNER_TEMP/rr" --out "$RUNNER_TEMP/release_readiness.json" --dist "$RUNNER_TEMP/dist"
+      - name: Keep the evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-${{ matrix.os }}-py${{ matrix.python }}
+          path: |
+            evidence/
+            ${{ runner.temp }}/release_readiness.json
+            ${{ runner.temp }}/dist/
+          if-no-files-found: ignore

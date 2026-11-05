@@ -11,7 +11,8 @@
 
 | Not available | Why / what is needed |
 |---|---|
-| Real AI (ChatGPT, Claude, local models) | Every "AI" step uses a **deterministic simulator**. Real AI needs the project owner's approval (OAG-6). |
+| Online AI (ChatGPT, Claude, Groq, Gemini…) | Not called by SciVetra. Screening (S07) uses a **deterministic simulator**. Only **local models on your own computer** (Ollama / LM Studio) can *propose* evidence ([guide 12](12-free-llm-providers.md)). Online AI needs the owner's approval (OAG-6). |
+| Smart (semantic) search | Search is by words; the built-in "embedding" is a simple hashing stand-in, **not** an AI that understands meaning |
 | Online DOI lookup (Crossref, DataCite) | Network access is not enabled; it needs the owner's approval (OAG-3) |
 | Scanned PDFs (OCR) | Not supported |
 | Sharing drafts or evidence outside | Always refused; it needs a sharing policy (OAG-7) |
@@ -34,7 +35,8 @@ The folder `E:\ResearchKB` is reserved for real project data and is **locked** u
 
 ## Release status
 
-- **1.0.0 is the first release.** It passed 654 automated tests on Python 3.11 and 3.14 (Windows) and 8 release gates.
+- **Use 1.0.1 or newer.** 1.0.0 was published without one part of the program (evidence, S08), so evidence, search, synthesis and AI extraction failed in a fresh download. 1.0.1 fixes this and now tests the installed package itself.
+- **What exactly works and how it was tested:** `docs/CAPABILITY_MATRIX.md`. "Verified" there means *the number and quote were found in the paper*, not that the scientific claim is true.
 - **Synthesis stage:** awaits an independent architect review; findings will come in a 1.0.x update.
 - **Local AI models:** they only *propose* evidence. On a test machine a 7B model found about half of the expected records and made some mistakes, all caught by SciVetra's checks or left for human review.
 - **Platform testing:**

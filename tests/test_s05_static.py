@@ -42,7 +42,7 @@ class StaticTests(unittest.TestCase):
         for path in sorted(list((ROOT / "src").rglob("*.py")) + list((ROOT / "tests").rglob("*.py")) + list((ROOT / "tools").rglob("*.py"))):
             ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
         from scivetra_kb import __version__
-        self.assertEqual(__version__, "1.0.0")  # S06: docs/S06_TEST_ADAPTATIONS.md #15; S07: docs/S07_TEST_ADAPTATIONS.md #15 (after S06); S08: docs/S08_TEST_ADAPTATIONS.md #15 (after S07, S06); S09: docs/S09_TEST_ADAPTATIONS.md #14 (after S08, S07, S06); S10: docs/S10_TEST_ADAPTATIONS.md #14 (after S09, S08, S07, S06); S11: docs/S11_TEST_ADAPTATIONS.md #14 (after S10, S09, S08, S07, S06)
+        self.assertEqual(__version__, "1.0.1")  # S06: docs/S06_TEST_ADAPTATIONS.md #15; S07: docs/S07_TEST_ADAPTATIONS.md #15 (after S06); S08: docs/S08_TEST_ADAPTATIONS.md #15 (after S07, S06); S09: docs/S09_TEST_ADAPTATIONS.md #14 (after S08, S07, S06); S10: docs/S10_TEST_ADAPTATIONS.md #14 (after S09, S08, S07, S06); S11: docs/S11_TEST_ADAPTATIONS.md #14 (after S10, S09, S08, S07, S06)
 
     def test_eligibility_package_boundaries(self):
         """IDs: S05-STATIC-BOUNDARY, S05-NO-AI, S05-NO-DOWNLOADER. The eligibility package imports no network/HTTP client, no AI/LLM SDK, no S04J harvester or journal export code, no bridge exporter/PBD module and no file watcher; it writes files only in handoff.py (exports into a new folder); it imports no Reprovane or PaperBatchDownloader code and never names a Reprovane write API, the migrator or the production root."""

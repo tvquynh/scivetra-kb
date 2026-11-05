@@ -6464,6 +6464,41 @@
    "id": "LLM-L2-SCHEMA-VIOLATION",
    "stage": "LLM-L2",
    "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "REL-GITIGNORE-ROOT-ONLY",
+   "stage": "REL-1.0.1",
+   "contract": "1.0.1 release integrity (independent review 2026-11-05, P0-01..P0-03): shipped source cannot silently lose a package"
+  },
+  {
+   "id": "REL-SOURCE-TRACKED",
+   "stage": "REL-1.0.1",
+   "contract": "1.0.1 release integrity (independent review 2026-11-05, P0-01..P0-03): shipped source cannot silently lose a package"
+  },
+  {
+   "id": "REL-IMPORT-CLOSURE",
+   "stage": "REL-1.0.1",
+   "contract": "1.0.1 release integrity (independent review 2026-11-05, P0-01..P0-03): shipped source cannot silently lose a package"
+  },
+  {
+   "id": "REL-IMPORT-CLOSURE-NEGATIVE",
+   "stage": "REL-1.0.1",
+   "contract": "1.0.1 release integrity (independent review 2026-11-05, P0-01..P0-03): shipped source cannot silently lose a package"
+  },
+  {
+   "id": "REL-COPY-TREE",
+   "stage": "REL-1.0.1",
+   "contract": "1.0.1 release integrity (independent review 2026-11-05, P0-01..P0-03): shipped source cannot silently lose a package"
+  },
+  {
+   "id": "REL-ARCHIVE-MEMBERS",
+   "stage": "REL-1.0.1",
+   "contract": "1.0.1 release integrity (independent review 2026-11-05, P0-01..P0-03): shipped source cannot silently lose a package"
+  },
+  {
+   "id": "REL-ARCHIVE-MEMBERS-NEGATIVE",
+   "stage": "REL-1.0.1",
+   "contract": "1.0.1 release integrity (independent review 2026-11-05, P0-01..P0-03): shipped source cannot silently lose a package"
   }
  ]
 }
