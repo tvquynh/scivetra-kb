@@ -41,6 +41,7 @@ These are restricted to allowlisted modules: `socket`, `http`, `ssl`, `asyncio`,
 |---|---|---|
 | `assets/sandbox.py` | `subprocess.run` | Fixed `[sys.executable, -I, child, …]` argument list; no shell; minimal environment; `timeout`; RLIMIT memory / CPU / processes on POSIX, job object on Windows; output size bounded |
 | `parse/sandbox.py` | `subprocess.run` | Same pattern for the parse child; staged copy of the input; limits from the parse profile |
+| `scivetra_llm_transport` (separate component, ADR_LLM L2) | `urllib.request` | OpenAI-compatible POST to a **loopback** model server only. The host must be a loopback IP literal (`localhost` is rewritten, no DNS). There are no proxies and no redirects, the answer is size-capped, and remote URLs are refused before any connection. |
 | `parse/parse_child.py` | `subprocess`, `socket` | Used only in `--self-test`, to prove the audit hook refuses process creation and sockets after the input is read |
 | `assets/pdf_child.py`, `parse/parse_child.py` | `ctypes` | Windows `SetInformationJobObject` limits only; no other library is loaded |
 

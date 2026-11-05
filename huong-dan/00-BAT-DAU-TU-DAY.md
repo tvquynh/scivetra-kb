@@ -31,7 +31,7 @@ SciVetra KB là một **kho tri thức nghiên cứu chạy trên máy của b�
 | 8 | [Xử lý lỗi thường gặp](08-xu-ly-loi.md) | khi cần |
 | 9 | [Từ điển thuật ngữ](09-tu-dien-thuat-ngu.md) | khi cần |
 | 10 | [Giới hạn và an toàn](10-gioi-han-va-an-toan.md) | nên đọc một lần |
-| 11 | [Dùng LLM miễn phí: lập danh sách và mô phỏng (giai đoạn L1)](12-llm-mien-phi.md) | tùy chọn |
+| 11 | [Dùng LLM miễn phí và mô hình trên máy (giai đoạn L1–L2)](12-llm-mien-phi.md) | tùy chọn |
 
 ## Nhanh nhất (nếu đã có Python)
 

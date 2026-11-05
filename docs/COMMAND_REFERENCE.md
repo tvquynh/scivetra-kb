@@ -206,10 +206,12 @@ document. Workflows and safety rules are in `SCIVETRA_USER_MANUAL.md` and the st
 | `rkb synth share` | `--data-root DATA_ROOT`, `--scope-id SCOPE_ID`, `--destination-class DESTINATION_CLASS`, `--operator OPERATOR` | - |
 | `rkb synth status` | `--data-root DATA_ROOT`, `--scope-id SCOPE_ID` | - |
 
-## LLM provider routing (ADR_LLM, stage L1; offline)
+## LLM provider routing (ADR_LLM; L1 offline, L2 loopback-only local models)
 
 | Command | Required | Optional |
 |---|---|---|
 | `rkb llm check-config` | `--config CONFIG` | - |
+| `rkb llm extract-evidence` | `--data-root DATA_ROOT`, `--scope-id SCOPE_ID`, `--config CONFIG`, `--operator OPERATOR` | `--consensus`, `--log LOG` |
+| `rkb llm ping` | `--config CONFIG` | - |
 | `rkb llm plan` | `--config CONFIG`, `--data-class DATA_CLASS` | - |
 | `rkb llm simulate` | `--config CONFIG` | `--scenario SCENARIO`, `--data-class DATA_CLASS` |

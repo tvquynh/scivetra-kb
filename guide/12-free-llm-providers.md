@@ -1,8 +1,8 @@
-# Free LLM providers — set up and check your list (stage L1)
+# Free LLM providers — local model and provider list (stages L1–L2)
 
 SciVetra is getting LLM support that can **rotate between several free services**: when one runs out of its free quota, the next one is used.
 
-**Status (stage L1):** SciVetra can check your provider list and **simulate** the rotation. It does **not** call any AI service yet. Real calls come in later stages, after you approve them ([design](../docs/ADR_LLM.md)).
+**Status:** SciVetra can check your provider list, simulate the rotation, and (**stage L2**) use a **model running on your own computer** (Ollama or LM Studio) to propose evidence records. Online services are not called yet; that is stage L3, after you approve it ([design](../docs/ADR_LLM.md)).
 
 ## 1. Three things to know first
 
@@ -80,7 +80,46 @@ rkb llm simulate --config C:\SciVetra\llm-providers.toml --scenario consensus
 | `breaker` | After 3 failures, a provider is paused for 5 minutes. |
 | `consensus` | Two different services are asked the same question. **AGREED** when they match; **DISAGREED** keeps both answers for a human to decide. |
 
-## 6. Claude Desktop and Claude Code
+## 6. Run a model on your own computer (stage L2)
+
+A local model is free, works without Internet and keeps your papers on your computer. It is the right choice for copyrighted full text. You need about **16 GB RAM** for a 7–14B model. A graphics card makes it much faster; without one it works, slowly.
+
+**1. Install Ollama** from **https://ollama.com/download**:
+- 🪟 Windows: run the installer;
+- 🍎 macOS: open the downloaded app;
+- 🐧 Linux: follow the install command on that page.
+
+**2. Download a model** (several GB, once). In a terminal:
+
+```
+ollama pull qwen3:8b
+```
+
+Larger models are better but slower, for example `qwen3:14b`. Ollama keeps running in the background after installation.
+
+**3. Point SciVetra at it.** In your `llm-providers.toml`, the `local-ollama` entry must name the model you pulled, for example `model = "qwen3:8b"`.
+
+*Using LM Studio instead?* Start its local server, then use `base_url = "http://127.0.0.1:1234/v1"`, its model name and `json_mode = false`.
+
+**4. Test it:**
+
+```
+rkb llm ping --config C:\SciVetra\llm-providers.toml
+```
+
+On macOS / Linux use `--config ~/SciVetra/llm-providers.toml`. `"status": "OK"` means SciVetra can talk to your local model. If not, the output has a hint.
+
+**5. Let the model propose evidence** for an S08 evidence scope ([everyday use, section E](06-everyday-use.md#e-eligibility-evidence-and-search)):
+
+```
+rkb llm extract-evidence --data-root "$KB" --scope-id <EVIDENCE-SCOPE-ID> --config C:\SciVetra\llm-providers.toml --operator <YOUR-NAME>
+```
+
+- **What happens:** the model's answers become *proposals*. SciVetra checks every quote against the PDF and every number against its quote. Reviewers then verify and accept them exactly as before (`rkb evidence verify`, `rkb evidence review`). A made-up quote or number fails verification.
+- **Higher confidence:** if you have two different local models, add `--consensus`. Only records on which both models agree are proposed.
+- **Rights:** only papers whose rights allow local processing are sent, and only to models on your computer.
+
+## 7. Claude Desktop and Claude Code
 
 You can already connect **Claude Desktop** to your KB in read-only mode through SciVetra's MCP server, with an approval profile you create (`docs/S10_CLAUDE_DESKTOP_GUIDE.md`). **Claude Code** can use the same server, or run `rkb` commands for you.
 

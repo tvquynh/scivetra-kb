@@ -1,5 +1,15 @@
 # Change log — SciVetra KB candidate
 
+## Unreleased — ADR_LLM stage L2: local models (loopback only) and S08 extraction
+
+| File | Change | Proof |
+|---|---|---|
+| `src/scivetra_llm_transport/` (new, separate component; `scivetra_kb` stays network-free) | Loopback-only OpenAI-compatible transport (no DNS, no proxy, no redirect, 2 MiB cap; remote refused) | LLM-L2-LOOPBACK-ONLY, -HTTP-MAPPING, -NO-PROXY-NO-REDIRECT, -REQUEST-SHAPE |
+| `src/scivetra_kb/llm/evidence_extract.py` (new) | S08 extraction through the router (LOCAL_ONLY; S08 import, validation and verification unchanged; optional consensus) | LLM-L2-S08-*, -FABRICATED-QUOTE, -SCHEMA-VIOLATION, -INJECTION-FOLLOWED, -CONSENSUS, -RIGHTS-RECHECK, -NO-ANSWER |
+| `src/scivetra_kb/cli.py` | `rkb llm ping`, `rkb llm extract-evidence` | LLM-L2-PING |
+| `tools/s12_release_readiness.py`, `pyproject.toml` | G5 allowlist entry and wheel inclusion for `scivetra_llm_transport` | S12-SECURITY-SCAN, G7 |
+| `docs/ADR_LLM.md` | LL-D13, LL-D14; migration 0012 not needed | — |
+
 ## Unreleased — ADR_LLM stage L1: free-provider LLM routing (offline)
 
 | File | Change | Proof |

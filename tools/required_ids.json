@@ -1,5 +1,5 @@
 {
- "source": "S01 v03 04 section 10 (MF-*), 11 sections 2/4 (N*), 13 section 3 properties 8/9, S02 execution prompt section 4.1 and acceptance checklist; S02 v02 revision handoff (architect review S02 v01); S02 v03 revision handoff (architect review S02 v02): S02-F04 / S02-F05; S03 execution prompt (SCIVETRA_S02_ACCEPT_S03_HANDOFF_v01) sections 3-4 and 02_S03_ACCEPTANCE_CHECKLIST (entries with stage=S03); S04 execution prompt (SCIVETRA_S03_ACCEPT_S04_HANDOFF_v01) and 02_S04_ACCEPTANCE_CHECKLIST (entries with stage=S04); S04 v02 revision handoff (architect review S04 v01): S04-F01 / S04-F02; S04J handoff (SCIVETRA_S04J_JOURNAL_HARVESTING_HANDOFF_v01): 02_S04J_ACCEPTANCE_CHECKLIST (JH-*) and execution prompt (S04J-*); S04J v02 revision handoff: S04J-F01; S05 handoff (SCIVETRA_S04J_ACCEPT_S05_HANDOFF_v01): execution prompt, acceptance checklist and ADR-05-01..05 (stage=S05); S05 v02 revision handoff (SCIVETRA_S05_V02_REVISION_HANDOFF_v01): S05-F01 / S05-F02 (stage=S05); S06 handoff (SCIVETRA_S05_ACCEPT_S06_HANDOFF_v01): execution prompt, acceptance checklist and decisions (stage=S06); S06 v02 revision handoff (SCIVETRA_S06_V02_REVISION_HANDOFF_v01): S06-F01 / S06-F02 (stage=S06); S07 handoff (SCIVETRA_S06_ACCEPT_S07_HANDOFF_v01): execution prompt, acceptance checklist, architecture and gates (stage=S07); S07 v02 revision handoff (SciVetra_S07_Revision_v02): S07-F01 / S07-F02 (stage=S07); S08 handoff (SciVetra_S08_Handoff, baseline S07 v02 after S06): execution prompt, acceptance checklist and architect decisions (stage=S08); S08 v02 revision handoff (SciVetra_S08_Revision_v02): S08-F01 / S08-F02 (stage=S08); S08 v03 revision handoff (SCIVETRA_S08_V03_REVISION_HANDOFF_v01): S08-F03 (stage=S08); S09 handoff (SciVetra_S09_Handoff_v01): execution prompt, acceptance checklist and architecture gates (stage=S09); S09 v02 revision request (independent architectural review of S09 v01): S09-F01 / S09-F02 / S09-F03 (stage=S09); S10 handoff (SciVetra_S10_Handoff_v01): execution prompt, acceptance checklist and architecture gates (stage=S10); S10 v02 revision handoff (SCIVETRA_S10_V02_REVISION_HANDOFF_v01): S10-F01 (stage=S10); S11 handoff (SciVetra_S11_Handoff_FULL): execution prompt, acceptance checklist, architecture and adversarial plan (stage=S11); S11 v02 revision handoff (S11_V02_AUDIT_HANDOFF): S11-F01..F04 (stage=S11); S11 v03 revision handoff (S11_V03_F05_HANDOFF): S11-F05 (stage=S11); S12 release candidate (ADR_S12; stage=S12); ADR_LLM stage L1 (stage=LLM-L1)",
+ "source": "S01 v03 04 section 10 (MF-*), 11 sections 2/4 (N*), 13 section 3 properties 8/9, S02 execution prompt section 4.1 and acceptance checklist; S02 v02 revision handoff (architect review S02 v01); S02 v03 revision handoff (architect review S02 v02): S02-F04 / S02-F05; S03 execution prompt (SCIVETRA_S02_ACCEPT_S03_HANDOFF_v01) sections 3-4 and 02_S03_ACCEPTANCE_CHECKLIST (entries with stage=S03); S04 execution prompt (SCIVETRA_S03_ACCEPT_S04_HANDOFF_v01) and 02_S04_ACCEPTANCE_CHECKLIST (entries with stage=S04); S04 v02 revision handoff (architect review S04 v01): S04-F01 / S04-F02; S04J handoff (SCIVETRA_S04J_JOURNAL_HARVESTING_HANDOFF_v01): 02_S04J_ACCEPTANCE_CHECKLIST (JH-*) and execution prompt (S04J-*); S04J v02 revision handoff: S04J-F01; S05 handoff (SCIVETRA_S04J_ACCEPT_S05_HANDOFF_v01): execution prompt, acceptance checklist and ADR-05-01..05 (stage=S05); S05 v02 revision handoff (SCIVETRA_S05_V02_REVISION_HANDOFF_v01): S05-F01 / S05-F02 (stage=S05); S06 handoff (SCIVETRA_S05_ACCEPT_S06_HANDOFF_v01): execution prompt, acceptance checklist and decisions (stage=S06); S06 v02 revision handoff (SCIVETRA_S06_V02_REVISION_HANDOFF_v01): S06-F01 / S06-F02 (stage=S06); S07 handoff (SCIVETRA_S06_ACCEPT_S07_HANDOFF_v01): execution prompt, acceptance checklist, architecture and gates (stage=S07); S07 v02 revision handoff (SciVetra_S07_Revision_v02): S07-F01 / S07-F02 (stage=S07); S08 handoff (SciVetra_S08_Handoff, baseline S07 v02 after S06): execution prompt, acceptance checklist and architect decisions (stage=S08); S08 v02 revision handoff (SciVetra_S08_Revision_v02): S08-F01 / S08-F02 (stage=S08); S08 v03 revision handoff (SCIVETRA_S08_V03_REVISION_HANDOFF_v01): S08-F03 (stage=S08); S09 handoff (SciVetra_S09_Handoff_v01): execution prompt, acceptance checklist and architecture gates (stage=S09); S09 v02 revision request (independent architectural review of S09 v01): S09-F01 / S09-F02 / S09-F03 (stage=S09); S10 handoff (SciVetra_S10_Handoff_v01): execution prompt, acceptance checklist and architecture gates (stage=S10); S10 v02 revision handoff (SCIVETRA_S10_V02_REVISION_HANDOFF_v01): S10-F01 (stage=S10); S11 handoff (SciVetra_S11_Handoff_FULL): execution prompt, acceptance checklist, architecture and adversarial plan (stage=S11); S11 v02 revision handoff (S11_V02_AUDIT_HANDOFF): S11-F01..F04 (stage=S11); S11 v03 revision handoff (S11_V03_F05_HANDOFF): S11-F05 (stage=S11); S12 release candidate (ADR_S12; stage=S12); ADR_LLM stage L1 (stage=LLM-L1); ADR_LLM stage L2 (stage=LLM-L2)",
  "required": [
   {
    "id": "A1-A10",
@@ -6389,6 +6389,81 @@
    "id": "LLM-L1-RPM-RPD",
    "stage": "LLM-L1",
    "contract": "ADR_LLM stage L1 (owner request 2026-11-05): rights-aware rotation across free LLM providers; offline, fake transport only"
+  },
+  {
+   "id": "LLM-L2-CONSENSUS",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "LLM-L2-FABRICATED-QUOTE",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "LLM-L2-HTTP-MAPPING",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "LLM-L2-HUMAN-REQUIRED",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "LLM-L2-INJECTION-FOLLOWED",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "LLM-L2-LOOPBACK-ONLY",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "LLM-L2-NO-ANSWER",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "LLM-L2-NO-PROXY-NO-REDIRECT",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "LLM-L2-PING",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "LLM-L2-REQUEST-SHAPE",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "LLM-L2-RIGHTS-RECHECK",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "LLM-L2-S08-IMPORT",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "LLM-L2-S08-PROVENANCE",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "LLM-L2-S08-VERIFY",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
+  },
+  {
+   "id": "LLM-L2-SCHEMA-VIOLATION",
+   "stage": "LLM-L2",
+   "contract": "ADR_LLM stage L2 (owner request 2026-11-05): loopback-only local model transport; S08 extraction through the router; no schema change"
   }
  ]
 }

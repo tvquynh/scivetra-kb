@@ -50,6 +50,8 @@ ALLOWLIST = {
     "scivetra_kb/assets/sandbox.py": {"subprocess": "runs the PDF inspection child with a minimal environment, resource limits and timeout"},
     "scivetra_kb/assets/pdf_child.py": {"ctypes": "Windows job-object limits for the inspection child (no dlopen of other libraries)"},
     "scivetra_kb/parse/sandbox.py": {"subprocess": "runs the parse child with a minimal environment, resource limits and timeout"},
+    "scivetra_llm_transport/__init__.py": {"urllib": "ADR_LLM L2: OpenAI-compatible POST to a LOOPBACK model server only (host must be a loopback "
+                                                "literal; no proxies, no redirects, size-capped); remote https is stage L3"},
     "scivetra_kb/parse/parse_child.py": {"subprocess": "self-test proving the audit hook refuses process creation",
                                          "ctypes": "Windows job-object limits for the parse child",
                                          "socket": "self-test proving the audit hook refuses sockets"},

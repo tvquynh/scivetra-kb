@@ -1,8 +1,8 @@
-# Dùng LLM miễn phí — lập và kiểm tra danh sách nhà cung cấp (giai đoạn L1)
+# Dùng LLM miễn phí — mô hình trên máy và danh sách nhà cung cấp (giai đoạn L1–L2)
 
 SciVetra đang được bổ sung LLM có khả năng **xoay vòng giữa nhiều dịch vụ miễn phí**: dịch vụ này hết hạn mức thì tự chuyển sang dịch vụ khác.
 
-**Trạng thái (giai đoạn L1):** SciVetra đã kiểm tra được danh sách nhà cung cấp của bạn và **mô phỏng** việc xoay vòng, nhưng **chưa gọi** dịch vụ AI nào. Việc gọi thật sẽ có ở các giai đoạn sau, khi bạn duyệt (thiết kế: `docs/ADR_LLM.md`).
+**Trạng thái:** SciVetra đã kiểm tra được danh sách nhà cung cấp, mô phỏng việc xoay vòng, và (**giai đoạn L2**) dùng được **mô hình chạy trên máy bạn** (Ollama hoặc LM Studio) để đề xuất bằng chứng. Dịch vụ trực tuyến thì chưa được gọi; đó là giai đoạn L3, sẽ làm khi bạn duyệt (thiết kế: `docs/ADR_LLM.md`).
 
 ## 1. Ba điều cần biết
 
@@ -83,7 +83,48 @@ rkb llm simulate --config C:\SciVetra\llm-providers.toml --scenario consensus
 | `breaker` | Sau 3 lần lỗi liên tiếp, dịch vụ bị tạm ngưng 5 phút |
 | `consensus` | Hỏi hai dịch vụ khác nhau cùng một câu. Trùng nhau thì **AGREED**; khác nhau thì **DISAGREED** và giữ cả hai câu trả lời để con người quyết định. |
 
-## 6. Claude Desktop và Claude Code
+## 6. Chạy mô hình trên máy bạn (giai đoạn L2)
+
+Mô hình chạy trên máy có ba lợi ích: miễn phí, không cần Internet, và bài báo không rời khỏi máy. Vì vậy đây là lựa chọn đúng cho toàn văn có bản quyền.
+- **RAM:** cần khoảng **16 GB** cho mô hình 7–14B.
+- **Card đồ họa:** có thì nhanh hơn nhiều; không có vẫn chạy được, nhưng chậm.
+
+**1. Cài Ollama:** vào **https://ollama.com/download**, tải bộ cài cho Windows và chạy nó.
+
+**2. Tải một mô hình** (vài GB, chỉ tải một lần). Dán vào PowerShell:
+
+```powershell
+ollama pull qwen3:8b
+```
+
+Mô hình lớn hơn (ví dụ `qwen3:14b`) cho kết quả tốt hơn nhưng chậm hơn. Sau khi cài, Ollama tự chạy nền.
+
+**3. Khai báo trong file cấu hình:** trong `llm-providers.toml`, mục `local-ollama` phải ghi đúng tên mô hình bạn đã tải, ví dụ `model = "qwen3:8b"`.
+
+Nếu dùng LM Studio thay cho Ollama: bật local server của LM Studio, rồi ghi:
+- `base_url = "http://127.0.0.1:1234/v1"`;
+- tên mô hình của LM Studio;
+- `json_mode = false`.
+
+**4. Kiểm tra kết nối:**
+
+```powershell
+rkb llm ping --config C:\SciVetra\llm-providers.toml
+```
+
+Thấy `"status": "OK"` là SciVetra đã nói chuyện được với mô hình trên máy. Nếu không, kết quả có kèm gợi ý cách sửa.
+
+**5. Cho mô hình đề xuất bằng chứng** cho một phạm vi bằng chứng S08:
+
+```powershell
+rkb llm extract-evidence --data-root C:\SciVetra\data\<TEN-KHO> --scope-id <MA-PHAM-VI-BANG-CHUNG> --config C:\SciVetra\llm-providers.toml --operator <TEN-BAN>
+```
+
+- **Câu trả lời của mô hình chỉ là đề xuất.** SciVetra đối chiếu từng câu trích với PDF và từng con số với câu trích. Sau đó người duyệt kiểm tra và chấp nhận như trước (`rkb evidence verify`, `rkb evidence review`). Câu trích hay số liệu bịa ra sẽ không qua được bước kiểm tra.
+- **Muốn chắc hơn:** nếu có hai mô hình khác nhau trên máy, thêm `--consensus`. Khi đó chỉ bản ghi được cả hai mô hình trả lời giống nhau mới thành đề xuất.
+- **Quyền sử dụng:** chỉ những bài được phép xử lý cục bộ mới được gửi, và chỉ gửi tới mô hình trên máy bạn.
+
+## 7. Claude Desktop và Claude Code
 
 - **Claude Desktop** đã kết nối được với kho của bạn ở chế độ chỉ đọc, qua máy chủ MCP của SciVetra, với hồ sơ quyền do bạn duyệt (xem `docs/S10_CLAUDE_DESKTOP_GUIDE.md`, tiếng Anh).
 - **Claude Code** dùng được cùng máy chủ đó, hoặc chạy các lệnh `rkb` cho bạn.

@@ -1,6 +1,10 @@
-# ADR LLM: free-provider LLM integration (stage L1 implemented; L2–L5 planned)
+# ADR LLM: free-provider LLM integration (stages L1 and L2 implemented; L3–L5 planned)
 
-**Status:** L1 implemented and offline-tested. It is not part of the 1.0.0rc1 release artifacts.
+**Status:**
+- L1 is implemented and offline-tested.
+- L2 is implemented and tested against a scripted OpenAI-compatible server on 127.0.0.1. A run with a real local model (Ollama / LM Studio) is **NOT_RUN** on the developer machine: no model server is installed there.
+
+Neither stage is part of the 1.0.0rc1 release artifacts.
 
 **Owner request (2026-11-05).** Use free LLM services, switching between several of them (registering several APIs is acceptable). Claude Desktop and Claude Code are also available on the owner's machine.
 
@@ -97,19 +101,72 @@ The log is one JSON line per attempt: time, task, provider, model, data class, o
 
 Using a consumer subscription as an automated batch backend is **not** part of this design. Automated calls go through API keys under API terms; check current terms before doing otherwise.
 
+## LL-D13 Stage L2: the loopback-only transport
+
+The transport is a **separate, optional component**, `src/scivetra_llm_transport/`, shipped in the same wheel. The `scivetra_kb` package itself keeps the S02 invariant of no HTTP client code (STATIC-01, `tests/test_static.py`), and only `rkb llm ping` and `rkb llm extract-evidence` import the transport. Release gate G5 allowlists it as the only network code.
+
+It sends an OpenAI-compatible `POST {base_url}/chat/completions` with:
+- `temperature` 0 and `seed` 0;
+- `max_tokens`;
+- `response_format: json_object` when `json_mode` is set. Set `json_mode = false` for servers that reject it, such as some LM Studio versions.
+
+**Hosts.** It contacts only a loopback IP literal. `localhost` is rewritten to `127.0.0.1`, so no DNS lookup happens. Https, private-network, public and credentialed URLs are refused before any connection (`REMOTE_NOT_ENABLED_STAGE_L2`).
+
+**Safeguards.** Proxy variables are ignored, redirects are refused, and answers are capped at 2 MiB.
+
+**Result mapping:**
+
+| HTTP result | Outcome |
+|---|---|
+| 429 | `RATE_LIMITED`, with Retry-After |
+| 401 / 403 | `AUTH_ERROR` |
+| 5xx | `SERVER_ERROR` |
+| Other 4xx, a non-chat-completion body or an oversized body | `INVALID_RESPONSE` |
+| Timeout | `TIMEOUT` |
+| Connection failure | `NETWORK_ERROR` |
+
+**Ping.** `rkb llm ping --config F` asks every enabled LOCAL provider for `{"ok": true}`. Remote providers are listed as not tried.
+
+## LL-D14 Stage L2: S08 extraction through the router
+
+`rkb llm extract-evidence --data-root R --scope-id S --config F --operator O [--consensus] [--log FILE]` takes every member's latest S08 input pack.
+
+**Before any model call**, the pack must still be current (S08 `_pack_current`: identity, eligibility, rights A2 / A6, artifact).
+
+**Prompt.** It is S08's own template plus the UNTRUSTED pack (`EvidenceService.render`), unchanged.
+
+**Data class.** S08 scopes allow `LOCAL_PROCESS` models only (CHECK in migration 0008), so the data class is always `LOCAL_ONLY`.
+
+**Import.** The answer goes through `EvidenceService.import_extraction`. Strict schema validation records the run as `OPERATOR_IMPORT` / `OPERATOR_DECLARED_UNVERIFIED`, with the router's provider and model as the declared model and the model version `scivetra-llm-router/L2`. Drafts are `NON_AUTHORITATIVE` and `HUMAN_REQUIRED`. Structural verification and human review are unchanged.
+
+**Consensus.** With `--consensus`, two local models of different families must return the same records (class, status, fields and anchor positions). DISAGREED or INSUFFICIENT imports nothing.
+
+**Tested misbehaviour:**
+
+| Model behaviour | Result |
+|---|---|
+| Fabricated quotes | Fail verification |
+| Schema violations | `SCHEMA_INVALID` run with no drafts |
+| An injected value | `UNSUPPORTED` at verification |
+| Changed rights | `SCOPE_DENIED` before any call |
+| Model server down | `NO_MODEL_ANSWER` |
+
+**Decision change from L1.** Migration 0012 is **not** needed. The provenance of each model answer is already recorded in the KB by S08 (`ev_extraction_run`: origin, declared model, raw response SHA-256, template SHA-256, pack SHA-256). The router's attempt log stays a JSON-lines file outside the KB (`--log`). Schema 11 is unchanged, so no accepted test or migration is touched.
+
 ## LL-D11 Roadmap
 
 | Stage | Content | Network | Approval |
 |---|---|---|---|
 | L1 (done) | Config, router, simulator, CLI; offline tests | none | — |
-| L2 | Local transport (Ollama / LM Studio, loopback only); migration 0012 for the call log; S08 extraction adapter on synthetic data; prompt-injection suite with a real model | loopback only | model choice |
+| L2 (done; real-model run NOT_RUN) | Loopback transport, `rkb llm ping`, S08 extraction with optional consensus; tested against a scripted local server; migration not needed (LL-D14) | loopback only | Model choice; a real run once Ollama or LM Studio is installed |
 | L3 | HTTPS transport for remote providers (stdlib, allowlisted in G5), with keys from environment variables; synthetic or CC-BY material only; per-provider evaluation | yes | OAG-6, A8, provider terms checked |
 | L4 | S09 local embeddings; consensus extraction on owner-approved real papers (Linux sandbox) | as L3 | OAG-1/2/6 |
 | L5 | S07 screening and S11 wording proposals | as L3 | after L2–L4 meet the owner's quality thresholds |
 
-## LL-D12 Not done in L1
+## LL-D12 Not done (after L2)
 
-- No real call to any provider (local or remote).
+- No call to a remote provider.
+- No real local model run on the developer machine.
 - No KB schema change.
-- No wiring into S07, S08, S09 or S11.
+- No wiring into S07, S09 or S11.
 - No evaluation of real model quality.

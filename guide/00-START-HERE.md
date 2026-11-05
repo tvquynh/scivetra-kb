@@ -40,7 +40,7 @@ Read [How SciVetra works](11-how-scivetra-works.md) for the full picture and tip
 | 9 | [Troubleshooting](08-troubleshooting.md) | when needed |
 | 10 | [Glossary](09-glossary.md) | when needed |
 | 11 | [Limits and safety](10-limits-and-safety.md) | read once |
-| 12 | [Free LLM providers: set up and simulate (stage L1)](12-free-llm-providers.md) | optional |
+| 12 | [Free LLM providers and a model on your computer (stages L1–L2)](12-free-llm-providers.md) | optional |
 
 ## The fastest path (if Python is already installed)
 

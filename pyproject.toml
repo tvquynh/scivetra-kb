@@ -26,7 +26,7 @@ include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["scivetra_kb*"]
+include = ["scivetra_kb*", "scivetra_llm_transport*"]
 
 [tool.setuptools.package-data]
 "scivetra_kb.core" = ["migrations/*.sql"]

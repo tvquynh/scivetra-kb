@@ -234,7 +234,8 @@ Decisions and field-level deviations are in `docs/ADR_S03.md` (ADR-S03-01…09, 
 
 - **R-LLM-01.** Free tiers change models, limits and data terms often; `data_policy` is the owner's reading and must be re-checked.
 - **R-LLM-02.** No real provider has been called (L1 is offline); model quality is unmeasured until L2/L3 evaluation.
-- **R-LLM-03.** The call log is a file outside the KB in L1; a KB table needs migration 0012 (L2).
+- **R-LLM-03.** The router's attempt log is a file outside the KB; per-answer provenance is in S08's `ev_extraction_run` (ADR_LLM LL-D14), so no migration 0012 is planned.
+- **R-LLM-05.** No real local model has been run (no Ollama / LM Studio on the developer machine); real-model extraction quality and prompt-injection behaviour are unmeasured.
 - **R-LLM-04.** Several accounts at one provider are not supported by design (terms of service).
 
 ## S12 (1.0.0rc1): Release candidate — open decisions

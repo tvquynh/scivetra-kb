@@ -144,7 +144,7 @@ class Routing(unittest.TestCase):
         self.assertEqual(r.consensus("t", MSG, "EXTERNAL_ANY", validate=json_object)["status"], "INSUFFICIENT_PROVIDERS")
 
     def test_call_log_has_no_content_or_key(self):
-        """IDs: LLM-L1-LOG-NO-CONTENT, LLM-L1-NO-NETWORK. The JSON-lines call log records provider, model, data class, outcome and SHA-256 of prompt and answer - never the prompt, the answer or the key; the llm package imports no network module (stage L1)."""
+        """IDs: LLM-L1-LOG-NO-CONTENT, LLM-L1-NO-NETWORK. The JSON-lines call log records provider, model, data class, outcome and SHA-256 of prompt and answer - never the prompt, the answer or the key; no module of the llm package imports a network module (the loopback transport is the separate scivetra_llm_transport component)."""
         with tempfile.TemporaryDirectory() as tmp:
             log = Path(tmp) / "calls.jsonl"
             r = self.router({"local": [ok("secret-answer-93.1")]}, log_path=str(log))

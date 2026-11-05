@@ -908,9 +908,16 @@ def _llm_parsers(sub) -> None:
     sp.add_argument("--config", required=True)
     sp.add_argument("--scenario", choices=("rotation", "breaker", "consensus"), default="rotation")
     sp.add_argument("--data-class", choices=("LOCAL_ONLY", "EXTERNAL_NO_TRAINING", "EXTERNAL_ANY"), default="EXTERNAL_ANY")
+    sp = ll.add_parser("ping")
+    sp.add_argument("--config", required=True)
+    sp = ll.add_parser("extract-evidence")
+    for flag in ("--data-root", "--scope-id", "--config", "--operator"):
+        sp.add_argument(flag, required=True)
+    sp.add_argument("--consensus", action="store_true")
+    sp.add_argument("--log")
 
 
-def _run_llm(args):
+def _run_llm(args, kw):
     import os
     from .llm import simulate as sim
     from .llm.config import load_config
@@ -920,7 +927,29 @@ def _run_llm(args):
         return 0, sim.check(config, os.environ)
     if args.action == "plan":
         return 0, {"data_class": args.data_class, "plan": Router(config, FakeTransport({})).plan(args.data_class)}
-    return 0, sim.simulate(config, args.scenario, args.data_class)
+    if args.action == "simulate":
+        return 0, sim.simulate(config, args.scenario, args.data_class)
+    from .llm.router import json_object
+    from scivetra_llm_transport import LoopbackTransport
+    if args.action == "ping":
+        rows = []
+        for p in config["providers"]:
+            if p["data_policy"] != "LOCAL" or not p["enabled"]:
+                rows.append({"provider": p["name"], "status": "NOT_TRIED_REMOTE_PROVIDERS_ARE_STAGE_L3" if p["data_policy"] != "LOCAL" else "DISABLED"})
+                continue
+            one = Router({"providers": [p]}, LoopbackTransport(max_tokens=64))
+            out = one.complete("llm.ping", [{"role": "user", "content": 'Reply with exactly this JSON object and nothing else: {"ok": true}'}],
+                               "LOCAL_ONLY", validate=json_object)
+            row = {"provider": p["name"], "model": p["model"], "status": out["status"], "attempts": out["attempts"]}
+            if out["status"] != "OK":
+                row["hint"] = ("Is the local model server running and is the model downloaded? Ollama: 'ollama serve' and 'ollama pull "
+                               + p["model"] + "'; LM Studio: start its local server.")
+            rows.append(row)
+        return 0, {"providers": rows, "network": "LOOPBACK_ONLY"}
+    from .llm.evidence_extract import extract_scope
+    router = Router(config, LoopbackTransport(), log_path=args.log)
+    with open_writer(args.data_root, **kw) as kb:
+        return 0, extract_scope(kb, scope_id=args.scope_id, operator=args.operator, router=router, consensus=args.consensus)
 
 
 def _run_ai(args, kw):
@@ -1123,7 +1152,7 @@ def run(argv=None, *, clock=None, ids=None, sleeper=None, jitter=None) -> tuple[
     if args.command == "synth":
         return _run_synth(args, kw)
     if args.command == "llm":
-        return _run_llm(args)
+        return _run_llm(args, kw)
     if args.command in ("backup", "verify-backup", "restore", "upgrade", "reconcile", "library", "asset", "rights"):
         return _run_s03(args, kw)
     if args.command == "metadata":
