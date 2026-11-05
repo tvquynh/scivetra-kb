@@ -7,6 +7,7 @@ First CI run of 1.0.1: Windows 3.11 / 3.14 and Ubuntu 3.11 passed; Ubuntu 3.14 f
 | File | Change | Proof |
 |---|---|---|
 | `src/scivetra_kb/metadata/strict_json.py` | Raw nesting deeper than 512 is refused (`NESTING_TOO_DEEP`, no path) **before** `json.loads`: Python 3.14 on Linux / macOS decodes 50 000 levels without `RecursionError`, so the reason / path depended on the Python build. Still refused in every case; now deterministic | REL-JSON-DEPTH-PORTABLE, S02-UNSAFE-DEPTH |
+| `docs/*`, guides 10, `ci.yml` | macOS PDF intake / parsing declared NOT_SUPPORTED (fails closed, R-101-07); macOS CI job non-blocking until fixed | CI |
 | `.github/workflows/ci.yml` | macOS: `TMPDIR` set to a resolved folder; `$TMPDIR` under `/var` → `/private/var` is a symlink and SciVetra refuses data roots below symlinks (`REPARSE_POINT`, by design) | CI |
 
 ## 1.0.1 — packaging fix: the S08 evidence package was missing (2026-11-05)

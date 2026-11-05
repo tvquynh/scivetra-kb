@@ -26,7 +26,7 @@ The PDF reader runs in an isolated sandbox. How strong that isolation is depends
 | System | Isolation | Recommendation |
 |---|---|---|
 | 🐧 Linux | Strongest: OS resource limits (memory, CPU, no new processes, no file writes). Also a private network namespace where the kernel allows unprivileged namespaces. | **Preferred** for PDFs from unknown or untrusted sources. Do not run SciVetra as `root`. |
-| 🍎 macOS | OS resource limits plus a language-level network guard; no OS network barrier | Trusted sources only (confirm with `--accept-language-level-network-guard`) |
+| 🍎 macOS | **Not supported yet:** the PDF sandbox cannot start on macOS, so every PDF is refused (safe, but PDFs cannot be read) | Use Windows or Linux. Other features were not separately verified on macOS |
 | 🪟 Windows | Job-object limits plus a language-level network guard; **not** equivalent to Linux | **Only PDFs from sources you trust** (publishers, official repositories). `rkb parse run` asks you to confirm this with `--accept-language-level-network-guard`. |
 
 ## Real project data

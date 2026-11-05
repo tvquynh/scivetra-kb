@@ -40,6 +40,6 @@ None of these states means **production-ready**, **scientifically validated on r
 | LLM L1 | Provider config, rights-aware rotation, limits, breaker, consensus, simulator | `rkb llm check-config / plan / simulate` | IMPLEMENTED_SYNTHETIC_TESTED (fake transport) | `tests.test_llm_router` | Says nothing about model quality |
 | LLM L2 | Loopback-only transport, `rkb llm ping`, S08 extraction (optional consensus) | `rkb llm ping / extract-evidence` | IMPLEMENTED_AND_CLEAN_INSTALL_TESTED (scripted server); IMPLEMENTED_REAL_LOCAL_MODEL_SYNTHETIC_DATA (Ollama qwen2.5:7b-instruct) | `tests.test_llm_local` in G7; `tools/llm_local_model_check.py` | 3 synthetic papers only; REAL_CORPUS_NOT_EVALUATED (OAG-1/2) |
 | LLM L3 | Remote (online) providers | — | NOT_IMPLEMENTED | — | BLOCKED_OWNER_APPROVAL (OAG-6, A8, provider terms) |
-| — | Linux / macOS runs by the developer | — | NOT_RUN locally; GitHub Actions CI workflow added in 1.0.1 (`.github/workflows/ci.yml`), result recorded only once it has run | — | — |
+| — | Operating systems | `.github/workflows/ci.yml` | Windows and Ubuntu, Python 3.11 / 3.14: IMPLEMENTED_SYNTHETIC_TESTED in CI. macOS: NOT_SUPPORTED for PDF intake / parsing (fails closed, R-101-07); other stages not separately verified on macOS | GitHub Actions | Real macOS machines not tested by the developer |
 | — | Encryption at rest | — | NOT_IMPLEMENTED | — | Use full-disk encryption (R-S12-01) |
 | — | Verified identities | — | NOT_IMPLEMENTED (self-declared labels) | — | R-S12-02 |

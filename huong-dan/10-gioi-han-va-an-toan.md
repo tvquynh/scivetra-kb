@@ -25,6 +25,8 @@ Bộ đọc PDF chạy trong hộp cách ly, nhưng trên Windows hộp này **c
 - **chỉ đọc PDF từ nguồn bạn tin tưởng**, như nhà xuất bản hay kho lưu trữ chính thức;
 - PDF lạ hoặc có thể độc hại nên được xử lý trên Linux.
 
+**macOS:** hiện **chưa hỗ trợ đọc PDF** — hộp cách ly không khởi động được trên macOS nên mọi PDF đều bị từ chối (an toàn nhưng không đọc được). Hãy dùng Windows hoặc Linux; các chức năng khác cũng chưa được kiểm chứng riêng trên macOS.
+
 ## Dữ liệu thật của dự án
 
 Thư mục `E:\ResearchKB` được dành riêng cho dữ liệu thật và **bị khóa** cho đến khi chủ dự án chọn nơi lưu và nơi sao lưu (OAG-1, OAG-2). Trong lúc chờ, hãy làm việc trong `C:\SciVetra\data`.

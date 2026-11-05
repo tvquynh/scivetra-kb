@@ -126,13 +126,10 @@ def decode(body: bytes):
     """Decode an untrusted provider body or raise ``UnsafeJson``."""
     try:
         text = body.decode("utf-8")
-    except UnicodeDecodeError:
-        raise UnsafeJson(UNPARSEABLE_RESPONSE) from None
-    if _too_deep_for_decoder(text):
-        raise UnsafeJson(NESTING_TOO_DEEP) from None
-    try:
+        if _too_deep_for_decoder(text):
+            raise UnsafeJson(NESTING_TOO_DEEP)
         value = json.loads(text, parse_constant=_constant, parse_float=_float, parse_int=_int)
-    except ValueError:
+    except (UnicodeDecodeError, ValueError):
         raise UnsafeJson(UNPARSEABLE_RESPONSE) from None
     except RecursionError:          # the C decoder's own nesting limit, reached before MAX_DEPTH can be checked
         raise UnsafeJson(NESTING_TOO_DEEP) from None
