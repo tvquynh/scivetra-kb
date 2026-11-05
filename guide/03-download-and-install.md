@@ -13,7 +13,7 @@ Pick **one** of the two ways.
 | | Command |
 |---|---|
 | 🪟 Windows | `git clone https://github.com/tvquynh/scivetra-kb.git C:\SciVetra\scivetra-kb` |
-| 🍎🐧 macOS / Linux | `git clone https://github.com/tvquynh/scivetra-kb.git ~/SciVetra/scivetra-kb` |
+| 🐧 Linux | `git clone https://github.com/tvquynh/scivetra-kb.git ~/SciVetra/scivetra-kb` |
 
 ## 3.2 Put it in the right place
 
@@ -22,7 +22,7 @@ The source code must be in a folder **without accents or spaces** in its path.
 | | Folder |
 |---|---|
 | 🪟 Windows | `C:\SciVetra\scivetra-kb` |
-| 🍎🐧 macOS / Linux | `~/SciVetra/scivetra-kb`, i.e. a folder `SciVetra` in your home folder |
+| 🐧 Linux | `~/SciVetra/scivetra-kb`, i.e. a folder `SciVetra` in your home folder |
 
 **🪟 Windows, by mouse:**
 1. Create the folder `C:\SciVetra`.
@@ -39,7 +39,7 @@ Rename-Item C:\SciVetra\scivetra-kb-main scivetra-kb
 dir C:\SciVetra\scivetra-kb
 ```
 
-**🍎🐧 macOS / Linux, by command:** paste into Terminal. This assumes the ZIP is in *Downloads*.
+**🐧 Linux, by command:** paste into Terminal. This assumes the ZIP is in *Downloads*.
 
 ```bash
 mkdir -p ~/SciVetra
@@ -54,7 +54,7 @@ ls ~/SciVetra/scivetra-kb
 | | Do this |
 |---|---|
 | 🪟 Windows | Double-click **`C:\SciVetra\scivetra-kb\1-INSTALL.cmd`** |
-| 🍎🐧 macOS / Linux | In Terminal, run `cd ~/SciVetra/scivetra-kb && bash 1-install.sh` |
+| 🐧 Linux | In Terminal, run `cd ~/SciVetra/scivetra-kb && bash 1-install.sh` |
 
 The installer runs six steps:
 
@@ -74,7 +74,7 @@ It worked when the last line says **`=== INSTALLATION COMPLETE ===`**.
 
 **Options:**
 
-| Option | 🪟 Windows | 🍎🐧 macOS / Linux |
+| Option | 🪟 Windows | 🐧 Linux |
 |---|---|---|
 | Another working folder | `1-INSTALL.cmd -Root D:\Research\SciVetra` | `bash 1-install.sh --root=/path/to/folder` |
 | Skip the PDF parser | `1-INSTALL.cmd -SkipPdf` | `bash 1-install.sh --skip-pdf` |
@@ -110,7 +110,7 @@ C:\SciVetra\env\Scripts\rkb.cmd parse runtime-check
 
 </details>
 
-<details><summary>🍎🐧 macOS / Linux (Terminal)</summary>
+<details><summary>🐧 Linux (Terminal)</summary>
 
 ```bash
 python3 -m venv ~/SciVetra/env
@@ -125,7 +125,7 @@ PDF parser (needs Internet):
 ```bash
 mkdir -p ~/SciVetra/packages
 ~/SciVetra/env/bin/python -m pip download "pypdf==6.12.1" --no-deps --only-binary=:all: -d ~/SciVetra/packages
-shasum -a 256 ~/SciVetra/packages/pypdf-6.12.1-py3-none-any.whl      # Linux: sha256sum ...
+sha256sum ~/SciVetra/packages/pypdf-6.12.1-py3-none-any.whl
 ```
 
 The fingerprint must be `8fa2a2321cf16247ed848bd7c97f193a60c08670d04abed5b0138327e51c43b0`. **If it is different, delete the file and do not install it.** If it matches:

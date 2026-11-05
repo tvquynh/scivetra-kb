@@ -241,7 +241,7 @@ Decisions and field-level deviations are in `docs/ADR_S03.md` (ADR-S03-01…09, 
 ## 1.0.1 — review follow-ups (2026-11-05)
 
 - **R-101-01.** 1.0.0 on GitHub is broken (S08 package missing). Its release text must point users to 1.0.1; the tag is not rewritten.
-- **R-101-02.** CI (`.github/workflows/ci.yml`) has not run yet; Linux / macOS remain NOT_RUN until it does.
+- **R-101-02.** CI runs on Windows and Ubuntu (Python 3.11 / 3.14) and passes since 1.0.2; macOS is not supported (R-101-07) and the user guide no longer covers it.
 - **R-101-03.** AI evaluation is 3 synthetic papers; a versioned benchmark with independent gold labels is not built (P1-04). REAL_CORPUS_NOT_EVALUATED.
 - **R-101-04.** `--consensus` requires whole-answer agreement; record-level agreement with escalation to a human is a proposal, not implemented (P1-04).
 - **R-101-06.** macOS: a data root below a symlink (e.g. `/tmp`, `/var/...`) is refused with `REPARSE_POINT` by design; use a folder in your home directory (`~/SciVetra`).

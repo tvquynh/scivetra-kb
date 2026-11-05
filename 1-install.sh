@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SciVetra KB - automatic installation (macOS and Linux). Run:  bash 1-install.sh
+# SciVetra KB - automatic installation (Linux). Run:  bash 1-install.sh
 # What it does:
 #   1. Finds Python 3.11 or newer.
 #   2. Creates the working folders (default ~/SciVetra): data, backups, output, packages.

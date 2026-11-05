@@ -5,7 +5,7 @@ You can see SciVetra work end to end **without any real data**.
 | | Start the demo |
 |---|---|
 | 🪟 Windows | Double-click **`2-TRY-DEMO.cmd`** |
-| 🍎🐧 macOS / Linux | `cd ~/SciVetra/scivetra-kb && bash 2-try-demo.sh` |
+| 🐧 Linux | `cd ~/SciVetra/scivetra-kb && bash 2-try-demo.sh` |
 
 ## Part A (about 1 minute): a practice knowledge base
 
@@ -41,7 +41,6 @@ OK    Agreement with the answer key: 100%; wrongly supported claims: 0; citation
 
 **The draft (`draft.md`) opens automatically:**
 - 🪟 in Notepad;
-- 🍎 in TextEdit;
 - 🐧 in your default editor, when one is configured.
 
 In the draft, each line is one claim:
@@ -53,7 +52,7 @@ The results are in `output/demo-draft-<date-time>/`:
 
 | File | Content |
 |---|---|
-| `s11_evaluation_cases.csv` | One row per claim; opens in Excel, Numbers or LibreOffice |
+| `s11_evaluation_cases.csv` | One row per claim; opens in Excel or LibreOffice |
 | `s11_evaluation_summary.json` | The totals |
 | `run1/audited_example_draft/…/draft.md` | The draft |
 | `evidence_matrix.csv` (next to the draft) | Claims linked to evidence: page and character positions |
@@ -65,4 +64,4 @@ The results are in `output/demo-draft-<date-time>/`:
 | | Command |
 |---|---|
 | 🪟 | `C:\SciVetra\scivetra-kb\2-TRY-DEMO.cmd -PartAOnly` |
-| 🍎🐧 | `bash ~/SciVetra/scivetra-kb/2-try-demo.sh --part-a-only` |
+| 🐧 | `bash ~/SciVetra/scivetra-kb/2-try-demo.sh --part-a-only` |

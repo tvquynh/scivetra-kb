@@ -4,14 +4,12 @@
 
 **Symptoms:**
 - 🪟 *"The term 'py' is not recognized"*, or typing `python` opens the Microsoft Store.
-- 🍎🐧 *"command not found: python3"*, or the version is older than 3.11.
+- 🐧 *"command not found: python3"*, or the version is older than 3.11.
 
 **🪟 Windows:**
 1. Reinstall Python ([step 1](01-install-python.md)) and tick **Add python.exe to PATH**.
 2. Close every PowerShell window and open a new one; restart the computer if needed.
 3. Turn off the Store aliases: **Settings → Apps → Advanced app settings → App execution aliases**, then switch off **python.exe** and **python3.exe**.
-
-**🍎 macOS:** install Python from python.org ([step 1](01-install-python.md#-macos)), then open a **new** Terminal.
 
 **🐧 Linux:** install `python3` with your package manager ([step 1](01-install-python.md#-linux)). If your distribution only has 3.10 or older, install `python3.11` (or newer) as described there.
 
@@ -29,20 +27,19 @@ or `python3.11-venv`, matching your version. Then run `bash 1-install.sh` again.
 
 You ran a `.ps1` file yourself. Either use the `.cmd` files, or apply [the PowerShell setting](02-terminal-and-security.md#do-i-need-to-turn-off-powershell-security).
 
-## 4. 🪟 "Windows protected your PC" / 🍎 "unidentified developer"
+## 4. 🪟 "Windows protected your PC"
 
 See [the terminal and security prompts](02-terminal-and-security.md).
 
 ## 5. The installer says the path has accented or special characters
 
-The source code is in a folder whose path contains accents or other non-ASCII characters (for example inside *Documents* with a localized name). Move it to `C:\SciVetra\scivetra-kb` (🪟) or `~/SciVetra/scivetra-kb` (🍎🐧).
+The source code is in a folder whose path contains accents or other non-ASCII characters (for example inside *Documents* with a localized name). Move it to `C:\SciVetra\scivetra-kb` (🪟) or `~/SciVetra/scivetra-kb` (🐧).
 
 ## 6. "Could not download pypdf"
 
 There is no Internet, or your network blocks PyPI (`pypi.org`, `files.pythonhosted.org`). Everything except PDF reading works; run the installer again when online.
 
 - **"wrong SHA-256":** the download was not the genuine file and was deleted. Try again, or use another network.
-- **🍎 Certificate errors:** run *Install Certificates.command* in *Applications → Python 3.x*.
 
 ## 7. `rkb` error codes
 

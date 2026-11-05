@@ -25,26 +25,6 @@ Then click **Install Now** and wait for *Setup was successful*.
 
 **4. Check.** **Close** all PowerShell windows, open a new one, and run `py --version` again.
 
-## 🍎 macOS
-
-**1. Check.** Open **Terminal** (press ⌘+Space, type `terminal`, press Enter) and run:
-
-```bash
-python3 --version
-```
-
-If it shows 3.11 or higher, you are done. Many Macs ship an older 3.9; that is too old.
-
-**2. Download.** Go to **https://www.python.org/downloads/macos/** and download the **latest macOS 64-bit universal2 installer** (`.pkg`).
-
-**3. Install.** Open the `.pkg` and click **Continue** through the steps.
-
-When the installation finishes, a Finder window opens. Double-click **Install Certificates.command** in it.
-
-**4. Check.** Close Terminal, open it again, and run `python3 --version`.
-
-*Already use Homebrew?* Then `brew install python@3.13` works too.
-
 ## 🐧 Linux
 
 Most current distributions already have a suitable Python. Check:

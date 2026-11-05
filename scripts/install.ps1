@@ -21,7 +21,7 @@ function Ok($text) { Write-Host "   OK    $text" -ForegroundColor Green }
 function Note($text) { Write-Host "   NOTE  $text" -ForegroundColor Yellow }
 function Fail($text) {
     Write-Host ""; Write-Host "   ERROR $text" -ForegroundColor Red
-    Write-Host "   See guide\08-troubleshooting.md (English) or huong-dan\08-xu-ly-loi.md (Tieng Viet)." -ForegroundColor Red
+    Write-Host "   See guide\08-troubleshooting.md." -ForegroundColor Red
     exit 1
 }
 

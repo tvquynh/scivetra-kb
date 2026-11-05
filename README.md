@@ -1,102 +1,87 @@
 # SciVetra KB
 
-**Kho tri thức nghiên cứu chạy ngay trên máy tính của bạn**, dành cho người làm tổng quan tài liệu khoa học. Dữ liệu không rời khỏi máy, quyền sử dụng tài liệu được tôn trọng, và **con người luôn là người quyết định**.
+**A research knowledge base that runs on your own computer**, for people who do systematic reviews and other literature reviews. Your data stays on your machine, document usage rights are respected, and **people always make the decisions**.
 
-> 🇬🇧 **English user guide (Windows, macOS, Linux): [guide/00-START-HERE.md](guide/00-START-HERE.md)** — English summary at the bottom of this page.
+## What SciVetra helps you do
 
-## SciVetra giúp bạn làm gì?
+- **Manage a library of papers:** DOIs, versions, retractions and corrections. Two papers are never merged by mistake.
+- **Take in PDF files** downloaded with PaperBatchDownloader, checking each file before it is stored.
+- **Record usage rights** for each document (may it be stored, quoted, shared…). The default is *no*.
+- **Read PDFs in an isolated sandbox** and keep the text with page numbers and positions.
+- **Record scientific evidence** (numbers, results, limitations) for a reviewer to check and accept.
+- **Search** the papers you have rights to.
+- **Draft a synthesis:** every statement is cited, or clearly marked `[UNVERIFIED]`.
+- **Optional local AI:** a model on your own computer (Ollama / LM Studio) can *propose* evidence. A person still reviews every proposal.
 
-- **Quản lý thư viện bài báo:** DOI, phiên bản, bài bị rút hay đính chính; không bao giờ tự gộp nhầm hai bài.
-- **Nhận file PDF** tải bằng PaperBatchDownloader, kiểm tra từng file trước khi lưu.
-- **Ghi quyền sử dụng** của từng tài liệu (được lưu, được trích, được chia sẻ…). Mặc định là *không*.
-- **Đọc PDF trong hộp cách ly**, lưu nội dung kèm số trang và vị trí.
-- **Ghi lại bằng chứng khoa học** (số liệu, kết quả, hạn chế) để người duyệt kiểm tra và chấp nhận.
-- **Tìm kiếm** trong các bài bạn có quyền.
-- **Lập bản nháp tổng hợp:** mỗi nhận định đều có trích dẫn, hoặc được đánh dấu rõ `[UNVERIFIED]` (chưa kiểm chứng).
+## Supported systems
 
-## Bắt đầu trong 4 bước (không cần biết lập trình)
-
-| | Việc | Hướng dẫn |
-|---|---|---|
-| 1 | Cài Python | [huong-dan/01-cai-dat-python.md](huong-dan/01-cai-dat-python.md) |
-| 2 | Tải SciVetra, giải nén vào `C:\SciVetra\scivetra-kb` | [huong-dan/03-tai-va-cai-dat-scivetra.md](huong-dan/03-tai-va-cai-dat-scivetra.md) |
-| 3 | Bấm đúp **`1-INSTALL.cmd`** (cài đặt) | tự động, khoảng 2 phút |
-| 4 | Bấm đúp **`2-TRY-DEMO.cmd`** (chạy thử) để xem SciVetra chạy trên dữ liệu mẫu | [huong-dan/05-chay-thu.md](huong-dan/05-chay-thu.md) |
-
-Sau đó, mỗi lần làm việc chỉ cần bấm đúp **`3-OPEN-WORK-WINDOW.cmd`** (mở cửa sổ làm việc).
-
-Dùng macOS hoặc Linux? Xem [hướng dẫn tiếng Anh](guide/00-START-HERE.md): chạy `bash 1-install.sh`, `bash 2-try-demo.sh`, `bash 3-work-shell.sh`.
-
-👉 **Toàn bộ hướng dẫn, từng bước có lệnh để sao chép:** [huong-dan/00-BAT-DAU-TU-DAY.md](huong-dan/00-BAT-DAU-TU-DAY.md)
-
-## Mục lục hướng dẫn
-
-1. [Cài Python](huong-dan/01-cai-dat-python.md)
-2. [PowerShell và cài đặt bảo mật](huong-dan/02-powershell-va-bao-mat.md)
-3. [Tải và cài đặt SciVetra](huong-dan/03-tai-va-cai-dat-scivetra.md)
-4. [Lần đầu sử dụng](huong-dan/04-lan-dau-su-dung.md)
-5. [Chạy thử với dữ liệu mẫu](huong-dan/05-chay-thu.md)
-6. [Sử dụng hằng ngày](huong-dan/06-su-dung-hang-ngay.md)
-7. [Sao lưu, khôi phục, nâng cấp](huong-dan/07-sao-luu-khoi-phuc-nang-cap.md)
-8. [Xử lý lỗi](huong-dan/08-xu-ly-loi.md)
-9. [Từ điển thuật ngữ](huong-dan/09-tu-dien-thuat-ngu.md)
-10. [Giới hạn và an toàn](huong-dan/10-gioi-han-va-an-toan.md)
-11. [Dùng LLM miễn phí và mô hình trên máy (giai đoạn L1–L2)](huong-dan/12-llm-mien-phi.md)
-
-## Trạng thái
-
-- **Phiên bản 1.0.2**, phát hành trên GitHub (không có trên PyPI). **Bản 1.0.0 bị thiếu gói S08 (bằng chứng), đừng dùng.**
-- **Đã kiểm tra:** bộ kiểm thử tự động và 8 cổng phát hành; gói đã cài được chạy thử từ thư mục ngoài mã nguồn. Chi tiết từng chức năng: [`docs/CAPABILITY_MATRIX.md`](docs/CAPABILITY_MATRIX.md).
-- **AI:** dùng được mô hình chạy trên máy bạn (Ollama / LM Studio) để *đề xuất* bằng chứng; chưa gọi dịch vụ AI trực tuyến.
-- **Dữ liệu và PDF thật** cần chủ dự án cho phép. Xem [Giới hạn và an toàn](huong-dan/10-gioi-han-va-an-toan.md).
-- **Giấy phép:** [Apache 2.0](LICENSE).
-
-## Cấu trúc thư mục
-
-| Thư mục / file | Dành cho |
+| System | Status |
 |---|---|
-| `1-INSTALL.cmd`, `2-TRY-DEMO.cmd`, `3-OPEN-WORK-WINDOW.cmd` | Người dùng Windows: bấm đúp |
-| `1-install.sh`, `2-try-demo.sh`, `3-work-shell.sh` | Người dùng macOS / Linux: `bash <tên-file>` |
-| `guide/` | Người dùng: hướng dẫn tiếng Anh (Windows, macOS, Linux) |
-| `huong-dan/` | Người dùng: hướng dẫn tiếng Việt |
-| `scripts/` | Các script mà file bấm đúp gọi tới |
-| `docs/` | Tài liệu kỹ thuật (tiếng Anh): kiến trúc, quyết định thiết kế, hướng dẫn chi tiết từng giai đoạn |
-| `src/` | Mã nguồn |
-| `tests/`, `tools/` | Bộ kiểm tra tự động và công cụ phát hành |
+| 🪟 Windows 10 / 11 | Supported |
+| 🐧 Linux | Supported |
+| macOS | **Not supported:** the PDF sandbox cannot start on macOS, so every PDF would be refused |
 
----
+You need **Python 3.11 or newer**.
 
-## English summary
+## Get started in 4 steps (no programming needed)
 
-**SciVetra KB** is an offline, local research knowledge base for systematic reviews. It covers:
-- metadata and publication-integrity tracking;
-- a research library;
-- a PaperBatchDownloader bridge;
-- rights-gated, sandboxed PDF parsing;
-- AI-assisted *proposals* (a deterministic mock; no real model);
-- human-accepted evidence records;
-- rights-checked search;
-- synthesis drafts in which every claim is cited or visibly flagged.
+| | Step | 🪟 Windows | 🐧 Linux | Guide |
+|---|---|---|---|---|
+| 1 | Install Python | python.org installer | your package manager | [guide/01-install-python.md](guide/01-install-python.md) |
+| 2 | Download SciVetra and unzip it | to `C:\SciVetra\scivetra-kb` | to `~/SciVetra/scivetra-kb` | [guide/03-download-and-install.md](guide/03-download-and-install.md) |
+| 3 | Install | double-click **`1-INSTALL.cmd`** | `bash 1-install.sh` | automatic, about 2 minutes |
+| 4 | Try the demo on sample data | double-click **`2-TRY-DEMO.cmd`** | `bash 2-try-demo.sh` | [guide/05-demo.md](guide/05-demo.md) |
 
-Humans make every decision. The runtime uses the Python standard library only, plus the optional pinned `pypdf` parser.
+After that, open a work window each time you use SciVetra: double-click **`3-OPEN-WORK-WINDOW.cmd`** (Windows) or run `bash 3-work-shell.sh` (Linux).
 
-**📘 User guide (non-specialists, step by step, Windows / macOS / Linux): [guide/00-START-HERE.md](guide/00-START-HERE.md)**
+👉 **Full step-by-step guide with commands to copy: [guide/00-START-HERE.md](guide/00-START-HERE.md)**
 
-| | 🪟 Windows | 🍎 macOS / 🐧 Linux |
-|---|---|---|
-| Put the code in | `C:\SciVetra\scivetra-kb` | `~/SciVetra/scivetra-kb` |
-| Install | double-click `1-INSTALL.cmd` | `bash 1-install.sh` |
-| Demo on sample data | double-click `2-TRY-DEMO.cmd` | `bash 2-try-demo.sh` |
-| Work window | double-click `3-OPEN-WORK-WINDOW.cmd` | `bash 3-work-shell.sh` |
+## Guide contents
 
-All need Python 3.11 or newer ([guide/01-install-python.md](guide/01-install-python.md)).
+0. [Start here](guide/00-START-HERE.md)
+1. [Install Python](guide/01-install-python.md)
+2. [Terminal and security settings](guide/02-terminal-and-security.md)
+3. [Download and install SciVetra](guide/03-download-and-install.md)
+4. [First steps](guide/04-first-steps.md)
+5. [Try the demo](guide/05-demo.md)
+6. [Everyday use](guide/06-everyday-use.md)
+7. [Backup, restore and upgrade](guide/07-backup-restore-upgrade.md)
+8. [Troubleshooting](guide/08-troubleshooting.md)
+9. [Glossary](guide/09-glossary.md)
+10. [Limits and safety](guide/10-limits-and-safety.md)
+11. [How SciVetra works and how to use it well](guide/11-how-scivetra-works.md)
+12. [Free LLM providers and local models (stages L1–L2)](guide/12-free-llm-providers.md)
 
-| If you want to | Read |
+## Status
+
+- **Version 1.0.2**, released on GitHub; not on PyPI. **Do not use 1.0.0**: it lacks the S08 evidence package.
+- **Tested:** the automated test suite and 8 release gates on Windows and Linux, Python 3.11 and 3.14 (GitHub Actions), including clean installs of the package. What works, and how it was tested: [`docs/CAPABILITY_MATRIX.md`](docs/CAPABILITY_MATRIX.md).
+- **AI:** only models on your own computer, and they only *propose*. No online AI service is called.
+- **Real research data and PDFs** need the project owner's approval. See [Limits and safety](guide/10-limits-and-safety.md).
+- **Licence:** [Apache 2.0](LICENSE).
+
+## Folder layout
+
+| Folder / file | For |
 |---|---|
-| Understand what it does and use it well | [guide/11-how-scivetra-works.md](guide/11-how-scivetra-works.md) |
+| `1-INSTALL.cmd`, `2-TRY-DEMO.cmd`, `3-OPEN-WORK-WINDOW.cmd` | Windows users: double-click |
+| `1-install.sh`, `2-try-demo.sh`, `3-work-shell.sh` | Linux users: `bash <file>` |
+| `guide/` | User guide |
+| `scripts/` | Scripts that the double-click files call |
+| `docs/` | Technical documentation: architecture, design decisions, detailed stage guides |
+| `src/` | Source code |
+| `tests/`, `tools/` | Automated tests and release tools |
+
+## For developers and reviewers
+
+| If you want to | Read / run |
+|---|---|
 | See every command | `docs/COMMAND_REFERENCE.md` |
-| Develop or review | `docs/TECHNICAL_OVERVIEW.md`, `docs/ADR_S*.md`, `docs/SECURITY_REVIEW_S12.md` |
+| Understand the design | `docs/TECHNICAL_OVERVIEW.md`, `docs/ADR_S*.md`, `docs/ADR_LLM.md` |
+| Review security | `docs/SECURITY_REVIEW_S12.md` |
 | Run the tests | `python -I tools/run_offline_tests.py` |
-| Run the release gates | `python -I tools/s12_release_readiness.py --work DIR --out FILE.json` |
+| Run the release gates | `python -I tools/s12_release_readiness.py --work DIR --out FILE.json --dist DIR` |
 
-Licensed under the [Apache License 2.0](LICENSE). Version `1.0.2`, released on GitHub; not on PyPI (1.0.0 lacked the S08 package: do not use it). What works: `docs/CAPABILITY_MATRIX.md`.
+The runtime uses the Python standard library only, plus the optional pinned `pypdf` parser.
+
+Licensed under the [Apache License 2.0](LICENSE).

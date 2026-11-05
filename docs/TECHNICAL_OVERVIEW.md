@@ -1,6 +1,6 @@
 # SciVetra KB — technical overview (developers)
 
-> User guide (Vietnamese, step by step): `../huong-dan/00-BAT-DAU-TU-DAY.md`. Front page: `../README.md`.
+> User guide (step by step): `../guide/00-START-HERE.md`. Front page: `../README.md`.
 
 ## Release header
 

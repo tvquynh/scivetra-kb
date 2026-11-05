@@ -5,12 +5,12 @@
 | | Do this | You get |
 |---|---|---|
 | 🪟 Windows | Double-click **`C:\SciVetra\scivetra-kb\3-OPEN-WORK-WINDOW.cmd`** | A PowerShell window with the prompt `(SciVetra) C:\SciVetra>` |
-| 🍎🐧 macOS / Linux | `bash ~/SciVetra/scivetra-kb/3-work-shell.sh` | A shell in `~/SciVetra`; type `exit` to leave |
+| 🐧 Linux | `bash ~/SciVetra/scivetra-kb/3-work-shell.sh` | A shell in `~/SciVetra`; type `exit` to leave |
 
 In this window the **`rkb`** command works directly. Open it every time you work with SciVetra.
 
 > **Prefer your own terminal?** Activate the environment yourself:
-> - 🍎🐧 `source ~/SciVetra/env/bin/activate`
+> - 🐧 `source ~/SciVetra/env/bin/activate`
 > - 🪟 `C:\SciVetra\env\Scripts\Activate.ps1` (needs [the PowerShell setting](02-terminal-and-security.md#do-i-need-to-turn-off-powershell-security))
 
 ## 4.2 Name your knowledge base once per window
@@ -22,7 +22,7 @@ Tell the window which KB you are working on. After that, **every command in this
 | | Paste this (once per window) |
 |---|---|
 | 🪟 Windows | `$KB = "C:\SciVetra\data\project-1"; $BACKUPS = "C:\SciVetra\backups"; $OUT = "C:\SciVetra\output"` |
-| 🍎🐧 macOS / Linux | `KB=~/SciVetra/data/project-1; BACKUPS=~/SciVetra/backups; OUT=~/SciVetra/output` |
+| 🐧 Linux | `KB=~/SciVetra/data/project-1; BACKUPS=~/SciVetra/backups; OUT=~/SciVetra/output` |
 
 ## 4.3 Create the knowledge base
 
@@ -55,7 +55,7 @@ Every `rkb` command prints **one line of JSON**: pairs of `"name":value`. You on
   rkb doctor --data-root "$KB" | ConvertFrom-Json | Format-List ok, problems, warnings, integrity_check
   ```
 
-- 🍎🐧 Use Python's JSON pretty-printer:
+- 🐧 Use Python's JSON pretty-printer:
 
   ```bash
   rkb doctor --data-root "$KB" | python3 -m json.tool | head -40

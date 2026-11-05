@@ -16,8 +16,8 @@ SciVetra is getting LLM support that can **rotate between several free services*
 
 1. **Copy the example** to your SciVetra folder:
    - 🪟 `copy C:\SciVetra\scivetra-kb\config\llm-providers.example.toml C:\SciVetra\llm-providers.toml`
-   - 🍎🐧 `cp ~/SciVetra/scivetra-kb/config/llm-providers.example.toml ~/SciVetra/llm-providers.toml`
-2. **Open it** (🪟 `notepad C:\SciVetra\llm-providers.toml`, 🍎 `open -e ~/SciVetra/llm-providers.toml`, 🐧 `nano ~/SciVetra/llm-providers.toml`). For each service, check:
+   - 🐧 `cp ~/SciVetra/scivetra-kb/config/llm-providers.example.toml ~/SciVetra/llm-providers.toml`
+2. **Open it** (🪟 `notepad C:\SciVetra\llm-providers.toml`, 🐧 `nano ~/SciVetra/llm-providers.toml`). For each service, check:
    - `model`: a model your account can use;
    - `data_policy`: what the provider's terms say. Use `NO_TRAINING` only if they clearly say they do not train on your prompts, otherwise `MAY_TRAIN`. If unsure, keep `UNKNOWN`.
    - `priority`: 1 is tried first;
@@ -34,10 +34,10 @@ Register on each service's website yourself and create an API key there. Then st
   [Environment]::SetEnvironmentVariable("GROQ_API_KEY", "<KEY>", "User")
   ```
 
-- 🍎🐧 **macOS / Linux.** Add the key to your shell profile, then open a new terminal. Replace `~/.zshrc` with `~/.bashrc` if you use bash.
+- 🐧 **Linux.** Add the key to your shell profile, then open a new terminal.
 
   ```bash
-  echo 'export GROQ_API_KEY="<KEY>"' >> ~/.zshrc
+  echo 'export GROQ_API_KEY="<KEY>"' >> ~/.bashrc
   ```
 
 Never paste keys into the config file, into a KB, into a chat or into a screenshot.
@@ -50,7 +50,7 @@ In the work window:
 rkb llm check-config --config C:\SciVetra\llm-providers.toml
 ```
 
-On macOS / Linux use `--config ~/SciVetra/llm-providers.toml`. For each provider you see:
+On Linux use `--config ~/SciVetra/llm-providers.toml`. For each provider you see:
 - `key_present: true` or `false`: whether the variable is set. The key itself is never shown.
 - `data_classes`: which kinds of material it may receive.
 
@@ -86,7 +86,6 @@ A local model is free, works without Internet and keeps your papers on your comp
 
 **1. Install Ollama** from **https://ollama.com/download**:
 - 🪟 Windows: run the installer;
-- 🍎 macOS: open the downloaded app;
 - 🐧 Linux: follow the install command on that page.
 
 **2. Download a model** (several GB, once). In a terminal:
@@ -107,7 +106,7 @@ This is the model SciVetra was tested with. Larger models are better but slower,
 rkb llm ping --config C:\SciVetra\llm-providers.toml
 ```
 
-On macOS / Linux use `--config ~/SciVetra/llm-providers.toml`. `"status": "OK"` means SciVetra can talk to your local model. If not, the output has a hint.
+On Linux use `--config ~/SciVetra/llm-providers.toml`. `"status": "OK"` means SciVetra can talk to your local model. If not, the output has a hint.
 
 **5. Let the model propose evidence** for an S08 evidence scope ([everyday use, section E](06-everyday-use.md#e-eligibility-evidence-and-search)):
 
@@ -124,7 +123,7 @@ rkb llm extract-evidence --data-root "$KB" --scope-id <EVIDENCE-SCOPE-ID> --conf
 | | Command |
 |---|---|
 | 🪟 Windows | `C:\SciVetra\env\Scripts\python.exe -I C:\SciVetra\scivetra-kb\tools\llm_local_model_check.py --config C:\SciVetra\llm-providers.toml --out C:\SciVetra\output\llm-check.json` |
-| 🍎🐧 macOS / Linux | `~/SciVetra/env/bin/python -I ~/SciVetra/scivetra-kb/tools/llm_local_model_check.py --config ~/SciVetra/llm-providers.toml --out ~/SciVetra/output/llm-check.json` |
+| 🐧 Linux | `~/SciVetra/env/bin/python -I ~/SciVetra/scivetra-kb/tools/llm_local_model_check.py --config ~/SciVetra/llm-providers.toml --out ~/SciVetra/output/llm-check.json` |
 
 The result shows, for each sample paper, how many proposals the model made and how many passed the checks. `injection_safe: true` means the model did not obey an instruction hidden in a paper. On a computer without a graphics card, a 7B model takes about a minute and finds roughly half of the expected records: treat it as an **assistant that suggests**, not as an extractor you can trust alone. `--consensus` only helps with two models of similar strength.
 

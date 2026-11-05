@@ -35,7 +35,7 @@ SciVetra KB is a local, offline knowledge base that sits **next to** two other t
 
 ## 2. Install (Windows, no internet needed)
 
-**Simplest:** follow the step-by-step user guide in `guide/` (Windows, macOS, Linux; Vietnamese in `huong-dan/`). Windows: put the source at `C:\SciVetra\scivetra-kb` and double-click `1-INSTALL.cmd`. macOS / Linux: `bash 1-install.sh`. The installer creates a private Python environment, links `rkb` and fetches and verifies the parser. The manual steps below install the release wheel instead.
+**Simplest:** follow the step-by-step user guide in `guide/` (Windows and Linux; macOS is not supported). Windows: put the source at `C:\SciVetra\scivetra-kb` and double-click `1-INSTALL.cmd`. Linux: `bash 1-install.sh`. The installer creates a private Python environment, links `rkb` and fetches and verifies the parser. The manual steps below install the release wheel instead.
 
 You need Python 3.11 or newer.
 

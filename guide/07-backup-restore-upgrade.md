@@ -35,7 +35,7 @@ When the restored KB looks right, set `$KB` / `KB` to it and keep working.
 2. **Get the new version:**
    - **git:** run `git pull` inside `scivetra-kb`.
    - **ZIP:** rename the old `scivetra-kb` folder to `scivetra-kb-old`, then unzip the new version as `scivetra-kb` ([step 3.2](03-download-and-install.md#32-put-it-in-the-right-place)).
-3. **Run the installer again:** 🪟 `1-INSTALL.cmd`, 🍎🐧 `bash 1-install.sh`.
+3. **Run the installer again:** 🪟 `1-INSTALL.cmd`, 🐧 `bash 1-install.sh`.
 4. **Upgrade any KB that needs it.** If a command reports **`KB_UPGRADE_REQUIRED`**, run:
 
    ```

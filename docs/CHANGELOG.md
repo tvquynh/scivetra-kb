@@ -1,5 +1,12 @@
 # Change log — SciVetra KB candidate
 
+## Unreleased — documentation
+
+| File | Change |
+|---|---|
+| `README.md`, `guide/`, `docs/SCIVETRA_USER_MANUAL.md`, `docs/TECHNICAL_OVERVIEW.md`, launcher messages | All user documentation in English only; the Vietnamese guide `huong-dan/` is removed (owner decision) |
+| `README.md`, `guide/`, `*.sh` headers | macOS installation and usage instructions removed: macOS is not supported (PDF sandbox, R-101-07). Windows and Linux only |
+
 ## 1.0.2 — portability fixes from the first CI run (2026-11-05)
 
 First CI run of 1.0.1: Windows 3.11 / 3.14 and Ubuntu 3.11 passed; Ubuntu 3.14 failed 3 tests, macOS 3.11 / 3.14 failed most KB tests.

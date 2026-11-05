@@ -7,9 +7,9 @@ Type everything in the **work window** ([first steps](04-first-steps.md)).
 | | Paste |
 |---|---|
 | 🪟 Windows | `$KB = "C:\SciVetra\data\project-1"; $BACKUPS = "C:\SciVetra\backups"; $OUT = "C:\SciVetra\output"` |
-| 🍎🐧 macOS / Linux | `KB=~/SciVetra/data/project-1; BACKUPS=~/SciVetra/backups; OUT=~/SciVetra/output` |
+| 🐧 Linux | `KB=~/SciVetra/data/project-1; BACKUPS=~/SciVetra/backups; OUT=~/SciVetra/output` |
 
-With these set, the commands below are **identical on Windows, macOS and Linux**.
+With these set, the commands below are **identical on Windows and Linux**.
 
 **How to fill in a command:** replace each `<ANGLE-BRACKET>` value with your own, and **delete the brackets**. For example, `<YOUR-NAME>` becomes `alex`.
 
@@ -30,7 +30,7 @@ With these set, the commands below are **identical on Windows, macOS and Linux**
 | Show the version | `rkb --version` |
 | Help for any command | `rkb <command> --help`, e.g. `rkb synth audit --help` |
 
-**List your backups:** 🪟 `dir $BACKUPS`, 🍎🐧 `ls "$BACKUPS"`.
+**List your backups:** 🪟 `dir $BACKUPS`, 🐧 `ls "$BACKUPS"`.
 
 ## B. Library of papers (from Reprovane)
 
@@ -74,7 +74,7 @@ Every PDF is checked structurally and against its title page before it enters th
 | Read a PDF (needs the A2 right) | `rkb parse run --data-root "$KB" --asset <FILE-SHA256> --link-id <LINK-ID> --operator <YOUR-NAME> --purpose RESEARCH_PARSE` |
 | Reading status of a file | `rkb parse status --data-root "$KB" --asset <FILE-SHA256>` |
 
-When the operating system gives no network isolation (🪟 Windows, 🍎 macOS, and Linux without unprivileged namespaces), `rkb parse run` also needs `--accept-language-level-network-guard`. It is your confirmation that the PDF comes from a trusted source ([why](10-limits-and-safety.md#real-pdfs-and-operating-systems)). The IDs (`asset_sha256`, `document_version_id`, `link_id`) are printed by the earlier commands. The rights evidence file format is in `docs/CLI_GUIDE.md` (*Assets and rights*); `docs/PARSE_USER_GUIDE.md` covers parsing.
+When the operating system gives no network isolation (🪟 Windows, and Linux without unprivileged namespaces), `rkb parse run` also needs `--accept-language-level-network-guard`. It is your confirmation that the PDF comes from a trusted source ([why](10-limits-and-safety.md#real-pdfs-and-operating-systems)). The IDs (`asset_sha256`, `document_version_id`, `link_id`) are printed by the earlier commands. The rights evidence file format is in `docs/CLI_GUIDE.md` (*Assets and rights*); `docs/PARSE_USER_GUIDE.md` covers parsing.
 
 **Every right is DENIED until assessed.**
 
@@ -107,7 +107,7 @@ rkb search passages --data-root "$KB" --scope-id <SCOPE-ID> --query "<WORDS>" --
 
    For two independent reviewers, the default and recommended setting, drop the last two options.
 
-2. **Write a claim** as a small JSON file, for example `claim-1.json` in your `output` folder. Open it with 🪟 `notepad "$OUT\claim-1.json"`, 🍎 `open -e "$OUT/claim-1.json"` (create the file first with `touch "$OUT/claim-1.json"`) or 🐧 `nano "$OUT/claim-1.json"`. Paste this and adjust the values:
+2. **Write a claim** as a small JSON file, for example `claim-1.json` in your `output` folder. Open it with 🪟 `notepad "$OUT\claim-1.json"` or 🐧 `nano "$OUT/claim-1.json"`. Paste this and adjust the values:
 
    ```json
    {"schema": "scivetra-claim-spec/1", "kind": "REPORTED_VALUE",

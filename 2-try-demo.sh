@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SciVetra KB - demo on SAMPLE data (generated, not real) for macOS and Linux. Run:  bash 2-try-demo.sh
+# SciVetra KB - demo on SAMPLE data (generated, not real) for Linux. Run:  bash 2-try-demo.sh
 # Part A (about 1 minute): create a practice knowledge base (KB), check its health, back it up and verify the backup.
 # Part B (5-10 minutes, needs the PDF parser): generate 32 simulated papers, run the whole pipeline, export a
 #   citation-audited synthesis draft and open it.

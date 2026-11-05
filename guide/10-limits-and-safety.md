@@ -16,7 +16,7 @@
 | Online DOI lookup (Crossref, DataCite) | Network access is not enabled; it needs the owner's approval (OAG-3) |
 | Scanned PDFs (OCR) | Not supported |
 | Sharing drafts or evidence outside | Always refused; it needs a sharing policy (OAG-7) |
-| Encryption on disk | Use full-disk encryption: 🪟 BitLocker, 🍎 FileVault or 🐧 LUKS |
+| Encryption on disk | Use full-disk encryption: 🪟 BitLocker or 🐧 LUKS |
 | Verified user identities | Reviewer names are self-declared labels |
 
 ## Real PDFs and operating systems
@@ -26,7 +26,7 @@ The PDF reader runs in an isolated sandbox. How strong that isolation is depends
 | System | Isolation | Recommendation |
 |---|---|---|
 | 🐧 Linux | Strongest: OS resource limits (memory, CPU, no new processes, no file writes). Also a private network namespace where the kernel allows unprivileged namespaces. | **Preferred** for PDFs from unknown or untrusted sources. Do not run SciVetra as `root`. |
-| 🍎 macOS | **Not supported yet:** the PDF sandbox cannot start on macOS, so every PDF is refused (safe, but PDFs cannot be read) | Use Windows or Linux. Other features were not separately verified on macOS |
+| macOS | macOS is not supported: SciVetra's PDF sandbox cannot start on macOS, so every PDF would be refused. | Use Windows or Linux. |
 | 🪟 Windows | Job-object limits plus a language-level network guard; **not** equivalent to Linux | **Only PDFs from sources you trust** (publishers, official repositories). `rkb parse run` asks you to confirm this with `--accept-language-level-network-guard`. |
 
 ## Real project data
@@ -40,6 +40,6 @@ The folder `E:\ResearchKB` is reserved for real project data and is **locked** u
 - **Synthesis stage:** awaits an independent architect review; findings will come in a 1.0.x update.
 - **Local AI models:** they only *propose* evidence. On a test machine a 7B model found about half of the expected records and made some mistakes, all caught by SciVetra's checks or left for human review.
 - **Platform testing:**
-  - The macOS and Linux helper scripts (`1-install.sh` and the others) were tested with bash on Windows, not yet on real macOS or Linux machines.
+  - The Linux helper scripts (`1-install.sh` and the others) were tested with bash on Windows, not yet on real Linux machines.
   - The SciVetra code itself was tested on Linux by the independent reviewer for earlier versions of the synthesis stage.
 - **Technical details:** `docs/CAPABILITY_MATRIX.md` and `docs/SECURITY_REVIEW_S12.md`.

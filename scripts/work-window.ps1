@@ -13,4 +13,4 @@ Write-Host "=== SciVetra KB work window ===" -ForegroundColor Green
 Write-Host ("rkb " + (& rkb.cmd --version))
 Write-Host "Current folder: $Root   (data, backups, output)"
 Write-Host "Try:  rkb doctor --data-root C:\SciVetra\data\<KB-NAME>"
-Write-Host "Commands: guide\06-everyday-use.md (English) or huong-dan\06-su-dung-hang-ngay.md (Tieng Viet)"
+Write-Host "Commands: guide\06-everyday-use.md"

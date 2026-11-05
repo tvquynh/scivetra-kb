@@ -1,8 +1,10 @@
 # SciVetra KB user guide — start here
 
-This guide is for people who are **not IT specialists**. If you can click, copy (Ctrl+C / ⌘C) and paste (Ctrl+V / ⌘V), you can install and use SciVetra. Every step has a box of commands to copy exactly, plus what you should see when it worked.
+This guide is for people who are **not IT specialists**. If you can click, copy (Ctrl+C) and paste (Ctrl+V), you can install and use SciVetra. Every step has a box of commands to copy exactly, plus what you should see when it worked.
 
-It covers **Windows, macOS and Linux**. When a step differs, it is marked 🪟 **Windows**, 🍎 **macOS** or 🐧 **Linux**.
+It covers **Windows and Linux**. When a step differs, it is marked 🪟 **Windows** or 🐧 **Linux**.
+
+> macOS is not supported: SciVetra's PDF sandbox cannot start on macOS, so every PDF would be refused. Use Windows or Linux.
 
 ## What is SciVetra KB?
 
@@ -44,7 +46,7 @@ Read [How SciVetra works](11-how-scivetra-works.md) for the full picture and tip
 
 ## The fastest path (if Python is already installed)
 
-| | 🪟 Windows | 🍎 macOS / 🐧 Linux |
+| | 🪟 Windows | 🐧 Linux |
 |---|---|---|
 | 1. Put the code in | `C:\SciVetra\scivetra-kb` | `~/SciVetra/scivetra-kb` |
 | 2. Install | double-click **`1-INSTALL.cmd`** | `bash 1-install.sh` |
@@ -54,7 +56,7 @@ Read [How SciVetra works](11-how-scivetra-works.md) for the full picture and tip
 ## Your folders after installation
 
 ```
-SciVetra/                 (C:\SciVetra on Windows, ~/SciVetra on macOS and Linux)
+SciVetra/                 (C:\SciVetra on Windows, ~/SciVetra on Linux)
   scivetra-kb/            the source code you downloaded (do not edit anything here)
   env/                    SciVetra's private Python "virtual environment" (created by the installer)
   data/                   your knowledge bases (one folder per project)
@@ -62,5 +64,3 @@ SciVetra/                 (C:\SciVetra on Windows, ~/SciVetra on macOS and Linux
   output/                 exported files (drafts, reports, PDF download lists)
   packages/               the downloaded PDF parser
 ```
-
-*Vietnamese speakers: a Vietnamese version of this guide is in [`../huong-dan/`](../huong-dan/00-BAT-DAU-TU-DAY.md).*

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SciVetra KB - open a work shell (macOS and Linux): the "rkb" command is ready and the current folder is ~/SciVetra.
+# SciVetra KB - open a work shell (Linux): the "rkb" command is ready and the current folder is ~/SciVetra.
 # Run:  bash 3-work-shell.sh      (type "exit" to leave)
 set -u
 ROOT="${SCIVETRA_ROOT:-$HOME/SciVetra}"
