@@ -37,6 +37,18 @@ class ReleaseIntegrity(unittest.TestCase):
             self.assertEqual(_git("check-ignore", "-q", "evidence/test_results.json").returncode, 0)
             self.assertEqual(_git("check-ignore", "-q", "src/scivetra_kb/evidence/service.py").returncode, 1)
 
+    def test_checkout_keeps_exact_bytes(self):
+        """IDs: REL-EXACT-BYTES. Files pinned by SHA-256 (migrations, fixtures, baselines) must reach every checkout byte for byte:
+        .gitattributes turns line-ending conversion off for everything except the .cmd / .ps1 / .sh launchers; with git
+        available, every other tracked file carries the -text attribute (a Windows clone with core.autocrlf=true broke 62
+        tests before this rule)."""
+        rules = [l.split() for l in (ROOT / ".gitattributes").read_text(encoding="utf-8").splitlines() if l and not l.startswith("#")]
+        self.assertEqual(rules[0], ["*", "-text"])
+        if (ROOT / ".git").exists() and shutil.which("git"):
+            rows = [l.split("\t", 1) for l in _git("ls-files", "--eol").stdout.splitlines()]
+            converted = [path for info, path in rows if "attr/-text" not in info and not path.endswith((".cmd", ".ps1", ".sh"))]
+            self.assertEqual(converted, [])
+
     def test_every_package_file_is_tracked(self):
         """IDs: REL-SOURCE-TRACKED. In a git checkout every file of the shipped packages (modules and package data) is tracked, so a
         clone or the GitHub source ZIP holds the same code as the developer tree (S08 files included)."""

@@ -1,3 +1,6 @@
+# Exact bytes everywhere (1.0.1): migrations, fixtures and baselines are pinned by SHA-256, so a checkout must never
+# convert line endings (core.autocrlf=true on Windows broke 62 tests in a fresh clone). Only the launchers are converted.
+* -text
 *.cmd text eol=crlf
 *.ps1 text eol=crlf
 *.sh text eol=lf
