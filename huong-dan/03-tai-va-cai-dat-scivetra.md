@@ -62,7 +62,7 @@ Set-Content -Path C:\SciVetra\env\Scripts\rkb.cmd -Value '@"%~dp0python.exe" -m 
 C:\SciVetra\env\Scripts\rkb.cmd --version
 ```
 
-Kết quả phải là `1.0.1` (hoặc bản mới hơn).
+Kết quả phải là `1.0.2` (hoặc bản mới hơn).
 
 **Khối 3 — bộ đọc PDF (cần Internet):**
 

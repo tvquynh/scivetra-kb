@@ -146,7 +146,7 @@ class StaticAndDocs(S09Case):
         """IDs: S09-DOCS, S09-STATIC-VERSION. Version 0.9.0.dev2 (v02); the ADR, the beginner guide and the test adaptations exist and state the
         derived index, rights gates per hit, LOCAL_CLI only, mock labelling, NOT_CONFIGURED real model and abstention."""
         from scivetra_kb import __version__
-        self.assertEqual(__version__, "1.0.1")  # S10: docs/S10_TEST_ADAPTATIONS.md #28 (after S09); S11: docs/S11_TEST_ADAPTATIONS.md #28 (after S10, S09, S08, S07, S06)
+        self.assertEqual(__version__, "1.0.2")  # S10: docs/S10_TEST_ADAPTATIONS.md #28 (after S09); S11: docs/S11_TEST_ADAPTATIONS.md #28 (after S10, S09, S08, S07, S06)
         adr = (ROOT / "docs" / "ADR_S09.md").read_text(encoding="utf-8")
         guide = (ROOT / "docs" / "RETRIEVAL_USER_GUIDE.md").read_text(encoding="utf-8")
         for needle in ("NON_AUTHORITATIVE", "LOCAL_CLI", "FULL_EXCERPT", "ANCHOR_ONLY", "METADATA_ONLY", "MOCK_LOCAL_RETRIEVAL", "NOT_CONFIGURED",

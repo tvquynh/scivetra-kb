@@ -138,7 +138,7 @@ The fingerprint must be `8fa2a2321cf16247ed848bd7c97f193a60c08670d04abed5b013832
 </details>
 
 **Expected results:**
-- `rkb --version` prints `1.0.1` (or newer).
+- `rkb --version` prints `1.0.2` (or newer).
 - `runtime-check` reports `CONTENT_MATCHES_OFFICIAL_WHEEL`.
 
 ## 3.5 Uninstall

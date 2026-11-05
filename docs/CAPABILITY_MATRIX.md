@@ -1,4 +1,4 @@
-# SciVetra KB capability matrix (1.0.1)
+# SciVetra KB capability matrix (1.0.2)
 
 This file is the **single source of truth** for what works. README, user guides, release notes and the security review point here and must not claim more.
 
@@ -16,7 +16,7 @@ This file is the **single source of truth** for what works. README, user guides,
 
 None of these states means **production-ready**, **scientifically validated on real papers** or **independently security certified**. "Verified" in SciVetra always means **structural** verification (schema, anchor, number and unit found in the quote), never that a claim is semantically true: see `ADR_S08.md` and `ADR_S11.md`.
 
-**Acceptance of the stages:** S02–S10 v02 accepted by the independent architect; S11 v03 decision pending; 1.0.0 (2026-11-05) shipped without the S08 package — fixed in 1.0.1 (`RELEASE_NOTES_1.0.1.md`).
+**Acceptance of the stages:** S02–S10 v02 accepted by the independent architect; S11 v03 decision pending; 1.0.0 (2026-11-05) shipped without the S08 package — fixed in 1.0.1 (`RELEASE_NOTES_1.0.1.md`); 1.0.2 adds the portability fixes of the first CI run (`RELEASE_NOTES_1.0.2.md`).
 
 ## Capabilities
 

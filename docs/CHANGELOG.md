@@ -1,6 +1,6 @@
 # Change log — SciVetra KB candidate
 
-## Unreleased — portability fixes from the first CI run (2026-11-05)
+## 1.0.2 — portability fixes from the first CI run (2026-11-05)
 
 First CI run of 1.0.1: Windows 3.11 / 3.14 and Ubuntu 3.11 passed; Ubuntu 3.14 failed 3 tests, macOS 3.11 / 3.14 failed most KB tests.
 

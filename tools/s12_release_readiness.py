@@ -38,8 +38,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT / "src"), str(ROOT)]
 
-RELEASE_VERSION = "1.0.1"
-REQUIRED_DOCS = ("ADR_S12.md", "SCIVETRA_USER_MANUAL.md", "OPERATOR_RUNBOOK.md", "SECURITY_REVIEW_S12.md", "RELEASE_NOTES_1.0.1.md",
+RELEASE_VERSION = "1.0.2"
+REQUIRED_DOCS = ("ADR_S12.md", "SCIVETRA_USER_MANUAL.md", "OPERATOR_RUNBOOK.md", "SECURITY_REVIEW_S12.md", "RELEASE_NOTES_1.0.2.md",
                  "CAPABILITY_MATRIX.md", "COMMAND_REFERENCE.md", "CLI_GUIDE.md", "CHANGELOG.md", "OPEN_ISSUES.md")
 FORBIDDEN_CALLS = {"eval", "exec", "os.system", "os.popen", "tempfile.mktemp", "pickle.load", "pickle.loads", "marshal.load", "marshal.loads",
                    "yaml.load", "__import__"}

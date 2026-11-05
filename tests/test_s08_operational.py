@@ -249,7 +249,7 @@ class CliAndStatic(S08Case):
     def test_docs_and_version(self):
         """IDs: S08-DOCS, S08-STATIC-VERSION. Version 0.8.0.dev3; the ADR, beginner guide and test adaptations exist and state the authority boundary, structural-not-semantic verification, provisional evidence, LOCAL_PROCESS-only and synthetic-only limits."""
         from scivetra_kb import __version__
-        self.assertEqual(__version__, "1.0.1")  # S09: docs/S09_TEST_ADAPTATIONS.md #25 (after S08, S07, S06); S10: docs/S10_TEST_ADAPTATIONS.md #25 (after S09, S08, S07, S06); S11: docs/S11_TEST_ADAPTATIONS.md #25 (after S10, S09, S08, S07, S06)
+        self.assertEqual(__version__, "1.0.2")  # S09: docs/S09_TEST_ADAPTATIONS.md #25 (after S08, S07, S06); S10: docs/S10_TEST_ADAPTATIONS.md #25 (after S09, S08, S07, S06); S11: docs/S11_TEST_ADAPTATIONS.md #25 (after S10, S09, S08, S07, S06)
         adr = (ROOT / "docs" / "ADR_S08.md").read_text(encoding="utf-8")
         guide = (ROOT / "docs" / "EVIDENCE_USER_GUIDE.md").read_text(encoding="utf-8")
         for needle in ("NON_AUTHORITATIVE", "STRUCTURALLY_VERIFIED", "PROVISIONAL_NON_AUTHORITATIVE", "LOCAL_PROCESS", "0008_scientific_evidence_extraction.sql",

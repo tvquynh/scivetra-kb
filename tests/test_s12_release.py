@@ -14,9 +14,9 @@ spec.loader.exec_module(RR)
 
 class ReleaseGates(unittest.TestCase):
     def test_version_docs_and_dependencies(self):
-        """IDs: S12-VERSION, S12-DOCS, S12-DEPENDENCIES. The version is 1.0.1 with a change-log entry and release notes; the user manual, operator runbook, command reference, capability matrix, security review and ADR_S12 exist; the runtime has no dependency and the pdf extra pins pypdf 6.12.1 with the official wheel SHA-256."""
+        """IDs: S12-VERSION, S12-DOCS, S12-DEPENDENCIES. The version is 1.0.2 with a change-log entry and release notes; the user manual, operator runbook, command reference, capability matrix, security review and ADR_S12 exist; the runtime has no dependency and the pdf extra pins pypdf 6.12.1 with the official wheel SHA-256."""
         g1, g8 = RR.g1_version(), RR.g8_dependencies()
-        self.assertEqual((g1["status"], g1["version"], g1["missing_docs"]), ("PASS", "1.0.1", []))
+        self.assertEqual((g1["status"], g1["version"], g1["missing_docs"]), ("PASS", "1.0.2", []))
         self.assertEqual(g8["status"], "PASS")
         self.assertTrue(g8["inventory"]["stdlib_only_runtime"])
 

@@ -1,4 +1,4 @@
-"""``rkb`` command line (SciVetra KB 1.0.1; stages S02-S11 and ADR_LLM L1-L2).
+"""``rkb`` command line (SciVetra KB 1.0.2; stages S02-S11 and ADR_LLM L1-L2).
 
 stdout carries exactly one JSON document; stderr carries short human diagnostics.
 There is no implicit network: ``--live`` is refused (LIVE_ACCESS_NOT_AUTHORIZED),

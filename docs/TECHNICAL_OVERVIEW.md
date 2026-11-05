@@ -12,9 +12,9 @@ Not published; not for publication until the owner approves a release (OAG-10). 
 
 **License:** Apache License 2.0 (`LICENSE`); copyright 2026 tvquynh (`NOTICE`). The optional pypdf parser is BSD-3-Clause.
 
-# SciVetra KB: S02 metadata + S03 Global Research Library + S04 Download Bridge + S04J Journal DOI Harvesting + S05 Full-text Eligibility candidate workflow + S06 local PDF parsing + S07 AI screening proposals + S08 evidence extraction (release 1.0.1; history below)
+# SciVetra KB: S02 metadata + S03 Global Research Library + S04 Download Bridge + S04J Journal DOI Harvesting + S05 Full-text Eligibility candidate workflow + S06 local PDF parsing + S07 AI screening proposals + S08 evidence extraction (release 1.0.2; history below)
 
-Status: **release 1.0.1** (GitHub, not PyPI); current capability states are in `CAPABILITY_MATRIX.md`. The stage notes below are history. Originally a local-only S03 candidate built on the accepted S02 v03. The identifiers are provisional (OAG-10 pending):
+Status: **release 1.0.2** (GitHub, not PyPI); current capability states are in `CAPABILITY_MATRIX.md`. The stage notes below are history. Originally a local-only S03 candidate built on the accepted S02 v03. The identifiers are provisional (OAG-10 pending):
 
 - import namespace `scivetra_kb`
 - development distribution `scivetra-kb-dev` (classifier `Private :: Do Not Upload`)
