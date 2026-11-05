@@ -16,14 +16,14 @@ So S08 evidence, S09 search / RAG, S11 synthesis and `rkb llm extract-evidence` 
 
 **A second defect found while verifying 1.0.1:** on Windows, Git's default `core.autocrlf=true` converted files that SciVetra pins by SHA-256 (migrations, test fixtures, baselines) from LF to CRLF in a fresh `git clone`; 62 of 659 tests then failed (`EXPORT_HASH_MISMATCH`, migration hash differences). `.gitattributes` now keeps exact bytes (`* -text`), except the `.cmd` / `.ps1` / `.sh` launchers.
 
-**Root causes of the missing package:** `.gitignore` had `evidence/` (matches at every level, meant only for the root test-output folder), and the G5 / G7 / S06 release copies used `shutil.ignore_patterns("evidence")` (also every level). G7 only ran `rkb --version / init / doctor` after installing, which never imports S08.
+**Root causes of the missing package:** `.gitignore` had `evidence/` (matches at every level, meant only for the root test-output folder), and the G5 / G7 release copies (and the historical S06 install tool, which is hash-locked by the accepted baselines and kept as is; G7 supersedes it) used `shutil.ignore_patterns("evidence")` (also every level). G7 only ran `rkb --version / init / doctor` after installing, which never imports S08.
 
 ## What changed
 
 - `src/scivetra_kb/evidence/` is tracked, byte-identical to the accepted S12 release-candidate ZIP (SHA-256 checked file by file). No behaviour change; schema 11; migrations 0001–0011 unchanged.
 - `.gitattributes` keeps exact bytes in every checkout (REL-EXACT-BYTES).
 - `.gitignore` anchors `/evidence/`, `/build/`, `/dist/` at the repository root.
-- Release gate **G7** now FAILs unless: every source package file is in the wheel **and** the sdist; every internal import (including lazy imports) resolves; a wheel rebuilt from the sdist has the same files; every module imports in clean venvs installed from the wheel and from the sdist; and the S08, S09, S11 and LLM-L2 tests pass against the installed wheel from a directory outside the checkout with no `PYTHONPATH`.
+- Release gate **G7** now FAILs unless: every source package file is in the wheel **and** the sdist; every internal import (including lazy imports) resolves; a wheel rebuilt from the sdist has the same files; every module imports in clean venvs installed from the wheel and from the sdist; and the S08, S09, S10, S11 and LLM-L2 behavioural tests pass against the installed wheel from a directory outside the checkout with no `PYTHONPATH`.
 - `tests/test_release_integrity.py` (REL-*) pins the fixes, including negative cases: with the S08 package removed, the import check and the archive member check both report it.
 - CI workflow `.github/workflows/ci.yml` (Windows, Linux, macOS × Python 3.11, 3.14) from a clean checkout. It has not run yet.
 - One capability vocabulary in `CAPABILITY_MATRIX.md`; contradictory status text fixed (README, user manual, technical overview, guides 10, CLI help, security review addendum).

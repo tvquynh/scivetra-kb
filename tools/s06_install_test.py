@@ -38,10 +38,7 @@ def main(argv=None):
         shutil.rmtree(work)
     (work / "dist").mkdir(parents=True)
     src = work / "src_copy"
-    generated = shutil.ignore_patterns("__pycache__", "*.egg-info")
-    # root-level output only: the source package src/scivetra_kb/evidence has the same basename (1.0.1, P0-03)
-    shutil.copytree(ROOT, src, ignore=lambda d, names: set(generated(d, names)) | (
-        {"evidence", "build", "dist", ".git", ".venv"} & set(names) if Path(d).resolve() == ROOT else set()))
+    shutil.copytree(ROOT, src, ignore=shutil.ignore_patterns("evidence", "__pycache__", "*.egg-info", "build"))
     report = {"schema": "rkb-s06-install-test/1", "python": sys.version.split()[0], "steps": []}
     report["steps"].append(run([sys.executable, "-m", "pip", "wheel", "--no-deps", "--no-build-isolation", "--no-index", "-w", str(work / "dist"), str(src)]))
     sdist_code = f"import os; os.chdir({str(src)!r}); from setuptools import build_meta as b; print(b.build_sdist({str(work / 'dist')!r}))"

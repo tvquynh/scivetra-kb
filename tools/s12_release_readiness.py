@@ -311,8 +311,13 @@ IMPORT_ALL = ("import importlib, pkgutil, sys\n"
               "print('FROM', scivetra_kb.__file__)\n"
               "print('IMPORT_FAILURES', bad)\n"
               "sys.exit(1 if bad else 0)\n")
-# S08 -> S09 -> S10 -> S11 and LLM L2 flows (synthetic PDFs, real pinned parser) run against the INSTALLED package
-E2E_TESTS = ("tests.test_s08_operational", "tests.test_s09_operational", "tests.test_s11_operational", "tests.test_llm_local")
+# S08 -> S09 -> S10 -> S11 and LLM L2 behaviour (synthetic PDFs, real pinned parser) run against the INSTALLED package. Only
+# behavioural tests: the static tests of these stages read the source tree, tools/ and docs/, which an install does not have.
+E2E_TESTS = ("tests.test_s08_evidence", "tests.test_s08_faults", "tests.test_s08_operational.CliAndStatic.test_evidence_cli_path",
+             "tests.test_s09_retrieval", "tests.test_s09_rights", "tests.test_s10_gateway", "tests.test_s10_exchange",
+             "tests.test_s11_synthesis", "tests.test_s11_rules", "tests.test_s11_adversarial.RightsGates",
+             "tests.test_s11_adversarial.ExportFailures", "tests.test_s11_adversarial.InjectionAndScope",
+             "tests.test_s11_operational.CliAndDocs.test_cli_journey", "tests.test_llm_local")
 
 
 def venv_python(venv: Path) -> Path:
