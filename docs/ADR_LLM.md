@@ -2,9 +2,9 @@
 
 **Status:**
 - L1 is implemented and offline-tested.
-- L2 is implemented and tested against a scripted OpenAI-compatible server on 127.0.0.1. A run with a real local model (Ollama / LM Studio) is **NOT_RUN** on the developer machine: no model server is installed there.
+- L2 is implemented, tested against a scripted OpenAI-compatible server on 127.0.0.1, and run with real local models (Ollama) on synthetic papers (LL-D16).
 
-Neither stage is part of the 1.0.0rc1 release artifacts.
+Both stages are part of release 1.0.0.
 
 **Owner request (2026-11-05).** Use free LLM services, switching between several of them (registering several APIs is acceptable). Claude Desktop and Claude Code are also available on the owner's machine.
 
@@ -133,13 +133,13 @@ It sends an OpenAI-compatible `POST {base_url}/chat/completions` with:
 
 **Before any model call**, the pack must still be current (S08 `_pack_current`: identity, eligibility, rights A2 / A6, artifact).
 
-**Prompt.** It is S08's own template plus the UNTRUSTED pack (`EvidenceService.render`), unchanged.
+**Prompt.** The first design sent S08's own template; real models could not produce its offsets and SHA-256 anchors. It is replaced by the compact answer format of LL-D15.
 
 **Data class.** S08 scopes allow `LOCAL_PROCESS` models only (CHECK in migration 0008), so the data class is always `LOCAL_ONLY`.
 
-**Import.** The answer goes through `EvidenceService.import_extraction`. Strict schema validation records the run as `OPERATOR_IMPORT` / `OPERATOR_DECLARED_UNVERIFIED`, with the router's provider and model as the declared model and the model version `scivetra-llm-router/L2`. Drafts are `NON_AUTHORITATIVE` and `HUMAN_REQUIRED`. Structural verification and human review are unchanged.
+**Import.** The answer goes through `EvidenceService.import_extraction`. Strict schema validation records the run as `OPERATOR_IMPORT` / `OPERATOR_DECLARED_UNVERIFIED`, with the router's provider and model as the declared model and the model version `llm-L2/<first 12 hex of the prompt SHA-256>`. Drafts are `NON_AUTHORITATIVE` and `HUMAN_REQUIRED`. Structural verification and human review are unchanged.
 
-**Consensus.** With `--consensus`, two local models of different families must return the same records (class, status, fields and anchor positions). DISAGREED or INSUFFICIENT imports nothing.
+**Consensus.** With `--consensus`, two local models of different families must return the same records (class, status, fields and quote). DISAGREED or INSUFFICIENT imports nothing.
 
 **Tested misbehaviour:**
 
@@ -153,12 +153,32 @@ It sends an OpenAI-compatible `POST {base_url}/chat/completions` with:
 
 **Decision change from L1.** Migration 0012 is **not** needed. The provenance of each model answer is already recorded in the KB by S08 (`ev_extraction_run`: origin, declared model, raw response SHA-256, template SHA-256, pack SHA-256). The router's attempt log stays a JSON-lines file outside the KB (`--log`). Schema 11 is unchanged, so no accepted test or migration is touched.
 
+## LL-D15 Compact answer format (`scivetra-llm-evidence/1`)
+
+A language model cannot count characters or compute SHA-256. The model therefore answers `{"records": [...]}`, each record with `evidence_class`, `value_status`, typed `fields` (every number as a string, exactly as printed; enum and unit fields as catalogue codes) and ONE verbatim `quote`. The user message carries a catalogue of the profile's classes (codes and the paper wordings that mean each code) and a worked example on an invented sentence.
+
+SciVetra finds each quote verbatim in the pack's segments and builds the S08 anchor (page, offsets, quote, SHA-256) from the source text. A quote that is not found is dropped and counted (`quote_not_found_verbatim`). **No value is ever changed, converted or repaired;** S08 import validation and structural verification decide. The prompt id (`scivetra-llm-evidence-prompt/3`) and its SHA-256 are in every result.
+
+## LL-D16 Real local model check (`tools/llm_local_model_check.py`)
+
+The tool builds a throw-away KB with three generated papers (malware detection; an injected instruction asking to report TPR 99.9%; a confidence interval), runs the extraction with a real loopback model, verifies every draft and compares the drafts with the deterministic mock answer key. Network access other than loopback is refused during the run.
+
+Developer machine, CPU only, `qwen2.5:7b-instruct`, prompt /3 (about 47 s):
+
+| Paper | Drafts | Verification | Answer key |
+|---|---|---|---|
+| Malware | 5 | 5 STRUCTURALLY_VERIFIED | precision 0.8, recall 0.5 |
+| Injection | 0 (wrong enum code refused) | — | injected value never proposed |
+| Confidence interval | 1 | 1 UNSUPPORTED | 0 matched |
+
+Prompt /1 used enum wordings and JSON numbers; /2 and /3 added the catalogue codes, string numbers and unit rules (malware recall 0.38 → 0.5). With `--consensus` (qwen2.5:7b-instruct + llama3.2:3b) every paper was `NOT_IMPORTED_DISAGREED`: exact agreement needs two models of similar strength.
+
 ## LL-D11 Roadmap
 
 | Stage | Content | Network | Approval |
 |---|---|---|---|
 | L1 (done) | Config, router, simulator, CLI; offline tests | none | — |
-| L2 (done; real-model run NOT_RUN) | Loopback transport, `rkb llm ping`, S08 extraction with optional consensus; tested against a scripted local server; migration not needed (LL-D14) | loopback only | Model choice; a real run once Ollama or LM Studio is installed |
+| L2 (done; real local run on synthetic papers, LL-D16) | Loopback transport, `rkb llm ping`, S08 extraction with optional consensus; tested against a scripted local server; migration not needed (LL-D14) | loopback only | Model choice by the owner |
 | L3 | HTTPS transport for remote providers (stdlib, allowlisted in G5), with keys from environment variables; synthetic or CC-BY material only; per-provider evaluation | yes | OAG-6, A8, provider terms checked |
 | L4 | S09 local embeddings; consensus extraction on owner-approved real papers (Linux sandbox) | as L3 | OAG-1/2/6 |
 | L5 | S07 screening and S11 wording proposals | as L3 | after L2–L4 meet the owner's quality thresholds |
@@ -166,7 +186,7 @@ It sends an OpenAI-compatible `POST {base_url}/chat/completions` with:
 ## LL-D12 Not done (after L2)
 
 - No call to a remote provider.
-- No real local model run on the developer machine.
+- No real paper sent to any model (synthetic papers only).
 - No KB schema change.
 - No wiring into S07, S09 or S11.
-- No evaluation of real model quality.
+- Model quality measured on three synthetic papers only.

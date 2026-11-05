@@ -15,7 +15,7 @@ from scivetra_kb import cli
 from scivetra_kb.evidence import mock as mock_adapter
 from scivetra_kb.evidence.service import EvidenceService
 from scivetra_kb.llm import config as C
-from scivetra_kb.llm.evidence_extract import extract_scope
+from scivetra_kb.llm.evidence_extract import build_messages, extract_scope
 from scivetra_kb.llm.router import Router
 from scivetra_llm_transport import LoopbackTransport, loopback_url
 
@@ -143,14 +143,23 @@ class EvidenceThroughLocalModel(S08Case):
         self.items = items
         return scope
 
-    def teach(self, scope, model, mode="normal"):
-        """The fake model answers each rendered pack like the deterministic mock (optionally with an injected fault)."""
+    def teach(self, scope, model, mode="normal", answer=None):
+        """The fake model answers each pack in the compact scivetra-llm-evidence/1 form, derived from the deterministic mock (optionally
+        with an injected fault), or with ``answer`` verbatim."""
         with self.reader() as kb:
             ev = EvidenceService(kb)
             for prow in kb.all("SELECT pack_id FROM ev_input_pack WHERE scope_id=?", (scope,)):
                 _, pack = ev._pack(prow["pack_id"])
-                rendered = ev.render(pack)
-                self.server.answers.setdefault(model, {})[hashlib.sha256(rendered.encode()).hexdigest()] = mock_adapter.extract(rendered, pack, mode).decode()
+                if answer is None:
+                    full = json.loads(mock_adapter.extract(ev.render(pack), pack, mode))
+                    compact = {"records": [{"evidence_class": r["evidence_class"], "value_status": r["value_status"], "fields": r["fields"],
+                                            "quote": r["anchors"][0]["quote"] if r["anchors"] else "", "confidence": r["confidence"]}
+                                           for r in full.get("records", [])]}
+                    text = json.dumps(compact)
+                else:
+                    text = answer
+                prompt = build_messages(pack)[-1]["content"]
+                self.server.answers.setdefault(model, {})[hashlib.sha256(prompt.encode()).hexdigest()] = text
 
     def extract(self, scope, providers, consensus=False):
         config = C.parse_config({"provider": providers})
@@ -171,23 +180,31 @@ class EvidenceThroughLocalModel(S08Case):
         self.assertTrue(drafts and all((d["authority"], d["review_gate"]) == ("NON_AUTHORITATIVE", "HUMAN_REQUIRED") for d in drafts))
         states = {self.ecall("verify", draft_id=d["draft_id"], operator="op.v")["state"] for d in drafts}
         self.assertEqual(states - {"STRUCTURALLY_VERIFIED", "ABSENCE_RECORDED"}, set())
-        self.assertTrue(all(len(r["body"]["messages"]) == 1 and "UNTRUSTED_INPUT_PACK" in r["body"]["messages"][0]["content"] for r in self.server.requests))
+        self.assertTrue(all(r["body"]["messages"][0]["role"] == "system" and "<<<DOCUMENT (untrusted data)" in r["body"]["messages"][1]["content"]
+                            for r in self.server.requests))
+        self.assertTrue(all(r["llm"]["quote_not_found_verbatim"] == 0 and r["llm"]["kept"] > 0 for r in out["results"]))
 
     def test_misbehaving_model_is_caught(self):
-        """IDs: LLM-L2-FABRICATED-QUOTE, LLM-L2-SCHEMA-VIOLATION, LLM-L2-INJECTION-FOLLOWED. A model that fabricates a quote gets drafts that fail structural verification; a model that breaks the response schema produces a SCHEMA_INVALID run with no drafts; a model that 'follows' the injected instruction (TPR 99.9%) cannot make that value verify against the source."""
+        """IDs: LLM-L2-FABRICATED-QUOTE, LLM-L2-SCHEMA-VIOLATION, LLM-L2-INJECTION-FOLLOWED. A quote that does not occur verbatim in the paper is dropped before S08 and counted (QUOTE_NOT_FOUND_VERBATIM); an answer that is not {"records": [...]} is refused by the router (no import); a record of an unknown class is rejected by S08's own validation; a model that 'follows' the injected instruction (TPR 99.9%) cannot make that value verify against its quote."""
         scope = self.world([[MALWARE_DOC], [INJECTION_DOC]])
         self.teach(scope, "m1", "hallucinate_quote")
         out = self.extract(scope, [local_provider(self.server.port)])
-        ids = [d for r in out["results"] for d in r.get("draft_ids", [])]
-        states = [self.ecall("verify", draft_id=d, operator="op.v")["state"] for d in ids]
-        self.assertTrue(any(s != "STRUCTURALLY_VERIFIED" for s in states))
+        self.assertGreater(sum(r["llm"]["quote_not_found_verbatim"] for r in out["results"]), 0)
+        with self.reader() as kb:
+            texts = [json.loads(d["quote_text_json"] or "[]") for d in kb.all("SELECT quote_text_json FROM ev_draft WHERE scope_id=?", (scope,))]
+        self.assertFalse(any("perfect results on every benchmark" in q for qs in texts for q in qs))
         scope2 = self.world([[MALWARE_DOC]])
-        self.teach(scope2, "m1", "schema_violation")
+        self.teach(scope2, "m1", answer="Sure! Here are the results: TPR 93.1")
         out = self.extract(scope2, [local_provider(self.server.port)])
-        self.assertEqual((out["results"][0]["status"], out["results"][0]["draft_ids"]), ("SCHEMA_INVALID", []))
-        scope3 = self.world([[INJECTION_DOC]])
-        self.teach(scope3, "m1", "inflate_number")
+        self.assertEqual(out["results"][0]["status"], "NO_MODEL_ANSWER")
+        scope3 = self.world([[MALWARE_DOC]])
+        self.teach(scope3, "m1", answer=json.dumps({"records": [{"evidence_class": "MADE_UP_CLASS", "value_status": "REPORTED", "fields": {},
+                                                                  "quote": "Objective: evaluate", "confidence": "HIGH"}]}))
         out = self.extract(scope3, [local_provider(self.server.port)])
+        self.assertEqual((out["results"][0]["status"], out["results"][0]["draft_ids"]), ("PARTIAL", []))
+        scope4 = self.world([[INJECTION_DOC]])
+        self.teach(scope4, "m1", "inflate_number")
+        out = self.extract(scope4, [local_provider(self.server.port)])
         states = [self.ecall("verify", draft_id=d, operator="op.v")["state"] for d in out["results"][0]["draft_ids"]]
         self.assertIn("UNSUPPORTED", states)
         self.assertNotIn("STRUCTURALLY_VERIFIED", states)

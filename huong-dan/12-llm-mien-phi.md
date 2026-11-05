@@ -1,6 +1,6 @@
 # Dùng LLM miễn phí — mô hình trên máy và danh sách nhà cung cấp (giai đoạn L1–L2)
 
-SciVetra đang được bổ sung LLM có khả năng **xoay vòng giữa nhiều dịch vụ miễn phí**: dịch vụ này hết hạn mức thì tự chuyển sang dịch vụ khác.
+SciVetra có LLM có khả năng **xoay vòng giữa nhiều dịch vụ miễn phí**: dịch vụ này hết hạn mức thì tự chuyển sang dịch vụ khác.
 
 **Trạng thái:** SciVetra đã kiểm tra được danh sách nhà cung cấp, mô phỏng việc xoay vòng, và (**giai đoạn L2**) dùng được **mô hình chạy trên máy bạn** (Ollama hoặc LM Studio) để đề xuất bằng chứng. Dịch vụ trực tuyến thì chưa được gọi; đó là giai đoạn L3, sẽ làm khi bạn duyệt (thiết kế: `docs/ADR_LLM.md`).
 
@@ -94,12 +94,12 @@ Mô hình chạy trên máy có ba lợi ích: miễn phí, không cần Interne
 **2. Tải một mô hình** (vài GB, chỉ tải một lần). Dán vào PowerShell:
 
 ```powershell
-ollama pull qwen3:8b
+ollama pull qwen2.5:7b-instruct
 ```
 
-Mô hình lớn hơn (ví dụ `qwen3:14b`) cho kết quả tốt hơn nhưng chậm hơn. Sau khi cài, Ollama tự chạy nền.
+Đây là mô hình đã được thử với SciVetra. Mô hình lớn hơn (ví dụ `qwen2.5:14b-instruct`) cho kết quả tốt hơn nhưng chậm hơn. Sau khi cài, Ollama tự chạy nền.
 
-**3. Khai báo trong file cấu hình:** trong `llm-providers.toml`, mục `local-ollama` phải ghi đúng tên mô hình bạn đã tải, ví dụ `model = "qwen3:8b"`.
+**3. Khai báo trong file cấu hình:** trong `llm-providers.toml`, mục `local-ollama` phải ghi đúng tên mô hình bạn đã tải, ví dụ `model = "qwen2.5:7b-instruct"`.
 
 Nếu dùng LM Studio thay cho Ollama: bật local server của LM Studio, rồi ghi:
 - `base_url = "http://127.0.0.1:1234/v1"`;
@@ -123,6 +123,14 @@ rkb llm extract-evidence --data-root C:\SciVetra\data\<TEN-KHO> --scope-id <MA-P
 - **Câu trả lời của mô hình chỉ là đề xuất.** SciVetra đối chiếu từng câu trích với PDF và từng con số với câu trích. Sau đó người duyệt kiểm tra và chấp nhận như trước (`rkb evidence verify`, `rkb evidence review`). Câu trích hay số liệu bịa ra sẽ không qua được bước kiểm tra.
 - **Muốn chắc hơn:** nếu có hai mô hình khác nhau trên máy, thêm `--consensus`. Khi đó chỉ bản ghi được cả hai mô hình trả lời giống nhau mới thành đề xuất.
 - **Quyền sử dụng:** chỉ những bài được phép xử lý cục bộ mới được gửi, và chỉ gửi tới mô hình trên máy bạn.
+
+**6. (Tùy chọn) Thử mô hình trên bài báo mẫu** để biết mô hình của bạn làm tốt đến đâu, không cần bài báo thật:
+
+```powershell
+C:\SciVetra\env\Scripts\python.exe -I C:\SciVetra\scivetra-kb\tools\llm_local_model_check.py --config C:\SciVetra\llm-providers.toml --out C:\SciVetra\output\llm-check.json
+```
+
+Kết quả cho biết mỗi bài mẫu có bao nhiêu đề xuất, bao nhiêu qua kiểm tra, và `injection_safe: true` nghĩa là mô hình không làm theo câu lệnh cài trong bài. Trên máy không có card đồ họa, mô hình 7B mất khoảng 1 phút và tìm được khoảng một nửa số bản ghi mong đợi: hãy coi nó là **trợ lý gợi ý**, không phải người trích xuất đáng tin tuyệt đối. `--consensus` chỉ có ích khi hai mô hình mạnh tương đương nhau.
 
 ## 7. Claude Desktop và Claude Code
 

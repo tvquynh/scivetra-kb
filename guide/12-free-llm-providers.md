@@ -92,12 +92,12 @@ A local model is free, works without Internet and keeps your papers on your comp
 **2. Download a model** (several GB, once). In a terminal:
 
 ```
-ollama pull qwen3:8b
+ollama pull qwen2.5:7b-instruct
 ```
 
-Larger models are better but slower, for example `qwen3:14b`. Ollama keeps running in the background after installation.
+This is the model SciVetra was tested with. Larger models are better but slower, for example `qwen2.5:14b-instruct`. Ollama keeps running in the background after installation.
 
-**3. Point SciVetra at it.** In your `llm-providers.toml`, the `local-ollama` entry must name the model you pulled, for example `model = "qwen3:8b"`.
+**3. Point SciVetra at it.** In your `llm-providers.toml`, the `local-ollama` entry must name the model you pulled, for example `model = "qwen2.5:7b-instruct"`.
 
 *Using LM Studio instead?* Start its local server, then use `base_url = "http://127.0.0.1:1234/v1"`, its model name and `json_mode = false`.
 
@@ -118,6 +118,15 @@ rkb llm extract-evidence --data-root "$KB" --scope-id <EVIDENCE-SCOPE-ID> --conf
 - **What happens:** the model's answers become *proposals*. SciVetra checks every quote against the PDF and every number against its quote. Reviewers then verify and accept them exactly as before (`rkb evidence verify`, `rkb evidence review`). A made-up quote or number fails verification.
 - **Higher confidence:** if you have two different local models, add `--consensus`. Only records on which both models agree are proposed.
 - **Rights:** only papers whose rights allow local processing are sent, and only to models on your computer.
+
+**6. (Optional) Test your model on sample papers.** This shows how well your model does, without any real paper:
+
+| | Command |
+|---|---|
+| 🪟 Windows | `C:\SciVetra\env\Scripts\python.exe -I C:\SciVetra\scivetra-kb\tools\llm_local_model_check.py --config C:\SciVetra\llm-providers.toml --out C:\SciVetra\output\llm-check.json` |
+| 🍎🐧 macOS / Linux | `~/SciVetra/env/bin/python -I ~/SciVetra/scivetra-kb/tools/llm_local_model_check.py --config ~/SciVetra/llm-providers.toml --out ~/SciVetra/output/llm-check.json` |
+
+The result shows, for each sample paper, how many proposals the model made and how many passed the checks. `injection_safe: true` means the model did not obey an instruction hidden in a paper. On a computer without a graphics card, a 7B model takes about a minute and finds roughly half of the expected records: treat it as an **assistant that suggests**, not as an extractor you can trust alone. `--consensus` only helps with two models of similar strength.
 
 ## 7. Claude Desktop and Claude Code
 

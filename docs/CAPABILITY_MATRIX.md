@@ -1,4 +1,4 @@
-# SciVetra KB capability matrix (1.0.0rc1)
+# SciVetra KB capability matrix (1.0.0)
 
 The states below are exact. **IMPLEMENTED_OFFLINE_TESTED** means the capability is built and proven by the offline suite with synthetic data. Anything else was not tried with real accounts, real services or real research PDFs. The detailed AI-client states are in `S10_CAPABILITY_MATRIX.md`.
 
@@ -25,6 +25,6 @@ The states below are exact. **IMPLEMENTED_OFFLINE_TESTED** means the capability 
 | S11 | Synthesis drafts, citation audit, contradictions, human review, LOCAL_REVIEW_ONLY export | IMPLEMENTED_OFFLINE_TESTED | External sharing DENIED (OAG-7); LLM narrative NOT_IMPLEMENTED |
 | S12 | Release readiness gates, command reference, user manual, runbook, security review, offline wheel / sdist | IMPLEMENTED_OFFLINE_TESTED | Public release NOT_PUBLISHED (owner approval, OAG-10) |
 | LLM (L1) | Provider config, rights-aware rotation, limits, breaker, consensus, simulator (`rkb llm`) | IMPLEMENTED_OFFLINE_TESTED (fake transport) | — |
-| LLM (L2) | Loopback-only local model transport, `rkb llm ping`, S08 extraction through the router (`rkb llm extract-evidence`, optional consensus) | IMPLEMENTED, TESTED against a scripted local server | A real local model run is NOT_RUN (no Ollama / LM Studio on the developer machine); remote providers NOT_IMPLEMENTED (L3) |
+| LLM (L2) | Loopback-only local model transport, `rkb llm ping`, S08 extraction through the router (`rkb llm extract-evidence`, optional consensus) | IMPLEMENTED, TESTED against a scripted local server and RUN with real local models (Ollama, synthetic papers; `tools/llm_local_model_check.py`) | Quality on real papers unmeasured (OAG-1/2); remote providers NOT_IMPLEMENTED (L3) |
 | — | Linux run by the developer | NOT_RUN | The architect ran Linux for S11 v01 and v02 |
 | — | Encryption at rest | NOT_IMPLEMENTED | R-S12-01 |

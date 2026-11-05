@@ -16,13 +16,27 @@
 # Stage L1: SciVetra does not call any provider yet; "rkb llm simulate" shows how rotation will work.
 schema = "scivetra-llm-providers/1"
 
+# Local models (Ollama): install from https://ollama.com, then  "ollama pull qwen2.5:7b-instruct"  (and optionally llama3.2:3b).
+# A computer without a graphics card answers slowly; timeout_seconds gives the model up to 10 minutes per paper.
 [[provider]]
 name = "local-ollama"
 base_url = "http://127.0.0.1:11434/v1"
-model = "qwen3:14b"
+model = "qwen2.5:7b-instruct"
 data_policy = "LOCAL"
 priority = 1
-family = "local"
+family = "qwen"
+timeout_seconds = 600
+
+# A second local model of another family, for --consensus (both must agree). Enable it after "ollama pull llama3.2:3b".
+[[provider]]
+name = "local-ollama-llama"
+base_url = "http://127.0.0.1:11434/v1"
+model = "llama3.2:3b"
+data_policy = "LOCAL"
+priority = 2
+family = "llama"
+timeout_seconds = 600
+enabled = false
 
 [[provider]]
 name = "groq"
@@ -30,7 +44,7 @@ base_url = "https://api.groq.com/openai/v1"
 model = "llama-3.3-70b-versatile"
 key_env = "GROQ_API_KEY"
 data_policy = "UNKNOWN"
-priority = 2
+priority = 10
 family = "groq"
 limits = { rpm = 30, rpd = 1000 }
 
@@ -40,7 +54,7 @@ base_url = "https://api.cerebras.ai/v1"
 model = "llama-3.3-70b"
 key_env = "CEREBRAS_API_KEY"
 data_policy = "UNKNOWN"
-priority = 3
+priority = 11
 family = "cerebras"
 limits = { rpm = 30 }
 
@@ -50,7 +64,7 @@ base_url = "https://generativelanguage.googleapis.com/v1beta/openai"
 model = "gemini-2.5-flash"
 key_env = "GEMINI_API_KEY"
 data_policy = "MAY_TRAIN"
-priority = 4
+priority = 12
 family = "google"
 limits = { rpm = 10 }
 
@@ -60,6 +74,6 @@ base_url = "https://openrouter.ai/api/v1"
 model = "meta-llama/llama-3.3-70b-instruct:free"
 key_env = "OPENROUTER_API_KEY"
 data_policy = "UNKNOWN"
-priority = 5
+priority = 13
 family = "openrouter"
 limits = { rpm = 20 }

@@ -173,10 +173,10 @@ class CliAndDocs(S11Case):
         self.assertEqual(ctx.exception.code, "SHARING_NOT_AUTHORIZED")
 
     def test_docs_and_version(self):
-        """IDs: S11-DOCS, S11-STATIC-VERSION. Version 1.0.0rc1; the ADR, beginner guide, rubric, scenario catalogue and test adaptations
+        """IDs: S11-DOCS, S11-STATIC-VERSION. Version 1.0.0; the ADR, beginner guide, rubric, scenario catalogue and test adaptations
         exist and state the authority boundary, gates, verdicts and limits."""
         from scivetra_kb import __version__
-        self.assertEqual(__version__, "1.0.0rc1")
+        self.assertEqual(__version__, "1.0.0")
         docs = ROOT / "docs"
         adr = (docs / "ADR_S11.md").read_text(encoding="utf-8")
         for needle in ("DRAFT_NON_AUTHORITATIVE", "PUBLICATION_NOT_AUTHORIZED", "OAG-7", "A3", "A4", "A5", "A7", "A8", "synthesis_eligible",

@@ -46,7 +46,7 @@ class StaticTests(unittest.TestCase):
         for path in files:
             ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
         from scivetra_kb import __version__
-        self.assertEqual(__version__, "1.0.0rc1")  # S05: docs/S05_TEST_ADAPTATIONS.md #14; S06: docs/S06_TEST_ADAPTATIONS.md #14; S07: docs/S07_TEST_ADAPTATIONS.md #14 (after S06); S08: docs/S08_TEST_ADAPTATIONS.md #14 (after S07, S06); S09: docs/S09_TEST_ADAPTATIONS.md #13 (after S08, S07, S06); S10: docs/S10_TEST_ADAPTATIONS.md #13 (after S09, S08, S07, S06); S11: docs/S11_TEST_ADAPTATIONS.md #13 (after S10, S09, S08, S07, S06)
+        self.assertEqual(__version__, "1.0.0")  # S05: docs/S05_TEST_ADAPTATIONS.md #14; S06: docs/S06_TEST_ADAPTATIONS.md #14; S07: docs/S07_TEST_ADAPTATIONS.md #14 (after S06); S08: docs/S08_TEST_ADAPTATIONS.md #14 (after S07, S06); S09: docs/S09_TEST_ADAPTATIONS.md #13 (after S08, S07, S06); S10: docs/S10_TEST_ADAPTATIONS.md #13 (after S09, S08, S07, S06); S11: docs/S11_TEST_ADAPTATIONS.md #13 (after S10, S09, S08, S07, S06)
 
     def test_fixtures_are_reproducible_from_the_generator(self):
         """IDs: JH-28, JH-31, S04J-FIXTURE-DETERMINISM. tools/s04j_make_fixtures.py --check regenerates every synthetic scenario byte-for-byte from code (no randomness, no network)."""

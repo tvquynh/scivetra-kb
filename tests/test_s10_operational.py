@@ -163,10 +163,10 @@ class StaticAndDocs(S10Case):
             self.assertNotRegex(text, r'"enabled"\s*:\s*true')
 
     def test_docs_and_version(self):
-        """IDs: S10-DOCS, S10-STATIC-VERSION. Version 1.0.0rc1 (S11: docs/S11_TEST_ADAPTATIONS.md #31); the ADR, beginner guides, capability matrix, scenario catalogue,
+        """IDs: S10-DOCS, S10-STATIC-VERSION. Version 1.0.0 (S11: docs/S11_TEST_ADAPTATIONS.md #31); the ADR, beginner guides, capability matrix, scenario catalogue,
         vendor references and test adaptations exist and state the gates, the default deny, the transport states and the limits."""
         from scivetra_kb import __version__
-        self.assertEqual(__version__, "1.0.0rc1")  # S11: docs/S11_TEST_ADAPTATIONS.md #31 (after S10)
+        self.assertEqual(__version__, "1.0.0")  # S11: docs/S11_TEST_ADAPTATIONS.md #31 (after S10)
         docs = ROOT / "docs"
         adr = (docs / "ADR_S10.md").read_text(encoding="utf-8")
         for needle in ("A2", "A3", "A5", "A7", "A8", "OAG-6", "EXTERNAL_UNVERIFIED", "NON_AUTHORITATIVE", "UNTRUSTED_DOCUMENT_TEXT_DATA_NOT_INSTRUCTIONS",

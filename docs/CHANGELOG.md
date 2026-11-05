@@ -1,6 +1,17 @@
 # Change log — SciVetra KB candidate
 
-## Unreleased — ADR_LLM stage L2: local models (loopback only) and S08 extraction
+## 1.0.0 — first release on GitHub (2026-11-05)
+
+Owner decision (ADR_S12 RL-D06). Contains 1.0.0rc1 plus ADR_LLM stages L1 and L2 below. Schema 11 and migrations 0001–0011 unchanged.
+
+| File | Change | Proof |
+|---|---|---|
+| `src/scivetra_kb/llm/evidence_extract.py` | Compact answer format `scivetra-llm-evidence/1`, prompt `/3` with class catalogue and worked example; quotes located verbatim by SciVetra (LL-D15) | LLM-L2-* |
+| `tools/llm_local_model_check.py` (new) | Real local model check on synthetic papers (LL-D16) | real run, see `RELEASE_NOTES_1.0.0.md` |
+| `config/llm-providers.example.toml` | Ollama `qwen2.5:7b-instruct` first, `llama3.2:3b` as a second family for consensus | LLM-L1-EXAMPLE-CONFIG |
+| `src/scivetra_kb/__init__.py`, marked test version lines, docs | Version `1.0.0`; `RELEASE_NOTES_1.0.0.md` | G1 |
+
+### ADR_LLM stage L2: local models (loopback only) and S08 extraction
 
 | File | Change | Proof |
 |---|---|---|
@@ -10,7 +21,7 @@
 | `tools/s12_release_readiness.py`, `pyproject.toml` | G5 allowlist entry and wheel inclusion for `scivetra_llm_transport` | S12-SECURITY-SCAN, G7 |
 | `docs/ADR_LLM.md` | LL-D13, LL-D14; migration 0012 not needed | — |
 
-## Unreleased — ADR_LLM stage L1: free-provider LLM routing (offline)
+### ADR_LLM stage L1: free-provider LLM routing (offline)
 
 | File | Change | Proof |
 |---|---|---|

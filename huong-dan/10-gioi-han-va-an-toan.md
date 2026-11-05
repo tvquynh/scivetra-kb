@@ -30,6 +30,7 @@ Thư mục `E:\ResearchKB` được dành riêng cho dữ liệu thật và **b�
 
 ## Trạng thái phiên bản
 
-- **1.0.0rc1 là "bản ứng viên phát hành"** đã qua toàn bộ kiểm tra tự động: 641 bài kiểm tra trên Python 3.11 và 3.14, cùng 8 cổng kiểm tra phát hành.
-- Phần tổng hợp (S11) **đang chờ kiến trúc sư độc lập duyệt**. Nếu có sửa đổi, sẽ có bản 1.0.0rc2.
+- **1.0.0 là bản phát hành đầu tiên**, đã qua toàn bộ kiểm tra tự động: 654 bài kiểm tra trên Python 3.11 và 3.14, cùng 8 cổng kiểm tra phát hành.
+- Phần tổng hợp (S11) **đang chờ kiến trúc sư độc lập duyệt**. Nếu có sửa đổi, sẽ có bản cập nhật 1.0.x.
+- **Mô hình AI trên máy chỉ *đề xuất* bằng chứng.** Trên máy thử nghiệm, mô hình 7B tìm được khoảng một nửa số bản ghi mong đợi và có sai sót; mọi sai sót đều bị SciVetra chặn ở bước kiểm tra hoặc để lại cho người duyệt.
 - Chi tiết kỹ thuật (tiếng Anh): `docs/CAPABILITY_MATRIX.md` và `docs/SECURITY_REVIEW_S12.md`.

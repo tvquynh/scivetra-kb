@@ -41,13 +41,13 @@ Dùng macOS hoặc Linux? Xem [hướng dẫn tiếng Anh](guide/00-START-HERE.m
 8. [Xử lý lỗi](huong-dan/08-xu-ly-loi.md)
 9. [Từ điển thuật ngữ](huong-dan/09-tu-dien-thuat-ngu.md)
 10. [Giới hạn và an toàn](huong-dan/10-gioi-han-va-an-toan.md)
-11. [Dùng LLM miễn phí và mô hình trên máy (đang phát triển, giai đoạn L1–L2)](huong-dan/12-llm-mien-phi.md)
+11. [Dùng LLM miễn phí và mô hình trên máy (giai đoạn L1–L2)](huong-dan/12-llm-mien-phi.md)
 
 ## Trạng thái
 
-- **Phiên bản 1.0.0rc1**, bản ứng viên phát hành.
-- **Đã kiểm tra:** 641 bài kiểm tra tự động trên Python 3.11 và 3.14, cùng 8 cổng kiểm tra phát hành.
-- **Chưa bật AI thật hay truy cập mạng:** các phần "AI" đang dùng máy giả lập.
+- **Phiên bản 1.0.0**, phát hành trên GitHub (không có trên PyPI).
+- **Đã kiểm tra:** 654 bài kiểm tra tự động trên Python 3.11 và 3.14, cùng 8 cổng kiểm tra phát hành.
+- **AI:** dùng được mô hình chạy trên máy bạn (Ollama / LM Studio) để *đề xuất* bằng chứng; chưa gọi dịch vụ AI trực tuyến.
 - **Dữ liệu và PDF thật** cần chủ dự án cho phép. Xem [Giới hạn và an toàn](huong-dan/10-gioi-han-va-an-toan.md).
 - **Giấy phép:** [Apache 2.0](LICENSE).
 
@@ -99,4 +99,4 @@ All need Python 3.11 or newer ([guide/01-install-python.md](guide/01-install-pyt
 | Run the tests | `python -I tools/run_offline_tests.py` |
 | Run the release gates | `python -I tools/s12_release_readiness.py --work DIR --out FILE.json` |
 
-Licensed under the [Apache License 2.0](LICENSE). Release candidate `1.0.0rc1`; not on PyPI.
+Licensed under the [Apache License 2.0](LICENSE). Version `1.0.0`, released on GitHub; not on PyPI.

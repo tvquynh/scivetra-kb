@@ -34,8 +34,9 @@ The folder `E:\ResearchKB` is reserved for real project data and is **locked** u
 
 ## Release status
 
-- **1.0.0rc1 is a release candidate.** It passed 641 automated tests on Python 3.11 and 3.14 (Windows) and 8 release gates.
-- **Synthesis stage:** awaits an independent architect review. A later 1.0.0rc2 may follow.
+- **1.0.0 is the first release.** It passed 654 automated tests on Python 3.11 and 3.14 (Windows) and 8 release gates.
+- **Synthesis stage:** awaits an independent architect review; findings will come in a 1.0.x update.
+- **Local AI models:** they only *propose* evidence. On a test machine a 7B model found about half of the expected records and made some mistakes, all caught by SciVetra's checks or left for human review.
 - **Platform testing:**
   - The macOS and Linux helper scripts (`1-install.sh` and the others) were tested with bash on Windows, not yet on real macOS or Linux machines.
   - The SciVetra code itself was tested on Linux by the independent reviewer for earlier versions of the synthesis stage.

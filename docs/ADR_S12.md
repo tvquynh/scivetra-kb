@@ -1,4 +1,4 @@
-# ADR S12: Release candidate (1.0.0rc1)
+# ADR S12: Release candidate (1.0.0rc1) and release 1.0.0
 
 **Status:** local release candidate, built by the developer under the owner's instruction ("full authority to decide; finish the tools").
 
@@ -27,7 +27,7 @@ Nothing is uploaded. The distribution name stays `scivetra-kb-dev`, with the cla
 
 ## RL-D02 Version
 
-The version is `1.0.0rc1`. The "1.0" marks the complete S02–S11 feature set of the S01 v03 plan; "rc1" marks that the owner has not approved a release.
+The version is `1.0.0rc1`. The "1.0" marks the complete S02–S11 feature set of the S01 v03 plan; "rc1" marked that the owner had not approved a release. See RL-D06 for 1.0.0.
 
 The schema is unchanged. Migrations 0001–0011 are byte-identical to S11 v03 and pinned in `tools/s12_migration_hashes.json`. S12 adds no table and no behaviour change to any stage.
 
@@ -73,3 +73,7 @@ The stage guides and ADRs S03–S11 remain the detailed references.
 - Any upload.
 
 These need owner decisions, recorded in `OPEN_ISSUES.md` and `CAPABILITY_MATRIX.md`.
+
+## RL-D06 Release 1.0.0 (owner decision, 2026-11-05)
+
+The owner authorised publishing a usable version on GitHub. The version becomes `1.0.0`; the release adds ADR_LLM stages L1 and L2 (`RELEASE_NOTES_1.0.0.md`). The schema stays 11 and migrations 0001–0011 stay byte-identical. The gates G1–G8 are unchanged and must pass for `1.0.0`. The GitHub release attaches the wheel and sdist built by G7; nothing is uploaded to PyPI.

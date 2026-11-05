@@ -1,4 +1,4 @@
-# SciVetra KB user manual (1.0.0rc1, local release candidate)
+# SciVetra KB user manual (1.0.0, local release candidate)
 
 This manual walks a beginner through the whole SciVetra companion Research Knowledge Base (KB), from an empty folder to an audited research synthesis draft. Every stage has a detailed guide; this manual shows how the stages connect and which safety rules apply everywhere.
 
@@ -43,7 +43,7 @@ You need Python 3.11 or newer.
 
    ```powershell
    py -3.11 -m venv $HOME\scivetra-venv
-   & $HOME\scivetra-venv\Scripts\python.exe -m pip install --no-index --no-deps .\scivetra_kb_dev-1.0.0rc1-py3-none-any.whl
+   & $HOME\scivetra-venv\Scripts\python.exe -m pip install --no-index --no-deps .\scivetra_kb_dev-1.0.0-py3-none-any.whl
    & $HOME\scivetra-venv\Scripts\rkb.exe --version
    ```
 

@@ -179,7 +179,7 @@ class CliAndStatic(S07Case):
     def test_docs_and_version(self):
         """IDs: S07-DOCS, S07-STATIC-VERSION, S07-ERRATA-S06-GUIDE. Version 0.7.0.dev2; the ADR, beginner guide and test adaptations exist and state the authority boundary, blind-first, LOCAL_PROCESS-only and synthetic-only limits; the S06 install-guide errata is recorded."""
         from scivetra_kb import __version__
-        self.assertEqual(__version__, "1.0.0rc1")  # S08: docs/S08_TEST_ADAPTATIONS.md #23 (after S07, S06); S09: docs/S09_TEST_ADAPTATIONS.md #22 (after S08, S07, S06); S10: docs/S10_TEST_ADAPTATIONS.md #22 (after S09, S08, S07, S06); S11: docs/S11_TEST_ADAPTATIONS.md #22 (after S10, S09, S08, S07, S06)
+        self.assertEqual(__version__, "1.0.0")  # S08: docs/S08_TEST_ADAPTATIONS.md #23 (after S07, S06); S09: docs/S09_TEST_ADAPTATIONS.md #22 (after S08, S07, S06); S10: docs/S10_TEST_ADAPTATIONS.md #22 (after S09, S08, S07, S06); S11: docs/S11_TEST_ADAPTATIONS.md #22 (after S10, S09, S08, S07, S06)
         adr = (ROOT / "docs" / "ADR_S07.md").read_text(encoding="utf-8")
         guide = (ROOT / "docs" / "SCREENING_USER_GUIDE.md").read_text(encoding="utf-8")
         for needle in ("NON_AUTHORITATIVE", "blind-first", "LOCAL_PROCESS", "rkb-ai-proposal/1", "0007_ai_screening_proposals.sql", "mock"):

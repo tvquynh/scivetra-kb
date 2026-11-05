@@ -233,18 +233,18 @@ Decisions and field-level deviations are in `docs/ADR_S03.md` (ADR-S03-01…09, 
 ## LLM integration (ADR_LLM) — open decisions
 
 - **R-LLM-01.** Free tiers change models, limits and data terms often; `data_policy` is the owner's reading and must be re-checked.
-- **R-LLM-02.** No real provider has been called (L1 is offline); model quality is unmeasured until L2/L3 evaluation.
+- **R-LLM-02.** No remote provider has been called (stage L3); remote model quality is unmeasured.
 - **R-LLM-03.** The router's attempt log is a file outside the KB; per-answer provenance is in S08's `ev_extraction_run` (ADR_LLM LL-D14), so no migration 0012 is planned.
-- **R-LLM-05.** No real local model has been run (no Ollama / LM Studio on the developer machine); real-model extraction quality and prompt-injection behaviour are unmeasured.
+- **R-LLM-05.** Real local models were run on SYNTHETIC papers only (`tools/llm_local_model_check.py`, ADR_LLM LL-D16): qwen2.5:7b-instruct on CPU reached precision 0.8 / recall 0.5 on the malware paper and proposed nothing usable on the other two; the injected value was never proposed. Quality on real papers is unmeasured (needs OAG-1/2).
 - **R-LLM-04.** Several accounts at one provider are not supported by design (terms of service).
 
-## S12 (1.0.0rc1): Release candidate — open decisions
+## S12 (1.0.0rc1 → 1.0.0): Release — open decisions
 
 - **R-S12-01.** No encryption at rest; protect the data root and backups with OS permissions or disk encryption.
 - **R-S12-02.** Owner and reviewer identities are self-declared labels (signing / two-person rule: owner decision).
 - **R-S12-03.** The security review and scan are developer-run and pattern-based; an independent review and an online dependency
   advisory check are required before any public release.
-- **R-S12-04.** Public release, package name and destination need the owner (OAG-10); the private classifier blocks index uploads.
+- **R-S12-04.** The owner published 1.0.0 on GitHub (Apache-2.0). The package name stays provisional (OAG-10) and the private classifier still blocks index uploads (no PyPI).
 - **R-S12-05.** S11 v03 is awaiting independent acceptance; findings would be fixed in 1.0.0rc2.
 
 ## S11 (0.11.0.dev3, v03): Scientific synthesis and citation audit — limitations and pending decisions

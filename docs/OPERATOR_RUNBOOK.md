@@ -1,4 +1,4 @@
-# SciVetra KB operator runbook (1.0.0rc1)
+# SciVetra KB operator runbook (1.0.0)
 
 For the person who keeps a KB healthy: health checks, backups, restores, upgrades, rollback and incidents. All commands print JSON. The examples use `R` for the data root, `T` for a backup target and `B` for one backup folder.
 
